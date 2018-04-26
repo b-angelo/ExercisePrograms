@@ -45,6 +45,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -52,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -125,6 +132,28 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ExerciseController.cs" />
+    <Compile Include="Controllers\ExerciseProgramController.cs" />
+    <Compile Include="Controllers\ExerciseProgramExerciseController.cs" />
+    <Compile Include="Controllers\ExerciseSecondaryMuscleGroupController.cs" />
+    <Compile Include="Controllers\ExerciseTypeController.cs" />
+    <Compile Include="Controllers\MuscleGroupController.cs" />
+    <Compile Include="Data\Entities\AccessLevel.cs" />
+    <Compile Include="Data\Entities\AccessLog.cs" />
+    <Compile Include="Data\Entities\Account.cs" />
+    <Compile Include="Data\Entities\AccountRole.cs" />
+    <Compile Include="Data\Entities\ChangeLog.cs" />
+    <Compile Include="Data\Entities\ErrorLog.cs" />
+    <Compile Include="Data\Entities\Exercise.cs" />
+    <Compile Include="Data\Entities\ExerciseProgram.cs" />
+    <Compile Include="Data\Entities\ExerciseProgramExercise.cs" />
+    <Compile Include="Data\Entities\ExerciseProgramModel.cs" />
+    <Compile Include="Data\Entities\ExerciseSecondaryMuscleGroup.cs" />
+    <Compile Include="Data\Entities\ExerciseType.cs" />
+    <Compile Include="Data\Entities\MuscleGroup.cs" />
+    <Compile Include="Data\Entities\User.cs" />
+    <Compile Include="Data\Entities\UserAccount.cs" />
+    <Compile Include="Data\Entities\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -141,11 +170,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
+    <Folder Include="Data\Repositories\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
