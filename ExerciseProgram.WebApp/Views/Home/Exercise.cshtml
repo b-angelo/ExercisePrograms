@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
+
+@{
+    ViewBag.Title = "Exercises";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Exercise
+        </th>
+        <th>
+            Exercise Type
+        </th>
+        <th>
+            Muscle Group
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExerciseDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExerciseTypeNickName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MuscleGroupNickName)
+        </td>
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = item. }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>*@
+    </tr>
+    }
+
+</table>

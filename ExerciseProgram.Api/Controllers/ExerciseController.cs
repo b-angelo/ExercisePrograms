@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ExerciseProgram.Api.Data;
+using ExerciseProgram.Api.Services;
+using ExerciseProgram.Models.ViewModels;
 
 namespace ExerciseProgram.Api.Controllers
 {
     public class ExerciseController : ApiController
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
+        private ExerciseService ExerciseService = new ExerciseService();
 
         // GET: api/Exercise
-        public IQueryable<Exercise> GetExercises()
+        public List<ExerciseViewModel> GetExercises()
         {
-            return db.Exercises;
+            return ExerciseService.GetExercises();
         }
 
         // GET: api/Exercise/5
