@@ -22,6 +22,7 @@ namespace ExerciseProgram.Api.Services
             {
                 exerciseViewModels.Add(new ExerciseViewModel
                 {
+                    Id = exercise.Exercise_Pk,
                     ExerciseName = exercise.Name,
                     ExerciseDescription = exercise.Description,
                     ExerciseTypeName = exercise.ExerciseType.Name,

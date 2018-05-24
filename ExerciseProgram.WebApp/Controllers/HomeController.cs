@@ -51,5 +51,15 @@ namespace ExerciseProgram.WebApp.Controllers
             }
             return View(exercises);
         }
+
+        public ActionResult UserProfile()
+        {
+           return View();
+        }
+
+        public ActionResult Goals()
+        {
+            return View();
+        }
     }
 }

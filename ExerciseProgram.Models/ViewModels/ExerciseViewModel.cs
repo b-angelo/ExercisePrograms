@@ -2,6 +2,7 @@
 {
     public class ExerciseViewModel
     {
+        public int Id { get; set; }
         public string ExerciseName { get; set; }
         public string ExerciseDescription { get; set; }
         public string ExerciseTypeName { get; set; }
