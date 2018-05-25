@@ -1,4 +1,5 @@
 ﻿using ExerciseProgram.Api.Data;
+using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Models.ViewModels;
 using System.Collections.Generic;
 using System.Data.Entity;

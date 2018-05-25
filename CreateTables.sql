@@ -335,4 +335,40 @@ values (1, 1, 1, 8, 12, 3, 5, @date, null, @user, @date, @user, @date)
 select *
 from ExerciseProgramExercise
 
+Create Table ExerciseHistory
+(
+	ExerciseHistory_Pk int identity primary key not null,
+	ExerciseProgram_Fk int foreign key references ExerciseProgram(ExerciseProgram_Pk) null,
+	Exercise_Fk int foreign key references Exercise(Exercise_Pk) null,	
+	SetNumber int null,
+	Repitions int null,
+	WeightUsed int null,
+	Duration int null,
+	Intensity int null, -- make an fk reference
+	Notes varchar(250) not null,
+	StartDate datetime not null,
+	EndDate datetime null,
+	CreatedBy varchar(50) not null,
+	CreateDate datetime not null,
+	ModifiedBy varchar(50) null,
+	ModifiedDate datetime null
+)
+
+Create Table UserProfile
+(
+	UserHistory_Pk int identity primary key not null,
+	User_Fk int foreign key references dbo.[User](User_Pk) not null,
+	HeightInInches int null,
+	WeightInPounds int null,
+	StartDate datetime not null,
+	EndDate datetime null,
+	CreatedBy varchar(50) not null,
+	CreateDate datetime not null,
+	ModifiedBy varchar(50) null,
+	ModifiedDate datetime null
+)
+
+
+
+
 rollback Tran

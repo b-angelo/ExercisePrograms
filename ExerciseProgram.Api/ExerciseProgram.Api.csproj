@@ -166,16 +166,18 @@
     <Compile Include="Data\Entities\Account.cs" />
     <Compile Include="Data\Entities\AccountRole.cs" />
     <Compile Include="Data\Entities\ChangeLog.cs" />
+    <Compile Include="Data\Entities\EntityBase.cs" />
     <Compile Include="Data\Entities\ErrorLog.cs" />
     <Compile Include="Data\Entities\Exercise.cs" />
     <Compile Include="Data\Entities\ExerciseProgram.cs" />
     <Compile Include="Data\Entities\ExerciseProgramExercise.cs" />
-    <Compile Include="Data\Entities\ExerciseProgramModel.cs" />
+    <Compile Include="Data\Entities\ExerciseProgramDataContext.cs" />
     <Compile Include="Data\Entities\ExerciseSecondaryMuscleGroup.cs" />
     <Compile Include="Data\Entities\ExerciseType.cs" />
     <Compile Include="Data\Entities\MuscleGroup.cs" />
     <Compile Include="Data\Entities\User.cs" />
     <Compile Include="Data\Entities\UserAccount.cs" />
+    <Compile Include="Data\Entities\UserBodyMass.cs" />
     <Compile Include="Data\Entities\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -194,9 +196,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config">
       <SubType>Designer</SubType>

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
-using ExerciseProgram.Api.Data;
+using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.ViewModels;
 

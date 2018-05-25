@@ -1,15 +1,13 @@
-namespace ExerciseProgram.Api.Data
+namespace ExerciseProgram.Api.Data.Entities
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("User")]
-    public partial class User
+    public partial class User : EntityBase
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
             AccessLogs = new HashSet<AccessLog>();
@@ -49,27 +47,12 @@ namespace ExerciseProgram.Api.Data
         [StringLength(50)]
         public string EmailAddress { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime DateOfBirth { get; set; }
 
-        public DateTime? EndDate { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string CreatedBy { get; set; }
-
-        public DateTime CreateDate { get; set; }
-
-        [StringLength(50)]
-        public string ModifiedBy { get; set; }
-
-        public DateTime? ModifiedDate { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccessLog> AccessLogs { get; set; }
 
         public virtual UserRole UserRole { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserAccount> UserAccounts { get; set; }
     }
 }

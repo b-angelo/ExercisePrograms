@@ -1,9 +1,6 @@
-namespace ExerciseProgram.Api.Data
+namespace ExerciseProgram.Api.Data.Entities
 {
-    using System;
     using System.Data.Entity;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Linq;
 
     public partial class ExerciseProgramDataContext : DbContext
     {
@@ -27,6 +24,7 @@ namespace ExerciseProgram.Api.Data
         public virtual DbSet<AccessLog> AccessLogs { get; set; }
         public virtual DbSet<ChangeLog> ChangeLogs { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
+        public virtual DbSet<UserBodyMass> UserBodyMasses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -42,11 +40,11 @@ namespace ExerciseProgram.Api.Data
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<AccessLevel>()
-                .HasMany(e => e.AccountRoles)
-                .WithRequired(e => e.AccessLevel)
-                .HasForeignKey(e => e.AccessLevel_Fk)
-                .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<AccessLevel>()
+            //    .HasMany(e => e.AccountRoles)
+            //    .WithRequired(e => e.AccessLevel)
+            //    .HasForeignKey(e => e.AccessLevel_Fk)
+            //    .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.Name)
@@ -324,6 +322,10 @@ namespace ExerciseProgram.Api.Data
                 .IsUnicode(false);
 
             modelBuilder.Entity<ErrorLog>()
+                .Property(e => e.ModifiedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UserBodyMass>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
         }

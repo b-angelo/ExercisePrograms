@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using ExerciseProgram.Api.Data;
+using ExerciseProgram.Api.Data.Entities;
 
 namespace ExerciseProgram.Api.Controllers
 {
@@ -17,16 +18,16 @@ namespace ExerciseProgram.Api.Controllers
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
         // GET: api/ExerciseProgram
-        public IQueryable<Data.ExerciseProgram> GetExercisePrograms()
+        public IQueryable<Data.Entities.ExerciseProgram> GetExercisePrograms()
         {
             return db.ExercisePrograms;
         }
 
         // GET: api/ExerciseProgram/5
-        [ResponseType(typeof(Data.ExerciseProgram))]
+        [ResponseType(typeof(Data.Entities.ExerciseProgram))]
         public IHttpActionResult GetExerciseProgram(int id)
         {
-            Data.ExerciseProgram exerciseProgram = db.ExercisePrograms.Find(id);
+            Data.Entities.ExerciseProgram exerciseProgram = db.ExercisePrograms.Find(id);
             if (exerciseProgram == null)
             {
                 return NotFound();
@@ -37,7 +38,7 @@ namespace ExerciseProgram.Api.Controllers
 
         // PUT: api/ExerciseProgram/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutExerciseProgram(int id, Data.ExerciseProgram exerciseProgram)
+        public IHttpActionResult PutExerciseProgram(int id, Data.Entities.ExerciseProgram exerciseProgram)
         {
             if (!ModelState.IsValid)
             {
@@ -71,8 +72,8 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         // POST: api/ExerciseProgram
-        [ResponseType(typeof(Data.ExerciseProgram))]
-        public IHttpActionResult PostExerciseProgram(Data.ExerciseProgram exerciseProgram)
+        [ResponseType(typeof(Data.Entities.ExerciseProgram))]
+        public IHttpActionResult PostExerciseProgram(Data.Entities.ExerciseProgram exerciseProgram)
         {
             if (!ModelState.IsValid)
             {
@@ -86,10 +87,10 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         // DELETE: api/ExerciseProgram/5
-        [ResponseType(typeof(Data.ExerciseProgram))]
+        [ResponseType(typeof(Data.Entities.ExerciseProgram))]
         public IHttpActionResult DeleteExerciseProgram(int id)
         {
-            Data.ExerciseProgram exerciseProgram = db.ExercisePrograms.Find(id);
+            Data.Entities.ExerciseProgram exerciseProgram = db.ExercisePrograms.Find(id);
             if (exerciseProgram == null)
             {
                 return NotFound();
