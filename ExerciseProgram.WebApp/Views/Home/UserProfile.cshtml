@@ -73,7 +73,7 @@
                                         <input type="text" readonly value=@item.WeightInPounds class="form-control" />
                                     </td>
                                     <td>
-                                        <input type="text" readonly value=@Model.BodyMassIndex class="form-control" />
+                                        <input type="text" readonly value=@item.Bmi class="form-control" />
                                     </td>
                                     <td>
                                         <input type="submit" name="btnDeleteWeight" value="Delete" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-danger" />

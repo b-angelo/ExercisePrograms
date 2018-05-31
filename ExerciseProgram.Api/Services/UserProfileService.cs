@@ -22,20 +22,23 @@ namespace ExerciseProgram.Api.Services
 
             foreach (var weight in userProfile.UserBodyMasses.OrderByDescending(x => x.CreateDate))
             {
-                if(!weight.EndDate.HasValue || (weight.EndDate.HasValue && weight.EndDate.Value > DateTime.Now))
+                var weightInKillograms = weight.WeightInPounds * 0.45;
+                var metricHeightConversion = weight.HeightInInches * 0.025;
+                var heightSquared = metricHeightConversion * metricHeightConversion;
+                var bmi = weightInKillograms / heightSquared;
+
+                if (!weight.EndDate.HasValue || (weight.EndDate.HasValue && weight.EndDate.Value > DateTime.Now))
                 {
                     weightHistory.Add(new WeightHistory
                     {
                         Id = weight.UserBodyMass_Pk,
                         WeightInPounds = weight.WeightInPounds,
-                        CreateDate = weight.CreateDate
+                        CreateDate = weight.CreateDate,
+                        Bmi = Math.Round(bmi, 2)
                     });
                 }
             }
-
-            var bmi = userProfile.UserBodyMasses.FirstOrDefault().HeightInInches /
-                  userProfile.UserBodyMasses.OrderByDescending(x => x.CreateDate).FirstOrDefault().WeightInPounds *
-                  100;
+                      
 
             var userProfileViewModel = new UserProfileViewModel
             {
@@ -44,9 +47,9 @@ namespace ExerciseProgram.Api.Services
                 LastName = userProfile.LastName,
                 EmailAddress = userProfile.EmailAddress,
                 DateOfBirth = userProfile.DateOfBirth.Value,
-                Height = userProfile.UserBodyMasses.FirstOrDefault().HeightInInches,
-                Weight = userProfile.UserBodyMasses.OrderByDescending(x => x.CreateDate).FirstOrDefault().WeightInPounds,
-                BodyMassIndex = bmi,
+                Height = userProfile.UserBodyMasses.OrderByDescending(x => x.CreateDate).FirstOrDefault().HeightInInches,
+                Weight = weightHistory.OrderByDescending(x => x.CreateDate).FirstOrDefault().WeightInPounds,
+                BodyMassIndex = weightHistory.OrderByDescending(x => x.CreateDate).FirstOrDefault().Bmi,
                 WeightHistory = weightHistory,
                 DateJoined = userProfile.CreateDate
             };

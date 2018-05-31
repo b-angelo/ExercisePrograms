@@ -12,7 +12,7 @@ namespace ExerciseProgram.Models.ViewModels
         public DateTime DateOfBirth { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
-        public decimal BodyMassIndex { get; set; }
+        public double BodyMassIndex { get; set; }
         public List<WeightHistory> WeightHistory { get; set; }
         public DateTime DateJoined { get; set; }
     }
@@ -22,5 +22,6 @@ namespace ExerciseProgram.Models.ViewModels
         public int Id { get; set; }
         public int WeightInPounds { get; set; }
         public DateTime CreateDate { get; set; }
+        public double Bmi { get; set; }
     }
 }
