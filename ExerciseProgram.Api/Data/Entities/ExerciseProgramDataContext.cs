@@ -5,7 +5,7 @@ namespace ExerciseProgram.Api.Data.Entities
     public partial class ExerciseProgramDataContext : DbContext
     {
         public ExerciseProgramDataContext()
-            : base("name=DbConnection")
+            : base("name=ExerciseProgramDbConnection")
         {
         }
 
@@ -13,6 +13,7 @@ namespace ExerciseProgram.Api.Data.Entities
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<AccountRole> AccountRoles { get; set; }
         public virtual DbSet<Exercise> Exercises { get; set; }
+        public virtual DbSet<ExerciseHistory> ExerciseHistories { get; set; }
         public virtual DbSet<ExerciseProgram> ExercisePrograms { get; set; }
         public virtual DbSet<ExerciseProgramExercise> ExerciseProgramExercises { get; set; }
         public virtual DbSet<ExerciseSecondaryMuscleGroup> ExerciseSecondaryMuscleGroups { get; set; }
@@ -20,11 +21,11 @@ namespace ExerciseProgram.Api.Data.Entities
         public virtual DbSet<MuscleGroup> MuscleGroups { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserAccount> UserAccounts { get; set; }
+        public virtual DbSet<UserBodyMass> UserBodyMasses { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<AccessLog> AccessLogs { get; set; }
         public virtual DbSet<ChangeLog> ChangeLogs { get; set; }
         public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
-        public virtual DbSet<UserBodyMass> UserBodyMasses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,11 +41,11 @@ namespace ExerciseProgram.Api.Data.Entities
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
 
-            //modelBuilder.Entity<AccessLevel>()
-            //    .HasMany(e => e.AccountRoles)
-            //    .WithRequired(e => e.AccessLevel)
-            //    .HasForeignKey(e => e.AccessLevel_Fk)
-            //    .WillCascadeOnDelete(false);
+            modelBuilder.Entity<AccessLevel>()
+                .HasMany(e => e.AccountRoles)
+                .WithRequired(e => e.AccessLevel)
+                .HasForeignKey(e => e.AccessLevel_Fk)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Account>()
                 .Property(e => e.Name)
@@ -103,6 +104,11 @@ namespace ExerciseProgram.Api.Data.Entities
                 .IsUnicode(false);
 
             modelBuilder.Entity<Exercise>()
+                .HasMany(e => e.ExerciseHistories)
+                .WithOptional(e => e.Exercise)
+                .HasForeignKey(e => e.Exercise_Fk);
+
+            modelBuilder.Entity<Exercise>()
                 .HasMany(e => e.ExerciseProgramExercises)
                 .WithOptional(e => e.Exercise)
                 .HasForeignKey(e => e.Exercise_Fk);
@@ -111,6 +117,18 @@ namespace ExerciseProgram.Api.Data.Entities
                 .HasMany(e => e.ExerciseSecondaryMuscleGroups)
                 .WithOptional(e => e.Exercise)
                 .HasForeignKey(e => e.Exercise_Fk);
+
+            modelBuilder.Entity<ExerciseHistory>()
+                .Property(e => e.Notes)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ExerciseHistory>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ExerciseHistory>()
+                .Property(e => e.ModifiedBy)
+                .IsUnicode(false);
 
             modelBuilder.Entity<ExerciseProgram>()
                 .Property(e => e.Name)
@@ -135,6 +153,11 @@ namespace ExerciseProgram.Api.Data.Entities
             modelBuilder.Entity<ExerciseProgram>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<ExerciseProgram>()
+                .HasMany(e => e.ExerciseHistories)
+                .WithOptional(e => e.ExerciseProgram)
+                .HasForeignKey(e => e.ExerciseProgram_Fk);
 
             modelBuilder.Entity<ExerciseProgram>()
                 .HasMany(e => e.ExerciseProgramExercises)
@@ -243,11 +266,25 @@ namespace ExerciseProgram.Api.Data.Entities
                 .HasForeignKey(e => e.User_Fk)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.UserBodyMasses)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.User_Fk)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<UserAccount>()
                 .Property(e => e.CreatedBy)
                 .IsUnicode(false);
 
             modelBuilder.Entity<UserAccount>()
+                .Property(e => e.ModifiedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UserBodyMass>()
+                .Property(e => e.CreatedBy)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<UserBodyMass>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
 
@@ -322,10 +359,6 @@ namespace ExerciseProgram.Api.Data.Entities
                 .IsUnicode(false);
 
             modelBuilder.Entity<ErrorLog>()
-                .Property(e => e.ModifiedBy)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<UserBodyMass>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
         }

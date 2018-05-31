@@ -354,12 +354,12 @@ Create Table ExerciseHistory
 	ModifiedDate datetime null
 )
 
-Create Table UserProfile
+Create Table UserBodyMass
 (
-	UserHistory_Pk int identity primary key not null,
+	UserBodyMass_Pk int identity primary key not null,
 	User_Fk int foreign key references dbo.[User](User_Pk) not null,
-	HeightInInches int null,
-	WeightInPounds int null,
+	HeightInInches int not null,
+	WeightInPounds int not null,
 	StartDate datetime not null,
 	EndDate datetime null,
 	CreatedBy varchar(50) not null,
@@ -367,6 +367,8 @@ Create Table UserProfile
 	ModifiedBy varchar(50) null,
 	ModifiedDate datetime null
 )
+
+drop table UserBodyMass
 
 
 

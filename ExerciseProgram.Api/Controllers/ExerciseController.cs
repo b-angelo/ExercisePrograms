@@ -14,12 +14,12 @@ namespace ExerciseProgram.Api.Controllers
     public class ExerciseController : ApiController
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
-        private ExerciseService ExerciseService = new ExerciseService();
+        private ExerciseService _exerciseService = new ExerciseService();
 
         // GET: api/Exercise
         public List<ExerciseViewModel> GetExercises()
         {
-            return ExerciseService.GetExercises();
+            return _exerciseService.GetExercises();
         }
 
         // GET: api/Exercise/5

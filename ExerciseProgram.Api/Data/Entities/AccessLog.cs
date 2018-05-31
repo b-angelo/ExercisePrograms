@@ -1,10 +1,13 @@
 namespace ExerciseProgram.Api.Data.Entities
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
 
     [Table("logging.AccessLog")]
-    public partial class AccessLog : EntityBase
+    public partial class AccessLog
     {
         [Key]
         public int Access_Pk { get; set; }
@@ -17,6 +20,17 @@ namespace ExerciseProgram.Api.Data.Entities
         [StringLength(50)]
         public string Device { get; set; }
 
-       public virtual User User { get; set; }
+        [Required]
+        [StringLength(50)]
+        public string CreatedBy { get; set; }
+
+        public DateTime CreateDate { get; set; }
+
+        [StringLength(50)]
+        public string ModifiedBy { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

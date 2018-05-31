@@ -1,5 +1,4 @@
-﻿using ExerciseProgram.Api.Data;
-using ExerciseProgram.Api.Data.Entities;
+﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Models.ViewModels;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,7 +12,7 @@ namespace ExerciseProgram.Api.Services
 
         public List<ExerciseViewModel> GetExercises()
         {
-            var exerciseViewModels = new List<ExerciseViewModel>();
+            var exerciseViewModel = new List<ExerciseViewModel>();
             var exercises = db.Exercises
                               .Include(a => a.ExerciseType)
                               .Include(b => b.MuscleGroup)
@@ -21,7 +20,7 @@ namespace ExerciseProgram.Api.Services
 
             foreach (var exercise in exercises)
             {
-                exerciseViewModels.Add(new ExerciseViewModel
+                exerciseViewModel.Add(new ExerciseViewModel
                 {
                     Id = exercise.Exercise_Pk,
                     ExerciseName = exercise.Name,
@@ -33,7 +32,7 @@ namespace ExerciseProgram.Api.Services
                 });
             }
 
-            return exerciseViewModels;
+            return exerciseViewModel;
         }
 
     }

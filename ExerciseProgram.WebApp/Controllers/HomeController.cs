@@ -1,4 +1,5 @@
 ﻿using ExerciseProgram.Models.ViewModels;
+using ExerciseProgram.WebApp.Extentions;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -8,6 +9,9 @@ namespace ExerciseProgram.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly HttpClientBase<UserProfileViewModel> _httpClient = new HttpClientBase<UserProfileViewModel>();
+        private readonly HttpClientBase<ExerciseViewModel> _httpClient2 = new HttpClientBase<ExerciseViewModel>();
+
         public ActionResult Index()
         {
             return View();
@@ -22,39 +26,31 @@ namespace ExerciseProgram.WebApp.Controllers
 
         public ActionResult Exercise()
         {
-            List<ExerciseViewModel> exercises = new List<ExerciseViewModel>();
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("http://localhost:30305/");
-
-                var responseTask = client.GetAsync("api/Exercise");
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<List<ExerciseViewModel>>();
-                    readTask.Wait();
-
-                    exercises = readTask.Result;
-                }
-                else //web api sent error response 
-                {
-                    ////log response status here..
-
-                    //students = Enumerable.Empty<StudentViewModel>();
-
-                    //ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                }
-            }
-            return View(exercises);
+            var result = _httpClient2.GetList("api/Exercise");            
+            return View(result);
         }
 
         public ActionResult UserProfile()
         {
-           return View();
+            var result = _httpClient.GetSingle("api/UserProfile");
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProfile(int weight, int height, string emailAddress)
+        {
+            _httpClient.Post($"api/UserProfile/2/{weight}/{height}/{emailAddress}");
+
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUserWeightEntry(int id)
+        {
+            _httpClient.Delete($"api/UserProfile/weight/{id}");
+
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult Goals()

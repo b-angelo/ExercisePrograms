@@ -6,25 +6,29 @@ namespace ExerciseProgram.Api.Data.Entities
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("ExerciseProgramExercise")]
-    public partial class ExerciseProgramExercise
+    [Table("ExerciseHistory")]
+    public partial class ExerciseHistory
     {
         [Key]
-        public int ExerciseProgramExercise_Pk { get; set; }
+        public int ExerciseHistory_Pk { get; set; }
 
         public int? ExerciseProgram_Fk { get; set; }
 
         public int? Exercise_Fk { get; set; }
 
-        public int ExerciseDay { get; set; }
+        public int? SetNumber { get; set; }
 
-        public int ExerciseMinRepitions { get; set; }
+        public int? Repitions { get; set; }
 
-        public int ExerciseMaxRepitions { get; set; }
+        public int? WeightUsed { get; set; }
 
-        public int ExerciseMinSets { get; set; }
+        public int? Duration { get; set; }
 
-        public int ExerciseMaxSets { get; set; }
+        public int? Intensity { get; set; }
+
+        [Required]
+        [StringLength(250)]
+        public string Notes { get; set; }
 
         public DateTime StartDate { get; set; }
 

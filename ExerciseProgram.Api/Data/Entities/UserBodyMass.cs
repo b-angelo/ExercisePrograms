@@ -1,16 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
-
 namespace ExerciseProgram.Api.Data.Entities
 {
-    public class UserBodyMass : EntityBase
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
+    [Table("UserBodyMass")]
+    public partial class UserBodyMass
     {
-        [Required]
+        [Key]
         public int UserBodyMass_Pk { get; set; }
-        [Required]
+
         public int User_Fk { get; set; }
-        [Required]
+
         public int HeightInInches { get; set; }
-        [Required]
+
         public int WeightInPounds { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string CreatedBy { get; set; }
+
+        public DateTime CreateDate { get; set; }
+
+        [StringLength(50)]
+        public string ModifiedBy { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

@@ -1,41 +1,73 @@
 ﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
 
 @{
-    ViewBag.Title = "Exercises";
+    ViewBag.Title = "Create New Workout";
 }
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
+<h2 class="text-center">@ViewBag.Title</h2>
 
-<p>
-    <div class="col-md-12">
-        <div class="col-md-3">
-            <b>Exercise</b>
+    <div class="col-md-12 jumbotron row">
+        <div class="row">
+            <div class="col-md-4">
+                @Html.Label("WorkoutNameTxt", "Workout Name")
+                <input id="WorkoutNameTxt" class="form-control" type="text" />
+            </div>
+            <div class="col-md-4">
+                @Html.Label("WorkoutTimeSpan", "Number of Weeks")
+                <input id="WorkoutTimeSpan" class="form-control" type="number" />
+            </div>
+            <div class="col-md-4">
+                @Html.Label("DaysPerWeek", "Days per Week")
+                <input id="DaysPerWeek" class="form-control" type="number" />
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @Html.Label("WorkoutDescriptionTxt", "Description")
+                    <textarea id="WorkoutDescriptionTxt" class="form-control" col rows="3"></textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="submit" id="btnAddNewExerciseProgram" value="Create Program" class="btn btn-primary" />
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <b>Exercise Category</b>
+
+
+    <div class="col-md-12 jumbotron row">
+        <div class="row">
+            <div class="col-md-3">
+                @Html.Label("MuscleGroupSelect", "Muscle Group")
+                @Html.DropDownList("MuscleGroupSelect",
+                            new SelectList(Model.Select(x => x.MuscleGroupNickName)),
+                            "---Select Muscle Group---",
+                            new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                @Html.Label("ExerciseSelect", "Exercise")
+                @Html.DropDownList("ExerciseSelect",
+                            new SelectList(Model.Select(x => x.ExerciseDescription)),
+                            "---Select Exercise---",
+                            new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                @Html.Label("RepitionsInput", "Repititions")
+                <input id="RepitionsInput" class="form-control" type="number" />
+            </div>
+            <div class="col-md-3">
+                @Html.Label("SetsInput", "Sets")
+                <input id="SetsInput" class="form-control" type="number" />
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="submit" id="btnAddNewExercise" value="Add Exercise" class="btn btn-primary" />
+                </div>
+            </div>
         </div>
-        <div class="col-md-3">
-            <b>Muscle Group</b>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-    <br />
-    <div class="col-md-12">
-        <div class="col-md-3">
-            <input type="text" name="Exercise" value="">
-        </div>
-        <div class="col-md-3">
-            <input type="text" name="ExerciseCategory" value="">
-        </div>
-        <div class="col-md-3">
-            <input type="text" name="MuscleGrouop" value="">
-        </div>
-        <div class="col-md-3">
-            <button id="btnAddNewExercise">Add New Exercise</button>
-        </div>
-    </div>
-    <br />
-</p>
+
+
 <table class="table">
     <tr>
         <th>
@@ -51,20 +83,21 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExerciseDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExerciseTypeNickName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MuscleGroupNickName)
-        </td>
-        <td>@*  *@
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExerciseDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExerciseTypeNickName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MuscleGroupNickName)
+            </td>
+            <td>
+                @*  *@
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </td>
+        </tr>
     }
 
 </table>
