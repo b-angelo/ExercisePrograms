@@ -3,25 +3,26 @@
 }
 
 <div class="jumbotron">
-    <h2>Workout for @DateTime.Today.DayOfWeek,
-    @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month) 
-    @DateTime.Today.Day
-    @DateTime.Today.Year</h2> 
+    <h2>
+        Workout for @DateTime.Today.DayOfWeek,
+        @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month)
+        @DateTime.Today.Day
+        @DateTime.Today.Year
+    </h2>
     <p class="lead">Relax, no workout has been scheduled for today.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Show More &raquo;</a></p>
+    <p><a href="~/Home/Exercise" class="btn btn-primary">Show More &raquo;</a></p>
 </div>
 
-<div class="row">
-    <div class="jumbotron col-md-6">
-        <h2>This Week</h2>
-        <p>
-           Show data from past week here
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Show More &raquo;</a></p>
-    </div>
-    <div class=jumbotron col-md-6">
-        <h2>Goal Summary</h2>
-        <p>Time to set some goals!</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Show More &raquo;</a></p>
-    </div>
+
+<div class="jumbotron col-md-6">
+    <h2>This Week</h2>
+    <p>
+        No workouts to show, ready when you are!
+    </p>
+    <p><a class="btn btn-primary" href="~/Home/Exercise">Show More &raquo;</a></p>
+</div>
+<div class=jumbotron col-md-6">
+    <h2>Goal Summary</h2>
+    <p>No goals here, time to set some!</p>
+    <p><a class="btn btn-primary" href="~/Home/Goals">Show More &raquo;</a></p>
 </div>

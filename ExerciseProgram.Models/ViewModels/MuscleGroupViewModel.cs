@@ -1,6 +1,6 @@
 ﻿namespace ExerciseProgram.Models.ViewModels
 {
-    class MuscleGroupViewModel
+    public class MuscleGroupViewModel
     {
         public int Id { get; set; }
         public string MuscleGroupName { get; set; }

@@ -1,7 +1,6 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.ViewModels;
-using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 

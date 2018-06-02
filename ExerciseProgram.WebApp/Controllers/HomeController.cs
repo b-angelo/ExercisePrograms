@@ -1,8 +1,6 @@
 ﻿using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Web.Mvc;
 
 namespace ExerciseProgram.WebApp.Controllers
@@ -24,9 +22,28 @@ namespace ExerciseProgram.WebApp.Controllers
             return View();
         }
 
-        public ActionResult Exercise()
+        public ActionResult Exercise(string muscleGroupName)
         {
-            var result = _httpClient2.GetList("api/Exercise");            
+            List<ExerciseViewModel> result;
+
+            if (!string.IsNullOrEmpty(muscleGroupName))
+            {
+                result = _httpClient2.GetList($"api/Exercise/{muscleGroupName}");
+            }
+            else
+            {
+                result = _httpClient2.GetList($"api/Exercise");
+            }
+                        
+            return View(result);
+        }
+
+        public ActionResult ExercisesFiltered()
+        {
+            List<ExerciseViewModel> result;
+
+            result = _httpClient2.GetList($"api/Exercise");
+          
             return View(result);
         }
 

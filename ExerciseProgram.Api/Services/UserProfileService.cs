@@ -73,10 +73,10 @@ namespace ExerciseProgram.Api.Services
             });
 
             var userProfile = db.Users.Where(x => x.User_Pk == userPk).FirstOrDefault();
-
+                        
             userProfile.EmailAddress = emailAddress;
 
-            
+          
 
             db.SaveChanges();
         }

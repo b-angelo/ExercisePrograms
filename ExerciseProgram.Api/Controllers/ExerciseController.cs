@@ -16,17 +16,25 @@ namespace ExerciseProgram.Api.Controllers
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
         private ExerciseService _exerciseService = new ExerciseService();
 
-        // GET: api/Exercise
-        public List<ExerciseViewModel> GetExercises()
+        [HttpGet]
+        [Route("api/Exercise/")]
+        public List<ExerciseViewModel> GetAllExercises()
         {
             return _exerciseService.GetExercises();
+        }
+
+        [HttpGet]
+        [Route("api/Exercise/{muscleGroupName}")]
+        public List<ExerciseViewModel> GetAllExercisesByMuscleGroup([FromUri] string muscleGroupName)
+        {
+            return _exerciseService.GetExercises(muscleGroupName);
         }
 
         // GET: api/Exercise/5
         [ResponseType(typeof(Exercise))]
         public IHttpActionResult GetExercise(int id)
         {
-            Exercise exercise = db.Exercises.Find(id);
+            var exercise = db.Exercises.Find(id);
             if (exercise == null)
             {
                 return NotFound();

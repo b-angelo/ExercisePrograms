@@ -4,7 +4,8 @@
     ViewBag.Title = "";
 }
 
-<h2 class="text-center">@Model.FirstName @Model.LastName's Profile</h2>;
+@*ToDo: Better sytle*@
+<h2 class="text-center">My Profile</h2>;
 
 <div class="col-md-12 jumbotron row">
     @using (Html.BeginForm())
@@ -20,7 +21,7 @@
             </div>
             <div class="col-md-4">
                 @Html.Label("EmailTxt", "Email Address")
-                @Html.EditorFor(g => g.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(g => g.EmailAddress, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
             </div>
         </div>
         <div class="row">
@@ -38,13 +39,46 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-6">
-                <input type="submit" name="response" value="Update Profile" formaction=@Url.Action("UpdateProfile",  new { weight = Model.Weight, height = Model.Height, emailAddress = Model.EmailAddress }) formmethod="post" class="btn btn-primary" />
-            </div>
-            </div>
-            }
-        </div>
+            <div class="col-md-4">
+                @Html.Label("OptInToLeaderBoard", "Leader Board Opt In")
+                @*ToDo: Drop to second row*@
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Yes",
+                        Value = "Yes"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "No",
+                        Value = "No",
+                        Selected = true
+                    });
+                }
 
+                @Html.DropDownList("OptInDdl", listItems, new { htmlAttributes = new { @class = "form-control" } })
+
+
+                @*ToDo: Add tool tip text*@
+            </div>
+            <div class="col-md-4">
+                @*ToDo: Disable unless "yes" is checked*@
+                @Html.Label("AliasTxt", "Leader Board Alias")
+                <input type="text" id="AliasTxt" value="" class="form-control" />
+                @*aToDo: Add tool tip text*@
+            </div>           
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="submit" name="response" value="Update Profile" formaction=@Url.Action("UpdateProfile",  new { weight = Model.Weight, height = Model.Height, emailAddress = Model.EmailAddress }) formmethod="post" class="btn btn-success" />
+            </div>
+        </div>
+    }
+</div>
+
+        @*ToDo: Add Paging - 5 per page*@
+        @*ToDo: Better style on "Historical Weight"*@
         <h2 class="text-center">Historical Weight</h2>
         <div class="jumbotron col-md-12 row">
             <div class="container">
