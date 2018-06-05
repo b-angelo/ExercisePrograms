@@ -18,22 +18,20 @@
 
         $("#MuscleGroupSelect").change(function () {
             $.ajax({
-                url: '/Home/Exercise/bicep',
+                url: '/Exercise/Exercise/bicep',
                 dataType: "json",
                 type: "GET",
-                contentType: 'application/x-www-form-urlencoded; charset=utf-8',    //replace /json to the urlenoded
-                data: { muscleGroupName: 'bicep' },                  // data is not json
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { muscleGroupName: 'bicep' },
                 async: true,
-                processData: true,                                                  //important to use it as true
+                processData: true,
                 cache: false
-                });
+            });
             $("#ExerciseSelect").prop("disabled", false);
         });
 
     });
 </script>
-
-<h2 class="text-center">@ViewBag.Title</h2>
 
 <div class="col-md-12 jumbotron row">
     <div class="row">
@@ -49,20 +47,34 @@
             @Html.Label("DaysPerWeek", "Days per Week")
             <input id="DaysPerWeek" class="form-control" type="number" />
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            @Html.Label("WorkoutDescriptionTxt", "Description")
-            <textarea id="WorkoutDescriptionTxt" class="form-control" col rows="3"></textarea>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-md-4">
+                @Html.Label("lblWorkoutDays", "Select Days") <br />
+                @Html.RadioButton("Sunday", 1) Sun
+                @Html.RadioButton("Monday", 2) Mon
+                @Html.RadioButton("Tuesday", 3) Tue
+                @Html.RadioButton("Wednesday", 4) Wed <br />
+                @Html.RadioButton("Thursday", 5) Thu
+                @Html.RadioButton("Friday", 6) Fri
+                @Html.RadioButton("Satudray", 7) Sat
+            </div>
+            <div class="col-md-4">
+                @Html.Label("lblStartDate", "Start Date")
+                <input id="dtStartDate" class="form-control" type="date" />
+            </div>
+            <div class="col-md-4">
+                @Html.Label("WorkoutDescriptionTxt", "Description")
+                <textarea id="WorkoutDescriptionTxt" class="form-control" col rows="3"></textarea>
+            </div>
+        </div>
 
-    <div class="row">
-        <div class="col-md-3">
-            <input type="submit" id="btnAddNewExerciseProgram" value="Create Program" class="btn btn-success" />
+        <div class="row">
+            <div class="col-md-3">
+                <input type="submit" id="btnBasicProgramInformation" value="Next &raquo;" class="btn btn-primary" />
+            </div>
         </div>
     </div>
-</div>
 
 
 <div class="col-md-12 jumbotron row">
@@ -82,52 +94,26 @@
                         new { @class = "form-control" })
         </div>
         <div class="col-md-3">
-            @Html.Label("RepitionsInput", "Repititions")
+            @Html.Label("lblRepitionsInput", "Repititions")
             <input id="RepitionsInput" class="form-control" type="number" />
         </div>
         <div class="col-md-3">
-            @Html.Label("SetsInput", "Sets")
+            @Html.Label("lblSetsInput", "Sets")
             <input id="SetsInput" class="form-control" type="number" />
         </div>
     </div>
     <div class="row">
         <div class="col-md-3">
-            <input type="submit" id="btnAddNewExercise" value="Add Exercise" class="btn btn-success" />
+            @Html.Label("lblDayOfWeek", "Select Day")
+            @Html.DropDownList("ddlDayOfWeek",
+                             new SelectList(Model.Select(x => x.ExerciseDescription)),
+                             "---Select Day---",
+                             new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <input type="submit" id="btnAddNewExercise" value="Add Exercise" class="btn btn-primary" />
         </div>
     </div>
 </div>
-
-
-<table class="table">
-    <tr>
-        <th>
-            Exercise
-        </th>
-        <th>
-            Exercise Category
-        </th>
-        <th>
-            Muscle Group
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExerciseDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExerciseTypeNickName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MuscleGroupNickName)
-            </td>
-            <td>
-                @*  *@
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-            </td>
-        </tr>
-    }
-
-</table>

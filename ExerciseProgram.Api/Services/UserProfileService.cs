@@ -26,6 +26,25 @@ namespace ExerciseProgram.Api.Services
                 var metricHeightConversion = weight.HeightInInches * 0.025;
                 var heightSquared = metricHeightConversion * metricHeightConversion;
                 var bmi = weightInKillograms / heightSquared;
+                string bmiCategory;
+
+                if (bmi < 18.5)
+                {
+                    bmiCategory = "Underweight Range";
+                }
+                else if (bmi < 24.9)
+                {
+                    bmiCategory = "Normal Range";
+                }
+                else if (bmi < 29.9)
+                {
+                    bmiCategory = "Overweight Range";
+                }
+                else
+                {
+                    bmiCategory = "Obese Range";
+                }
+                
 
                 if (!weight.EndDate.HasValue || (weight.EndDate.HasValue && weight.EndDate.Value > DateTime.Now))
                 {
@@ -34,7 +53,8 @@ namespace ExerciseProgram.Api.Services
                         Id = weight.UserBodyMass_Pk,
                         WeightInPounds = weight.WeightInPounds,
                         CreateDate = weight.CreateDate,
-                        Bmi = Math.Round(bmi, 2)
+                        Bmi = Math.Round(bmi, 2),
+                        BmiCategory = bmiCategory
                     });
                 }
             }

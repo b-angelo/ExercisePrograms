@@ -3,10 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>My Workout</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+
+        });
+    </script>
 
 </head>
 <body>
@@ -14,7 +20,7 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    @*<span class="icon-bar"></span>*@
+                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
@@ -22,12 +28,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("My Profile", "UserProfile", "Home")</li>
-                    <li>@Html.ActionLink("My Goals", "Goals", "Home")</li>
-                    <li>@Html.ActionLink("My Workouts", "Exercise", "Home")</li>
-                    <li>@Html.ActionLink("Leaders", "Index", "Home")</li>
-                    @*Add log-in to left when logged-out
-                    Add "@Model.FirstName @Model.LastName's" and log-out to left when logged-in*@
+                    <li>@Html.ActionLink("My Profile", "UserProfile", "UserProfile")</li>
+                    <li>@Html.ActionLink("My Goals", "Goals", "Goals")</li>
+                    <li>@Html.ActionLink("My Workouts", "Exercise", "Exercise")
+                        <ul class="nav navbar-nav">
+                            <li><a href="#">Current Workout</a></li>
+                            <li><a href="#">Create New Workout</a></li>
+                            <li><a href="#">All Workouts</a></li>
+                        </ul>
+                    </li>
+                </ul>      
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Log-In</a></li>
                 </ul>
             </div>
         </div>
@@ -35,11 +47,8 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-           
-        </footer>
+        <footer></footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

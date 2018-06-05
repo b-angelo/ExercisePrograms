@@ -23,5 +23,6 @@ namespace ExerciseProgram.Models.ViewModels
         public int WeightInPounds { get; set; }
         public DateTime CreateDate { get; set; }
         public double Bmi { get; set; }
+        public string BmiCategory { get; set; }
     }
 }
