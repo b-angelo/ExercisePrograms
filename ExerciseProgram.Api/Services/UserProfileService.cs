@@ -11,7 +11,7 @@ namespace ExerciseProgram.Api.Services
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
-        public UserProfileViewModel GetUserProfile(int userPk)
+        public UserProfileViewModel GetUserProfile(int userPk, int pageFrom, int pageTo)
         {
             var userProfile = db.Users
                                 .Include(a => a.UserRole)
@@ -58,7 +58,9 @@ namespace ExerciseProgram.Api.Services
                     });
                 }
             }
-                      
+
+            if (weightHistory.Count > pageTo)
+                weightHistory.RemoveRange(pageTo - 1, (weightHistory.Count - pageTo));
 
             var userProfileViewModel = new UserProfileViewModel
             {

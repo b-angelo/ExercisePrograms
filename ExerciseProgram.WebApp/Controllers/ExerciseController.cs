@@ -20,7 +20,7 @@ namespace ExerciseProgram.WebApp.Controllers
             }
             else
             {
-                result = _httpClient.GetList($"api/Exercise");
+                result = _httpClient.GetList($"api/Exercise?pageFrom=1&pageTo=5");
             }
 
             return View(result);

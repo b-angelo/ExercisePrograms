@@ -10,13 +10,13 @@ namespace ExerciseProgram.Api.Services
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
-        public List<ExerciseViewModel> GetExercises()
+        public List<ExerciseViewModel> GetExercises(string pageFrom, string pageTo)
         {
             var exerciseViewModel = new List<ExerciseViewModel>();
 
             var exercises = db.Exercises
                               .Include(a => a.ExerciseType)
-                              .Include(b => b.MuscleGroup)
+                              .Include(b => b.MuscleGroup)                              
                               .ToList();
 
             foreach (var exercise in exercises)

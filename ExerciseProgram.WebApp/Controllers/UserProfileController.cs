@@ -11,7 +11,7 @@ namespace ExerciseProgram.WebApp.Controllers
         [HttpGet]
         public ActionResult UserProfile()
         {
-            var result = _httpClient.GetSingle("api/UserProfile");
+            var result = _httpClient.GetSingle("api/UserProfile?pageFrom=1&pageTo=5");
 
             return View(result);
         }

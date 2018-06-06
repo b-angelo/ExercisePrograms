@@ -1,6 +1,7 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.ViewModels;
+using System;
 using System.Net;
 using System.Web.Http;
 
@@ -11,9 +12,11 @@ namespace ExerciseProgram.Api.Controllers
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
         private UserProfileService _userProfileService = new UserProfileService();
 
-        public UserProfileViewModel GetExercises()
+        [HttpGet]
+        [Route("api/UserProfile/")]
+        public UserProfileViewModel UserProfile([FromUri] string pageFrom, [FromUri] string pageTo)
         {
-            return _userProfileService.GetUserProfile(2);
+            return _userProfileService.GetUserProfile(2, Convert.ToInt16(pageFrom), Convert.ToInt16(pageTo));
         }
 
         [HttpPost]

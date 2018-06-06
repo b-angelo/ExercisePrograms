@@ -29,91 +29,48 @@
             });
             $("#ExerciseSelect").prop("disabled", false);
         });
-
+        $("#btnLoadNewProgram").click(function () {
+            $("#mdlNewProgram").modal();
+        });
+        $("#btnBasicProgramInformation").click(function () {
+            $("#mdlNewProgram").hide;
+            $("#mdlNewExerciseForProgram").modal();
+        });
     });
 </script>
-
-<div class="col-md-12 jumbotron row">
-    <div class="row">
-        <div class="col-md-4">
-            @Html.Label("WorkoutNameTxt", "Workout Name")
-            <input id="WorkoutNameTxt" class="form-control" type="text" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("WorkoutTimeSpan", "Number of Weeks")
-            <input id="WorkoutTimeSpan" class="form-control" type="number" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("DaysPerWeek", "Days per Week")
-            <input id="DaysPerWeek" class="form-control" type="number" />
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                @Html.Label("lblWorkoutDays", "Select Days") <br />
-                @Html.RadioButton("Sunday", 1) Sun
-                @Html.RadioButton("Monday", 2) Mon
-                @Html.RadioButton("Tuesday", 3) Tue
-                @Html.RadioButton("Wednesday", 4) Wed <br />
-                @Html.RadioButton("Thursday", 5) Thu
-                @Html.RadioButton("Friday", 6) Fri
-                @Html.RadioButton("Satudray", 7) Sat
-            </div>
-            <div class="col-md-4">
-                @Html.Label("lblStartDate", "Start Date")
-                <input id="dtStartDate" class="form-control" type="date" />
-            </div>
-            <div class="col-md-4">
-                @Html.Label("WorkoutDescriptionTxt", "Description")
-                <textarea id="WorkoutDescriptionTxt" class="form-control" col rows="3"></textarea>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-3">
-                <input type="submit" id="btnBasicProgramInformation" value="Next &raquo;" class="btn btn-primary" />
-            </div>
-        </div>
+<div class="container">
+    <div class="jumbotron row">
+        <button type="button" class="btn btn-primary" id="btnLoadNewProgram">Create New Program</button>
     </div>
+    <div class="modal" id="mdlNewProgram" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Create New Program</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    @{Html.RenderPartial("_NewExerciseProgram", Model);}
+                </div>
+            </div>
 
-
-<div class="col-md-12 jumbotron row">
-    <div class="row">
-        <div class="col-md-3">
-            @Html.Label("MuscleGroupSelectLbl", "Muscle Group")
-            @Html.DropDownList("MuscleGroupSelect",
-                        new SelectList(Model.Select(x => x.MuscleGroupNickName)),
-                        "---Select Muscle Group---",
-                        new { @class = "form-control" })
-        </div>
-        <div class="col-md-3">
-            @Html.Label("ExerciseSelectLbl", "Exercise")
-            @Html.DropDownList("ExerciseSelect",
-                        new SelectList(Model.Select(x => x.ExerciseDescription)),
-                        "---Select Exercise---",
-                        new { @class = "form-control" })
-        </div>
-        <div class="col-md-3">
-            @Html.Label("lblRepitionsInput", "Repititions")
-            <input id="RepitionsInput" class="form-control" type="number" />
-        </div>
-        <div class="col-md-3">
-            @Html.Label("lblSetsInput", "Sets")
-            <input id="SetsInput" class="form-control" type="number" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            @Html.Label("lblDayOfWeek", "Select Day")
-            @Html.DropDownList("ddlDayOfWeek",
-                             new SelectList(Model.Select(x => x.ExerciseDescription)),
-                             "---Select Day---",
-                             new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <input type="submit" id="btnAddNewExercise" value="Add Exercise" class="btn btn-primary" />
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="modal fade" id="mdlNewExerciseForProgram" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Add Exercise</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    @{Html.RenderPartial("_NewExerciseForProgram", Model);}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*ToDo: Add Review Modal w/ Grid and Back and Confirm/Submit buttons*@

@@ -1,0 +1,43 @@
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
+
+<div class="col-md-12 jumbotron row">
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.Label("MuscleGroupSelectLbl", "Muscle Group")
+            @Html.DropDownList("MuscleGroupSelect",
+                        new SelectList(Model.Select(x => x.MuscleGroupNickName)),
+                        "---Select Muscle Group---",
+                        new { @class = "form-control" })
+        </div>
+        <div class="col-sm-4">
+            @Html.Label("ExerciseSelectLbl", "Exercise")
+            @Html.DropDownList("ExerciseSelect",
+                        new SelectList(Model.Select(x => x.ExerciseDescription)),
+                        "---Select Exercise---",
+                        new { @class = "form-control" })
+        </div>
+        <div class="col-sm-4">
+            @Html.Label("lblRepitionsInput", "Repititions")
+            <input id="RepitionsInput" class="form-control" type="number" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            @Html.Label("lblSetsInput", "Sets")
+            <input id="SetsInput" class="form-control" type="number" />
+        </div>
+        <div class="col-sm-4">
+            @Html.Label("lblDayOfWeek", "Select Day")
+            @Html.DropDownList("ddlDayOfWeek",
+                             new SelectList(Model.Select(x => x.ExerciseDescription)),
+                             "---Select Day---",
+                             new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <input type="submit" id="btnAddExercise" value="Add Exercise" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+
