@@ -1,0 +1,30 @@
+﻿<div class="col-sm-12 row">
+    <div class="col-sm-10 row">
+        <div class="col-sm-10 form-group">
+            @Html.Label("WorkoutNameTxt", "Workout Name")
+            <input id="WorkoutNameTxt" class="form-control" type="text" placeholder="Workout Name" />
+        </div>
+        <div class="col-sm-10 form-group">
+            @Html.Label("WorkoutDescriptionTxt", "Description")
+            <textarea id="WorkoutDescriptionTxt" class="form-control" col rows="3" placeholder="Workout Description"></textarea>
+        </div>
+        <div class="col-sm-10 form-group">
+            @Html.Label("WorkoutTimeSpan", "Number of Weeks")
+            <input id="WorkoutTimeSpan" class="form-control" type="number" placeholder="Number of Weeks" />
+        </div>
+        <div class="col-sm-10 form-group">
+            @Html.Label("lblWorkoutDays", "Select Days") <br />
+            @Html.CheckBox("Sunday", 1) Su
+            @Html.CheckBox("Monday", 2) Mo
+            @Html.CheckBox("Tuesday", 3) Tu
+            @Html.CheckBox("Wednesday", 4) We <br />
+            @Html.CheckBox("Thursday", 5) Th
+            @Html.CheckBox("Friday", 6)  Fr
+            @Html.CheckBox("Satudray", 7) Sa
+        </div>
+        <div class="col-sm-10 form-group">
+            @Html.Label("lblStartDate", "Start Date")
+            <input id="dtStartDate" class="form-control" type="date" />
+        </div>
+    </div>
+</div>

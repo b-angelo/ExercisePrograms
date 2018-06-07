@@ -137,7 +137,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ExerciseController.cs" />
+    <Compile Include="Controllers\ExerciseProgramController.cs" />
     <Compile Include="Controllers\GoalsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />
@@ -181,12 +181,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Exercise\Exercise.cshtml" />
+    <Content Include="Views\ExerciseProgram\ExerciseProgram.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\UserProfile\UserProfile.cshtml" />
     <Content Include="Views\Goals\Goals.cshtml" />
-    <Content Include="Views\Exercise\_NewExerciseProgram.cshtml" />
-    <Content Include="Views\Exercise\_NewExerciseForProgram.cshtml" />
+    <Content Include="Views\ExerciseProgram\_NewExerciseProgram.cshtml" />
+    <Content Include="Views\ExerciseProgram\_NewExerciseForProgram.cshtml" />
+    <Content Include="Views\ExerciseProgram\_CreateExerciseProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

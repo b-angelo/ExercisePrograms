@@ -1,42 +1,36 @@
-﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
+﻿@model List<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
 
-<div class="col-md-12 jumbotron row">
-    <div class="row">
-        <div class="col-sm-4">
+<div class="col-sm-12 row">
+    <div class="col-sm-10 row">
+        <div class="col-sm-10 form-group">
             @Html.Label("MuscleGroupSelectLbl", "Muscle Group")
             @Html.DropDownList("MuscleGroupSelect",
                         new SelectList(Model.Select(x => x.MuscleGroupNickName)),
                         "---Select Muscle Group---",
                         new { @class = "form-control" })
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-10 form-group">
             @Html.Label("ExerciseSelectLbl", "Exercise")
             @Html.DropDownList("ExerciseSelect",
                         new SelectList(Model.Select(x => x.ExerciseDescription)),
                         "---Select Exercise---",
                         new { @class = "form-control" })
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-10 form-group">
             @Html.Label("lblRepitionsInput", "Repititions")
-            <input id="RepitionsInput" class="form-control" type="number" />
+            <input id="RepitionsInput" class="form-control" type="number" placeholder="Reps" />
+
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-10 form-group">
             @Html.Label("lblSetsInput", "Sets")
-            <input id="SetsInput" class="form-control" type="number" />
+            <input id="SetsInput" class="form-control" type="number" placeholder="Sets" />
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-10 form-group">
             @Html.Label("lblDayOfWeek", "Select Day")
             @Html.DropDownList("ddlDayOfWeek",
                              new SelectList(Model.Select(x => x.ExerciseDescription)),
                              "---Select Day---",
                              new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-4">
-            <input type="submit" id="btnAddExercise" value="Add Exercise" class="btn btn-primary" />
         </div>
     </div>
 </div>

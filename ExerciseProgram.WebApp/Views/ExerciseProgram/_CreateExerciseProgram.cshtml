@@ -1,0 +1,104 @@
+﻿<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#btnAddNewExercise").click(function () {
+            alert("test");
+        });
+
+        $("#btnAddNewExerciseProgram").click(function () {
+            alert("test program");
+        });
+
+        $("#ExerciseSelect").prop("disabled", true);
+
+        $("#MuscleGroupSelect").change(function () {
+            $.ajax({
+                url: '/Exercise/Exercise/bicep',
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { muscleGroupName: 'bicep' },
+                async: true,
+                processData: true,
+                cache: false
+            });
+            $("#ExerciseSelect").prop("disabled", false);
+        });
+
+        $("#btnLoadNewProgram").click(function () {
+            $("#mdlNewProgram").modal();
+        });
+
+        $("#btnBasicProgramInformation").click(function () {
+            $("#mdlNewProgram").hide;
+            $("#mdlNewExerciseForProgram").modal();
+        });
+
+        $("#btnCancelCreateProgram").click(function () {
+            $("#mdlCancelNewProgram").show();
+        });
+
+        $("#btnDismissProgramCancel").click(function () {
+            $("#mdlCancelNewProgram").hide();
+        });
+
+        $("#btnConfirmProgramCancel").click(function () {
+            $("#mdlCancelNewProgram").hide();
+            $("#mdlNewProgram").hide();
+        });
+    });
+</script>
+
+<div class="container">
+    <div class="modal" id="mdlNewProgram" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Create New Program</h4>
+                </div>
+                <div class="modal-body" ">
+                    @{Html.RenderPartial("_NewExerciseProgram", Model);}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" id="btnBasicProgramInformation" value="Next &raquo;" class="btn btn-primary pull-left" data-dismiss="modal" />
+                    <input type="submit" id="btnCancelCreateProgram" value="Cancel" class="btn btn-warning pull-right" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="modal" id="mdlCancelNewProgram" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div><text class="text-danger">Are you sure? All data will be lost.</text></div>
+                    <button type="button" id="btnDismissProgramCancel" class="btn btn-primary" data-dismiss="modal">No</button>
+                    <button type="button" id="btnConfirmProgramCancel" class="btn btn-warning">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="modal" id="mdlNewExerciseForProgram" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4>Add Exercise</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    @{Html.RenderPartial("_NewExerciseForProgram", Model);}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" id="btnAddExerciseBack" value="&laquo; Back" class="btn btn-primary pull-left" />
+                    <input type="submit" id="btnAddExerciseSubmit" value="Add Exercise" class="btn btn-warning pull-right" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*ToDo: Add Review Modal w/ Grid and Back and Confirm/Submit buttons*@
