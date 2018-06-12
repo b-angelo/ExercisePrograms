@@ -9,7 +9,6 @@ namespace ExerciseProgram.Api.Data.Entities
     [Table("ExerciseProgram")]
     public partial class ExerciseProgram
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ExerciseProgram()
         {
             ExerciseHistories = new HashSet<ExerciseHistory>();

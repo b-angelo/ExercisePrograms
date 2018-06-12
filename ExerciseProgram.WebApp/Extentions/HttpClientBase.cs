@@ -56,13 +56,13 @@ namespace ExerciseProgram.WebApp.Extentions
             }
         }
 
-        public void Post(string endPoint)
+        public void Post(string endPoint, ObjectContent content)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["ExerciseApiService"]);
 
-                var responseTask = client.PostAsync($"{ endPoint}/", null);
+                var responseTask = client.PostAsync($"{ endPoint}/", content);
 
                 responseTask.Wait();
 

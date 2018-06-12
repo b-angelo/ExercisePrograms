@@ -17,26 +17,28 @@
 
         $("#ExerciseSelect").prop("disabled", true);
 
-        $("#MuscleGroupSelect").change(function () {
-            $.ajax({
-                url: '/Exercise/Exercise/bicep',
-                dataType: "json",
-                type: "GET",
-                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-                data: { muscleGroupName: 'bicep' },
-                async: true,
-                processData: true,
-                cache: false
-            });
-            $("#ExerciseSelect").prop("disabled", false);
-        });
-
         $("#btnLoadNewProgram").click(function () {
             $("#mdlNewProgram").modal();
         });
 
         $("#btnBasicProgramInformation").click(function () {
-            $("#mdlNewProgram").hide;
+
+            $.ajax({
+                url: '/ExerciseProgram/CreateExerciseProgram',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: {
+                    Name: $("#WorkoutNameTxt").val(),
+                    Description: $("#WorkoutNameTxt").val(),
+                    StartDate: $("#dtStartDate").val(),
+                    DurationInDays: $("#txtDurationInWeeks").val()
+                },
+                async: true,
+                processData: true,
+                cache: false
+            });
+
             $("#mdlNewExerciseForProgram").modal();
         });
 
@@ -56,15 +58,12 @@
 </script>
 
 <div class="jumbotron col-md-12 row">
-    <h2>My Programs</h2>
+    <h2>My Current Program</h2>
     <div class="container">
         @using (Html.BeginForm())
         {
             <table class="table table-hover">
                 <tr>
-                    <th>
-                        Active
-                    </th>
                     <th>
                         Program Name
                     </th>
@@ -72,7 +71,7 @@
                         Days Per Week
                     </th>
                     <th>
-                        Program Length
+                        Weeks
                     </th>
                     <th>
                         Start Date
@@ -82,28 +81,70 @@
                     </th>
                 </tr>
                 <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" readonly value=@Model.Select(x => x.Name).FirstOrDefault() class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@Model.Select(x => x.DaysPerWeek).FirstOrDefault() class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@Model.Select(x => x.DurationInDays).FirstOrDefault() class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@Model.Select(x => x.StartDate).FirstOrDefault() class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@Model.Select(x => x.EndDate).FirstOrDefault() class="form-control" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" id="btnViewCurrentWorkout">View / Edit</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    </div>
+    <button type="button" class="btn btn-primary" id="btnRecordWorkout">Record Workout</button>
+</div>
+
+<div class="jumbotron col-md-12 row">
+    <h2>All Programs</h2>
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            <table class="table table-hover">
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Days Per Week
+                    </th>
+                    <th>
+                        Weeks
+                    </th>
+                </tr>
+                <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.CheckBox("Active", true)
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.Name class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.DaysPerWeek class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.DurationInDays class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.StartDate.ToShortDateString() class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.EndDate ?.ToShortDateString() class="form-control" />
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <input type="text" readonly value=@item.Name class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@item.Description class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@item.DaysPerWeek class="form-control" />
+                        </td>
+                        <td>
+                            <input type="text" readonly value=@item.DurationInDays class="form-control" />
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -163,6 +204,8 @@
                     @{
                         var newExercises = new List<ExerciseProgram.Models.ViewModels.ExerciseViewModel>();
                         Html.RenderPartial("~/Views/ExerciseProgram/_NewExerciseForProgram.cshtml", newExercises);
+
+
                     }
                 </div>
                 <div class="modal-footer">

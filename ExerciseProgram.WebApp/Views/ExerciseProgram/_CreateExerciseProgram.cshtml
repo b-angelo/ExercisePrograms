@@ -30,7 +30,18 @@
         });
 
         $("#btnBasicProgramInformation").click(function () {
-            $("#mdlNewProgram").hide;
+
+            $.ajax({
+                url: '/ExercseProgram/CreateExerciseProgram',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { muscleGroupName: 'bicep' },
+                async: true,
+                processData: true,
+                cache: false
+            });
+            alert("test");
             $("#mdlNewExerciseForProgram").modal();
         });
 
@@ -62,7 +73,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" id="btnBasicProgramInformation" value="Next &raquo;" class="btn btn-primary pull-left" data-dismiss="modal" />
-                    <input type="submit" id="btnCancelCreateProgram" value="Cancel" class="btn btn-warning pull-right" />
+                    <input type="submit" id="btnCancelCreateProgram" value="Cancel" class="btn btn-warning pull-right" data-dismiss="modal"/>
                 </div>
             </div>
         </div>

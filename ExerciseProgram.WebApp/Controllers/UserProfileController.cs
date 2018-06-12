@@ -19,7 +19,7 @@ namespace ExerciseProgram.WebApp.Controllers
         [HttpPost]
         public ActionResult UpdateProfile(int weight, int height, string emailAddress)
         {
-            _httpClient.Post($"api/UserProfile/2/{weight}/{height}/{emailAddress}");
+          //  _httpClient.Post($"api/UserProfile/2/{weight}/{height}/{emailAddress}", new System.Net.Http.ObjectContent();
 
             return Redirect(Request.UrlReferrer.ToString());
         }

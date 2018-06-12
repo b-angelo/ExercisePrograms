@@ -18,9 +18,9 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpGet]
         [Route("api/Exercise/")]
-        public List<ExerciseViewModel> GetAllExercises([FromUri] string pageFrom, [FromUri] string pageTo)
+        public List<ExerciseViewModel> GetAllExercises()
         {           
-            return _exerciseService.GetExercises(pageFrom, pageTo);
+            return _exerciseService.GetExercises();
         }
 
         [HttpGet]

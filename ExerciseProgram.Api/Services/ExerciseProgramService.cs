@@ -1,5 +1,6 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -33,6 +34,26 @@ namespace ExerciseProgram.Api.Services
             }
 
             return exerciseProgramViewModels;
+        }
+
+        public void CreateExerciseProgram(ExerciseProgramViewModel model)
+        {
+            var program = new Data.Entities.ExerciseProgram
+            {
+                Name = model.Name,
+                Description = model.Description,
+                Notes = "test",
+                ExternalUrl = "test",
+                DaysPerWeek = model.DaysPerWeek,
+                DurationInDays = model.DurationInDays,
+                StartDate = model.StartDate,
+                EndDate = model.StartDate.AddDays(model.DurationInDays),
+                CreatedBy = Environment.UserName,
+                CreateDate = DateTime.Now
+            };
+
+            db.ExercisePrograms.Add(program);
+            db.SaveChanges();
         }
     }
 }

@@ -1,5 +1,27 @@
 ﻿@model List<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $("#MuscleGroupSelect").change(function () {
+
+            $.ajax({
+                url: '/Exercise/Exercise/bicep',
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: { muscleGroupName: 'bicep' },
+                async: true,
+                processData: true,
+                cache: false
+            });
+
+            $("#ExerciseSelect").prop("disabled", false);
+        });
+    });
+</script>
+
 <div class="col-sm-12 row">
     <div class="col-sm-10 row">
         <div class="col-sm-10 form-group">

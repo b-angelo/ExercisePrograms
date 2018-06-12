@@ -14,6 +14,13 @@ namespace ExerciseProgram.Api.Controllers
         public List<ExerciseProgramViewModel> GetAllExercisePrograms()
         {
             return _exerciseService.GetExercisesPrograms();
-        }       
+        }
+
+        [HttpPost]
+        [Route("api/ExercisePrograms/")]
+        public void CreateExerciseProgram([FromBody] ExerciseProgramViewModel model)
+        {
+            _exerciseService.CreateExerciseProgram(model);
+        }
     }
 }

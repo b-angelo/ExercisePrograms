@@ -10,7 +10,7 @@ namespace ExerciseProgram.Api.Services
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
-        public List<ExerciseViewModel> GetExercises(string pageFrom, string pageTo)
+        public List<ExerciseViewModel> GetExercises()
         {
             var exerciseViewModel = new List<ExerciseViewModel>();
 
