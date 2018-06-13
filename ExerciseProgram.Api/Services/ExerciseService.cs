@@ -10,6 +10,28 @@ namespace ExerciseProgram.Api.Services
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
+        public ExerciseViewModel GetExerciseById(int id)
+        {
+            var exercise = db.Exercises
+                              .Include(a => a.ExerciseType)
+                              .Include(b => b.MuscleGroup)
+                              .Where(x => x.Exercise_Pk == id)
+                              .FirstOrDefault();
+
+            var exerciseViewModel = new ExerciseViewModel
+            {
+                Id = exercise.Exercise_Pk,
+                ExerciseName = exercise.Name,
+                ExerciseDescription = exercise.Description,
+                ExerciseTypeName = exercise.ExerciseType.Name,
+                ExerciseTypeNickName = exercise.ExerciseType.NickName,
+                MuscleGroupName = exercise.MuscleGroup.Name,
+                MuscleGroupNickName = exercise.MuscleGroup.NickName
+            };
+            
+            return exerciseViewModel;
+        }
+
         public List<ExerciseViewModel> GetExercises()
         {
             var exerciseViewModel = new List<ExerciseViewModel>();

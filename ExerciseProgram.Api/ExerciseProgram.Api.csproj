@@ -97,10 +97,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\ExerciseController.cs" />
     <Compile Include="Controllers\ExerciseProgramController.cs" />
-    <Compile Include="Controllers\ExerciseProgramExerciseController.cs" />
-    <Compile Include="Controllers\ExerciseSecondaryMuscleGroupController.cs" />
     <Compile Include="Controllers\ExerciseTypeController.cs" />
     <Compile Include="Controllers\MuscleGroupController.cs" />
     <Compile Include="Controllers\UserProfileController.cs" />

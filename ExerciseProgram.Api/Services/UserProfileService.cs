@@ -98,8 +98,6 @@ namespace ExerciseProgram.Api.Services
                         
             userProfile.EmailAddress = emailAddress;
 
-          
-
             db.SaveChanges();
         }
 

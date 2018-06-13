@@ -1,5 +1,4 @@
-﻿using ExerciseProgram.Api.Data.Entities;
-using ExerciseProgram.Api.Services;
+﻿using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.ViewModels;
 using System;
 using System.Net;
@@ -9,8 +8,9 @@ namespace ExerciseProgram.Api.Controllers
 {
     public class UserProfileController : ApiController
     {
-        private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
         private UserProfileService _userProfileService = new UserProfileService();
+
+        // ToDo: create method for user profile
 
         [HttpGet]
         [Route("api/UserProfile/")]
@@ -20,9 +20,10 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         [HttpPost]
-        [Route("api/UserProfile/{userPk:int}/{weight:int}/{height:int}/{emailAddress}/")]
+        [Route("api/UserProfile/{userPk:int}/{weight:int}/{height:int}/{emailAddress}/")] // ToDo: pass variables in body
         public HttpStatusCode UpdateUserProfile([FromUri] int userPk, [FromUri] int weight, [FromUri] int height, [FromUri] string emailAddress)
-        {
+        { 
+            // ToDo: allow option to soft delete            
             _userProfileService.UpdateUserProfile(2, weight, height, emailAddress);
 
             return HttpStatusCode.Created;

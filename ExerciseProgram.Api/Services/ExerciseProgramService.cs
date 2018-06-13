@@ -2,7 +2,6 @@
 using ExerciseProgram.Models.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 namespace ExerciseProgram.Api.Services
@@ -10,6 +9,26 @@ namespace ExerciseProgram.Api.Services
     public class ExerciseProgramService
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
+
+        public ExerciseProgramViewModel GetActiveExerciseProgramByUserId(int userId)
+        {
+            var exerciseProgram = db.ExercisePrograms
+                                     .FirstOrDefault(); //ToDO: restructure db to support adding userid in where clause
+
+            var exerciseProgramViewModel = new ExerciseProgramViewModel
+            {
+                    Id = exerciseProgram.ExerciseProgram_Pk,
+                    Name = exerciseProgram.Name,
+                    Description = exerciseProgram.Description,
+                    DaysPerWeek = exerciseProgram.DaysPerWeek,
+                    DurationInDays = exerciseProgram.DurationInDays,
+                    StartDate = exerciseProgram.StartDate,
+                    EndDate = exerciseProgram.EndDate,
+                    CreatedBy = exerciseProgram.CreatedBy
+            };
+            
+            return exerciseProgramViewModel;
+        }
 
         public List<ExerciseProgramViewModel> GetExercisesPrograms()
         {

@@ -1,5 +1,6 @@
 ﻿using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
