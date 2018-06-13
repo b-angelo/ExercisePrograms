@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Tests", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Models", "ExerciseProgram.Models\ExerciseProgram.Models.csproj", "{3FF619C7-739B-4418-AFD2-7E1A603831B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Gui.Mvc", "ExerciseProgram.WebApp\ExerciseProgram.Gui.Mvc.csproj", "{51C26400-01AB-4BE6-9EA2-CEC6DEA0CA82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Gui.Mvc", "ExerciseProgram.Gui.Mvc\ExerciseProgram.Gui.Mvc.csproj", "{51C26400-01AB-4BE6-9EA2-CEC6DEA0CA82}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Gui.Angular", "ExerciseProgram.Gui.Angular\ExerciseProgram.Gui.Angular.csproj", "{06426B42-341F-4DA9-97B8-0F1061A8B9AE}"
 EndProject
