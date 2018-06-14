@@ -117,19 +117,6 @@
     <Compile Include="Data\Entities\User.cs" />
     <Compile Include="Data\Entities\UserBodyMass.cs" />
     <Compile Include="Data\Entities\UserRole.cs" />
-    <Compile Include="Data\NewFolder1\AccessLog.cs" />
-    <Compile Include="Data\NewFolder1\ChangeLog.cs" />
-    <Compile Include="Data\NewFolder1\ErrorLog.cs" />
-    <Compile Include="Data\NewFolder1\Exercise.cs" />
-    <Compile Include="Data\NewFolder1\ExerciseHistory.cs" />
-    <Compile Include="Data\NewFolder1\ExerciseProgram.cs" />
-    <Compile Include="Data\NewFolder1\ExerciseProgramExercise.cs" />
-    <Compile Include="Data\NewFolder1\ExerciseType.cs" />
-    <Compile Include="Data\NewFolder1\Model1.cs" />
-    <Compile Include="Data\NewFolder1\MuscleGroup.cs" />
-    <Compile Include="Data\NewFolder1\User.cs" />
-    <Compile Include="Data\NewFolder1\UserBodyMass.cs" />
-    <Compile Include="Data\NewFolder1\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
