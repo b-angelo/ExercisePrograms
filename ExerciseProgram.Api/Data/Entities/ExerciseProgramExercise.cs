@@ -1,22 +1,19 @@
 namespace ExerciseProgram.Api.Data.Entities
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
     [Table("ExerciseProgramExercise")]
-    public partial class ExerciseProgramExercise
+    public partial class ExerciseProgramExercise : EntityBase
     {
         [Key]
         public int ExerciseProgramExercise_Pk { get; set; }
 
-        public int? ExerciseProgram_Fk { get; set; }
+        public int ExerciseProgram_Fk { get; set; }
 
-        public int? Exercise_Fk { get; set; }
+        public int Exercise_Fk { get; set; }
 
-        public int ExerciseDay { get; set; }
+        public int ExerciseDay { get; set; } // Enum representing day of week (ex: 1 = Sunday, 2 = Monday, etc)
 
         public int ExerciseMinRepitions { get; set; }
 
@@ -25,21 +22,6 @@ namespace ExerciseProgram.Api.Data.Entities
         public int ExerciseMinSets { get; set; }
 
         public int ExerciseMaxSets { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime? EndDate { get; set; }
-
-        [Required]
-        [StringLength(50)]
-        public string CreatedBy { get; set; }
-
-        public DateTime CreateDate { get; set; }
-
-        [StringLength(50)]
-        public string ModifiedBy { get; set; }
-
-        public DateTime? ModifiedDate { get; set; }
 
         public virtual Exercise Exercise { get; set; }
 

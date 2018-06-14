@@ -24,9 +24,9 @@ namespace ExerciseProgram.Api.Services
                 ExerciseName = exercise.Name,
                 ExerciseDescription = exercise.Description,
                 ExerciseTypeName = exercise.ExerciseType.Name,
-                ExerciseTypeNickName = exercise.ExerciseType.NickName,
+                ExerciseTypeDescription = exercise.ExerciseType.Description,
                 MuscleGroupName = exercise.MuscleGroup.Name,
-                MuscleGroupNickName = exercise.MuscleGroup.NickName
+                MuscleGroupDescription = exercise.MuscleGroup.Description
             };
             
             return exerciseViewModel;
@@ -49,9 +49,9 @@ namespace ExerciseProgram.Api.Services
                     ExerciseName = exercise.Name,
                     ExerciseDescription = exercise.Description,
                     ExerciseTypeName = exercise.ExerciseType.Name,
-                    ExerciseTypeNickName = exercise.ExerciseType.NickName,
+                    ExerciseTypeDescription = exercise.ExerciseType.Description,
                     MuscleGroupName = exercise.MuscleGroup.Name,
-                    MuscleGroupNickName = exercise.MuscleGroup.NickName
+                    MuscleGroupDescription = exercise.MuscleGroup.Description
                 });
             }
 
@@ -61,7 +61,7 @@ namespace ExerciseProgram.Api.Services
         public List<ExerciseViewModel> GetExercises(string muscleGroupName)
         {
             var muscleGroupId = db.MuscleGroups
-                                  .Where(x => x.NickName == muscleGroupName)
+                                  .Where(x => x.Name == muscleGroupName)
                                   .FirstOrDefault()
                                   .MuscleGroup_Pk;
 
@@ -81,9 +81,9 @@ namespace ExerciseProgram.Api.Services
                     ExerciseName = exercise.Name,
                     ExerciseDescription = exercise.Description,
                     ExerciseTypeName = exercise.ExerciseType.Name,
-                    ExerciseTypeNickName = exercise.ExerciseType.NickName,
+                    ExerciseTypeDescription = exercise.ExerciseType.Description,
                     MuscleGroupName = exercise.MuscleGroup.Name,
-                    MuscleGroupNickName = exercise.MuscleGroup.NickName
+                    MuscleGroupDescription = exercise.MuscleGroup.Description
                 });
             }
 
