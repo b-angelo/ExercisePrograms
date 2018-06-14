@@ -10,23 +10,39 @@ namespace ExerciseProgram.Api.Controllers
     {
         private UserProfileService _userProfileService = new UserProfileService();
 
-        // ToDo: create method for user profile
-
         [HttpGet]
-        [Route("api/UserProfile/")]
+        [Route("api/UserProfile")]
         public UserProfileViewModel UserProfile([FromUri] string pageFrom, [FromUri] string pageTo)
         {
             return _userProfileService.GetUserProfile(2, Convert.ToInt16(pageFrom), Convert.ToInt16(pageTo));
         }
 
         [HttpPost]
-        [Route("api/UserProfile/{userId:int}")] // ToDo: pass variables in body
+        [Route("api/UserProfile")]
+        public HttpStatusCode CreateUserProfile([FromBody] UserProfileViewModel model)
+        {
+            // ToDo: add "create user view model"
+            // ToDo: add service method for "create" user profile;
+            
+            return HttpStatusCode.Created;
+        }
+
+        [HttpPost]
+        [Route("api/UserProfile/{userId:int}")]
         public HttpStatusCode UpdateUserProfile([FromUri] int userId, [FromBody] UserProfileViewModel model)
-        { 
-            // ToDo: allow option to soft delete            
+        {     
             _userProfileService.UpdateUserProfile(userId, model);
 
             return HttpStatusCode.Created;
+        }
+
+        [HttpDelete]
+        [Route("api/UserProfile/{userId:int}")]
+        public HttpStatusCode DeleteUserProfile([FromUri] int id)
+        {
+            _userProfileService.DeleteUserProfile(id);
+
+            return HttpStatusCode.OK;
         }
 
         [HttpDelete]

@@ -44,7 +44,7 @@ namespace ExerciseProgram.Api.Services
                 {
                     bmiCategory = "Obese Range";
                 }
-                
+
 
                 if (!weight.EndDate.HasValue || (weight.EndDate.HasValue && weight.EndDate.Value > DateTime.Now))
                 {
@@ -95,10 +95,33 @@ namespace ExerciseProgram.Api.Services
             });
 
             var userProfile = db.Users.Where(x => x.User_Pk == userId).FirstOrDefault();
-                        
+
             userProfile.EmailAddress = model.EmailAddress;
             userProfile.ModifiedBy = Environment.UserName;
             userProfile.ModifiedDate = DateTime.Now;
+
+            db.SaveChanges();
+        }
+
+        public void DeleteUserProfile(int userId)
+        {
+            var userBodyMasses = db.UserBodyMasses.Where(x => x.User_Fk == userId && (x.EndDate == null || x.EndDate > DateTime.Now)).ToList();
+            var now = DateTime.Now;
+
+            foreach (var userBodyMass in userBodyMasses)
+            {
+                userBodyMass.EndDate = now;
+                userBodyMass.ModifiedBy = Environment.UserName;
+                userBodyMass.ModifiedDate = now;
+            }
+
+            // ToDo: add link from excersise program to user
+
+            var user = db.Users.Where(x => x.User_Pk == userId).FirstOrDefault();
+
+            user.EndDate = now;
+            user.ModifiedBy = Environment.UserName;
+            user.ModifiedDate = now;
 
             db.SaveChanges();
         }

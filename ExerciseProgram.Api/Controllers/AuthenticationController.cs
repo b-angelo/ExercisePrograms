@@ -9,5 +9,9 @@ namespace ExerciseProgram.Api.Controllers
 {
     public class AuthenticationController : ApiController
     {
+        // ToDo: check userName and password
+        // ToDo: check timeout due to inactivity
+        // ToDo: Logout functionality
+        // ToDO: reset password
     }
 }
