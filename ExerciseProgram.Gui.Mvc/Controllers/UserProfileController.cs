@@ -1,5 +1,7 @@
 ﻿using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
+using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Web.Mvc;
 
 namespace ExerciseProgram.WebApp.Controllers
@@ -17,9 +19,11 @@ namespace ExerciseProgram.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProfile(int weight, int height, string emailAddress)
+        public ActionResult UpdateProfile(UserProfileViewModel model, int userId = 2)
         {
-          //  _httpClient.Post($"api/UserProfile/2/{weight}/{height}/{emailAddress}", new System.Net.Http.ObjectContent();
+            var content = new ObjectContent(typeof(UserProfileViewModel), model, new JsonMediaTypeFormatter());
+            
+            _httpClient.Post($"api/UserProfile/{userId}", content);
 
             return Redirect(Request.UrlReferrer.ToString());
         }

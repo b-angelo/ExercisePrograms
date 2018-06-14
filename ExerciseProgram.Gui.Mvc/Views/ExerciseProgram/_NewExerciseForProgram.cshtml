@@ -27,7 +27,7 @@
         <div class="col-sm-10 form-group">
             @Html.Label("MuscleGroupSelectLbl", "Muscle Group")
             @Html.DropDownList("MuscleGroupSelect",
-                        new SelectList(Model.Select(x => x.MuscleGroupNickName)),
+                        new SelectList(Model.Select(x => x.MuscleGroupName)),
                         "---Select Muscle Group---",
                         new { @class = "form-control" })
         </div>

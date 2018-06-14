@@ -20,11 +20,11 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         [HttpPost]
-        [Route("api/UserProfile/{userPk:int}/{weight:int}/{height:int}/{emailAddress}/")] // ToDo: pass variables in body
-        public HttpStatusCode UpdateUserProfile([FromUri] int userPk, [FromUri] int weight, [FromUri] int height, [FromUri] string emailAddress)
+        [Route("api/UserProfile/{userId:int}")] // ToDo: pass variables in body
+        public HttpStatusCode UpdateUserProfile([FromUri] int userId, [FromBody] UserProfileViewModel model)
         { 
             // ToDo: allow option to soft delete            
-            _userProfileService.UpdateUserProfile(2, weight, height, emailAddress);
+            _userProfileService.UpdateUserProfile(userId, model);
 
             return HttpStatusCode.Created;
         }

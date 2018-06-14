@@ -11,12 +11,12 @@ namespace ExerciseProgram.Api.Services
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
-        public UserProfileViewModel GetUserProfile(int userPk, int pageFrom, int pageTo)
+        public UserProfileViewModel GetUserProfile(int userId, int pageFrom, int pageTo)
         {
             var userProfile = db.Users
-                                .Include(a => a.UserRole)
+                                //.Include(a => a.UserRole)
                                 .Include(b => b.UserBodyMasses)
-                                .FirstOrDefault(x => x.User_Pk == userPk);
+                                .FirstOrDefault(x => x.User_Pk == userId);
 
             var weightHistory = new List<WeightHistory>();
 
@@ -79,13 +79,13 @@ namespace ExerciseProgram.Api.Services
             return userProfileViewModel;
         }
 
-        public void UpdateUserProfile(int userPk, int weight, int height, string emailAddress)
+        public void UpdateUserProfile(int userId, UserProfileViewModel model)
         {
             db.UserBodyMasses.Add(new UserBodyMass
             {
-                User_Fk = userPk,
-                HeightInInches = height,
-                WeightInPounds = weight,
+                User_Fk = userId,
+                HeightInInches = model.Height,
+                WeightInPounds = model.Weight,
                 StartDate = DateTime.Now,
                 EndDate = null,
                 CreatedBy = Environment.UserName,
@@ -94,9 +94,11 @@ namespace ExerciseProgram.Api.Services
                 ModifiedDate = null
             });
 
-            var userProfile = db.Users.Where(x => x.User_Pk == userPk).FirstOrDefault();
+            var userProfile = db.Users.Where(x => x.User_Pk == userId).FirstOrDefault();
                         
-            userProfile.EmailAddress = emailAddress;
+            userProfile.EmailAddress = model.EmailAddress;
+            userProfile.ModifiedBy = Environment.UserName;
+            userProfile.ModifiedDate = DateTime.Now;
 
             db.SaveChanges();
         }

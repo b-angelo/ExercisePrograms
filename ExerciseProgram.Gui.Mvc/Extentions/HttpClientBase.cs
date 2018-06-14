@@ -62,7 +62,7 @@ namespace ExerciseProgram.WebApp.Extentions
             {
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["ExerciseApiService"]);
 
-                var responseTask = client.PostAsync($"{ endPoint}/", content);
+                var responseTask = client.PostAsync($"{endPoint}", content);
 
                 responseTask.Wait();
 

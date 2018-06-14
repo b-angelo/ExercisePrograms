@@ -1,11 +1,14 @@
-namespace ExerciseProgram.Api.Data.Entities
+namespace ExerciseProgram.Api.Data.NewFolder1
 {
+    using System;
     using System.Data.Entity;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
-    public partial class ExerciseProgramDataContext : DbContext
+    public partial class Model1 : DbContext
     {
-        public ExerciseProgramDataContext()
-            : base("name=ExerciseProgramDbConnection")
+        public Model1()
+            : base("name=Model1")
         {
         }
 
@@ -81,6 +84,12 @@ namespace ExerciseProgram.Api.Data.Entities
             modelBuilder.Entity<ExerciseProgramExercise>()
                 .Property(e => e.ModifiedBy)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<ExerciseProgramExercise>()
+                .HasMany(e => e.ExerciseHistories)
+                .WithRequired(e => e.ExerciseProgramExercise)
+                .HasForeignKey(e => e.ExerciseProgramExercise_Fk)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ExerciseType>()
                 .Property(e => e.Name)
