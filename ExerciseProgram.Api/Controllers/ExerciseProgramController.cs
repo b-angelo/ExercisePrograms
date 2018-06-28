@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Web.Http;
 using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.ViewModels;
@@ -39,23 +40,27 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpPut]
         [Route("api/ExercisePrograms/")]
-        public void UpdateExerciseProgram([FromBody] ExerciseProgramViewModel model)
+        public HttpStatusCode UpdateExerciseProgram([FromBody] ExerciseProgramViewModel model)
         {
             _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+
+            return HttpStatusCode.OK;
         }
 
         [HttpPost]
         [Route("api/ExercisePrograms/{id:int}/Exercises")]
-        public void AddExerciseToProgram([FromBody] ExerciseViewModel model)
+        public HttpStatusCode AddExerciseToProgram([FromBody] ExerciseViewModel model)
         {
-          //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            return HttpStatusCode.Created;
         }
 
         [HttpDelete]
         [Route("api/ExercisePrograms/{programId:int}/Exercises/{exerciseId:int}")]
-        public void RemoveExerciseFromProgram([FromBody] ExerciseViewModel model)
+        public HttpStatusCode RemoveExerciseFromProgram([FromBody] ExerciseViewModel model)
         {
-          //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            return HttpStatusCode.OK;
         }
     }
 }
