@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ExerciseProgram.Api.Data.Entities
+namespace ExerciseProgram.Api.Data.Entities.Base
 {
     public abstract class EntityBase
     {

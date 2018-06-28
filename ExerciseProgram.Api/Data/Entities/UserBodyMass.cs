@@ -1,9 +1,9 @@
+using ExerciseProgram.Api.Data.Entities.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ExerciseProgram.Api.Data.Entities
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     [Table("UserBodyMass")]
     public partial class UserBodyMass : EntityBase
     {

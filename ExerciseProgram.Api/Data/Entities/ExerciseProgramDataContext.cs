@@ -1,7 +1,7 @@
+using System.Data.Entity;
+
 namespace ExerciseProgram.Api.Data.Entities
 {
-    using System.Data.Entity;
-
     public partial class ExerciseProgramDataContext : DbContext
     {
         public ExerciseProgramDataContext()

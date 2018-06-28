@@ -1,8 +1,9 @@
+using ExerciseProgram.Api.Data.Entities.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ExerciseProgram.Api.Data.Entities
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
     [Table("logging.ChangeLog")]
     public partial class ChangeLog : EntityBase
     {

@@ -1,9 +1,10 @@
-namespace ExerciseProgram.Api.Data.Entities
-{
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
+using ExerciseProgram.Api.Data.Entities.Base;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
+namespace ExerciseProgram.Api.Data.Entities
+{    
     [Table("Exercise")]
     public partial class Exercise : EntityBase
     {
