@@ -26,17 +26,24 @@ namespace ExerciseProgram.Api.Data.Repositories.Base
             }
         }
 
-        public IList<T> GetAll(PagingInputModel pagingInputModel)
+        public IList<T> GetAll(PagingInputModel pagingInputModel, string orderBy, string orderDirection)
         {          
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                var result = connection.GetAll<T>(commandTimeout: _dbTimeout).AsEnumerable();
+                var result = connection.GetAll<T>(commandTimeout: _dbTimeout).ToList();
 
-                if (result.Count() <= pagingInputModel.PageSize)
+                if (result.Count <= pagingInputModel.PageSize)
                 {
-                    return result.ToList();
+                    if (orderBy == "asc")
+                    {
+                        return result; // ToDo: Order ascending
+                    }
+                    else
+                    {
+                        return result; // ToDo Order descending
+                    }                    
                 }
                 else
                 {

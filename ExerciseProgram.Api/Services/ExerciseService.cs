@@ -1,4 +1,5 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
+using ExerciseProgram.Api.Data.Repositories.Base;
 using ExerciseProgram.Models.ViewModels;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,6 +10,7 @@ namespace ExerciseProgram.Api.Services
     public class ExerciseService
     {
         private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
+        private IRepository<Exercise> _repository = new Repository<Exercise>();
 
         public ExerciseViewModel GetExerciseById(int id)
         {
@@ -35,6 +37,8 @@ namespace ExerciseProgram.Api.Services
         public List<ExerciseViewModel> GetExercises()
         {
             var exerciseViewModel = new List<ExerciseViewModel>();
+
+            var ex = _repository.GetAll();
 
             var exercises = db.Exercises
                               .Include(a => a.ExerciseType)

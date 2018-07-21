@@ -6,7 +6,7 @@ namespace ExerciseProgram.Api.Data.Repositories.Base
     public interface IRepository<T> where T: class
     {
         T GetById(int id);
-        IList<T> GetAll(PagingInputModel pagingInputModel);
+        IList<T> GetAll(PagingInputModel pagingInputModel, string orderBy, string orderDirection);
         long Insert(T entity);
         bool Update(T entity);
         bool Delete(T entity);
