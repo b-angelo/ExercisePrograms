@@ -26,31 +26,13 @@ namespace ExerciseProgram.Api.Data.Repositories.Base
             }
         }
 
-        public IList<T> GetAll(PagingInputModel pagingInputModel, string orderBy, string orderDirection)
+        public IList<T> GetAll()
         {          
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
-                var result = connection.GetAll<T>(commandTimeout: _dbTimeout).ToList();
-
-                if (result.Count <= pagingInputModel.PageSize)
-                {
-                    if (orderBy == "asc")
-                    {
-                        return result; // ToDo: Order ascending
-                    }
-                    else
-                    {
-                        return result; // ToDo Order descending
-                    }                    
-                }
-                else
-                {
-                    var skip = pagingInputModel.PageNumber * pagingInputModel.PageSize - pagingInputModel.PageSize;
-
-                    return result.Skip(skip).Take(pagingInputModel.PageSize).ToList();
-                }
+                return connection.GetAll<T>(commandTimeout: _dbTimeout).ToList();
             }
         }
 
