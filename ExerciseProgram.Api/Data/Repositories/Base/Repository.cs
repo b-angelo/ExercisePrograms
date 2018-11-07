@@ -11,13 +11,15 @@ namespace ExerciseProgram.Api.Data.Repositories.Base
     public class Repository<T> : IRepository<T> where T : class
     {
         // ToDo: Create settings class
-        private readonly string _connectionString = ConfigurationManager.AppSettings["ExerciseProgramDbConnection"];
+        private readonly string _connectionString = ConfigurationManager.ConnectionStrings["ExerciseProgramDbConnection"].ConnectionString;
         private readonly int _dbTimeout = Convert.ToInt32(ConfigurationManager.AppSettings["Db.Timeout"]);
 
         public T GetById(int id)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
+                var x = typeof(T);
+
                 connection.Open();
 
                 var result = connection.Get<T>(id, commandTimeout: _dbTimeout);

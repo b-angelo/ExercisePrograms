@@ -20,7 +20,7 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/Exercise/{muscleGroupName}")]
         public List<ExerciseViewModel> GetExercisesByMuscleGroup([FromUri] string muscleGroupName)
         {
-            return _exerciseService.GetExercises(muscleGroupName);
+            return _exerciseService.GetExercises();
         }
 
         [HttpGet]

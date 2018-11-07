@@ -1,7 +1,7 @@
 using ExerciseProgram.Api.Data.Entities.Base;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Dapper.Contrib.Extensions;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
@@ -13,7 +13,7 @@ namespace ExerciseProgram.Api.Data.Entities
             Exercises = new HashSet<Exercise>();
         }
 
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
         public int ExerciseType_Pk { get; set; }
 
         [Required]

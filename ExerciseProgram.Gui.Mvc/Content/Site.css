@@ -30,3 +30,7 @@ textarea {
 .padding-right-10px {
     padding-right: 10px;
 }
+
+.table-rounded-border {
+    border: 10px solid black;
+}

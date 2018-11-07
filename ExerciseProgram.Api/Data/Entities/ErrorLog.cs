@@ -1,13 +1,15 @@
 using ExerciseProgram.Api.Data.Entities.Base;
+using Dapper;
+using Dapper.Contrib;
+using Dapper.Contrib.Extensions;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
     [Table("logging.ErrorLog")]
     public partial class ErrorLog : EntityBase
     {
-        [Key]
+        [Dapper.Contrib.Extensions.Key]
         public int ErrorLog_Pk { get; set; }
 
         public int ErrorCode { get; set; }
@@ -15,5 +17,7 @@ namespace ExerciseProgram.Api.Data.Entities
         [Required]
         [StringLength(500)]
         public string ErrorDescription { get; set; }
+
+        public int User_Fk { get; set; }
     }
 }

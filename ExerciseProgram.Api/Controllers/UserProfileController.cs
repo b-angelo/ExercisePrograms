@@ -14,7 +14,7 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile")]
         public UserProfileViewModel UserProfile([FromUri] string pageFrom, [FromUri] string pageTo)
         {
-            return _userProfileService.GetUserProfile(2, Convert.ToInt16(pageFrom), Convert.ToInt16(pageTo));
+            return new UserProfileViewModel();
         }
 
         [HttpPost]
@@ -31,7 +31,7 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile/{userId:int}")]
         public HttpStatusCode UpdateUserProfile([FromUri] int userId, [FromBody] UserProfileViewModel model)
         {     
-            _userProfileService.UpdateUserProfile(userId, model);
+           
 
             return HttpStatusCode.Created;
         }
@@ -40,7 +40,6 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile/{userId:int}")]
         public HttpStatusCode DeleteUserProfile([FromUri] int id)
         {
-            _userProfileService.DeleteUserProfile(id);
 
             return HttpStatusCode.OK;
         }
@@ -49,8 +48,6 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile/weight/{id:int}")]
         public HttpStatusCode DeleteUserWeight([FromUri] int id)
         {
-            _userProfileService.DeleteUserWeightEntry(id);
-
             return HttpStatusCode.OK;
         }
     }

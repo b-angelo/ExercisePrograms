@@ -10,21 +10,16 @@ namespace ExerciseProgram.WebApp.Controllers
 {
     public class ExerciseProgramController : Controller
     {
-        private readonly HttpClientBase<ExerciseProgramViewModel> _httpClient = new HttpClientBase<ExerciseProgramViewModel>();
+        private readonly HttpClientBase<ProgramViewModel> _httpClient = new HttpClientBase<ProgramViewModel>();
         private readonly HttpClientBase<ExerciseViewModel> _httpClient2 = new HttpClientBase<ExerciseViewModel>();
 
         [HttpGet]
         public ActionResult ExerciseProgram()
         {
-            List<ExerciseProgramViewModel> result;
+            List<ProgramViewModel> result;
 
             result = _httpClient.GetList($"api/ExercisePrograms/");
           
-            foreach (var program in result)
-            {
-                program.DurationInDays = program.DurationInDays / 7;
-            }
-
             return View(result);
         }
 
@@ -38,12 +33,22 @@ namespace ExerciseProgram.WebApp.Controllers
             return View(result);
         }
 
-        [HttpPost]
-        public void CreateExerciseProgram(ExerciseProgramViewModel model)
+        [HttpGet]
+        public ActionResult GetExerciseListForProgram()
         {
-            model.DurationInDays = model.DurationInDays * 7;
+            List<ExerciseViewModel> result;
 
-            var content = new ObjectContent(typeof(ExerciseProgramViewModel), model, new JsonMediaTypeFormatter());
+            result = _httpClient2.GetList($"api/ExercisePrograms/1/Exercises/");
+
+            return View(result);
+        }
+
+        [HttpPost]
+        public void CreateExerciseProgram(ProgramViewModel model)
+        {
+            model.LengthInDays = model.LengthInDays * 7;
+
+            var content = new ObjectContent(typeof(ProgramViewModel), model, new JsonMediaTypeFormatter());
 
             _httpClient.Post($"api/ExercisePrograms/", content);
         }

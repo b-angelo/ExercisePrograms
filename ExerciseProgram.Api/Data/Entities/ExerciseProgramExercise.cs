@@ -1,7 +1,7 @@
 using ExerciseProgram.Api.Data.Entities.Base;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using Dapper.Contrib.Extensions;
+using System;
+using ExerciseProgram.Models.Enums;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
@@ -11,22 +11,16 @@ namespace ExerciseProgram.Api.Data.Entities
         [Key]
         public int ExerciseProgramExercise_Pk { get; set; }
 
-        public int? ExerciseProgram_Fk { get; set; }
+        public int ExerciseProgram_Fk { get; set; }
 
-        public int? Exercise_Fk { get; set; }
+        public int Exercise_Fk { get; set; }
 
-        public int ExerciseDay { get; set; } // Enum representing day of week (ex: 1 = Sunday, 2 = Monday, etc)
+        public int WorkoutDate { get; set; }
 
-        public int ExerciseMinRepitions { get; set; }
+        public int Sets { get; set; }
 
-        public int ExerciseMaxRepitions { get; set; }
+        public int Repitions { get; set; }
 
-        public int ExerciseSets { get; set; }
-
-        public virtual Exercise Exercise { get; set; }
-
-        public virtual ICollection<ExerciseHistory> ExerciseHistories { get; set; }
-
-        public virtual ExerciseProgram ExerciseProgram { get; set; }
+        public int CardioDuration { get; set; }
     }
 }

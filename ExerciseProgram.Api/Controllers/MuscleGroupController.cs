@@ -10,7 +10,6 @@ namespace ExerciseProgram.Api.Controllers
 {
     public class MuscleGroupController : ApiController
     {
-        private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
         // ToDo: Get muscle group types
 

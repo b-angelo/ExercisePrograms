@@ -1,4 +1,4 @@
-﻿@model List<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
+﻿@model List<ExerciseProgram.Models.ViewModels.ExerciseProgramViewModel>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -23,18 +23,12 @@
 </script>
 
 <div class="col-sm-12 row">
-    <div class="col-sm-10 row">
-        <div class="col-sm-10 form-group">
-            @Html.Label("MuscleGroupSelectLbl", "Muscle Group")
-            @Html.DropDownList("MuscleGroupSelect",
-                        new SelectList(Model.Select(x => x.MuscleGroupName)),
-                        "---Select Muscle Group---",
-                        new { @class = "form-control" })
-        </div>
+    @*<div class="col-sm-10 row">
+      
         <div class="col-sm-10 form-group">
             @Html.Label("ExerciseSelectLbl", "Exercise")
             @Html.DropDownList("ExerciseSelect",
-                        new SelectList(Model.Select(x => x.ExerciseDescription)),
+                        new SelectList(Model.Select(x => x.)),
                         "---Select Exercise---",
                         new { @class = "form-control" })
         </div>
@@ -50,10 +44,10 @@
         <div class="col-sm-10 form-group">
             @Html.Label("lblDayOfWeek", "Select Day")
             @Html.DropDownList("ddlDayOfWeek",
-                             new SelectList(Model.Select(x => x.ExerciseDescription)),
+                             new SelectList(Model.Select(x => x.ExerciseName)),
                              "---Select Day---",
                              new { @class = "form-control" })
         </div>
-    </div>
+    </div>*@
 </div>
 

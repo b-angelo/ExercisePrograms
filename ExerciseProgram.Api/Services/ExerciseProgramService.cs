@@ -1,4 +1,6 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
+using ExerciseProgram.Api.Data.Repositories.Base;
+using ExerciseProgram.Models.Enums;
 using ExerciseProgram.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,66 +10,120 @@ namespace ExerciseProgram.Api.Services
 {
     public class ExerciseProgramService
     {
-        private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
+        private IRepository<Data.Entities.ExerciseProgram> _exerciseProgramRepository = new Repository<Data.Entities.ExerciseProgram>();
+        private IRepository<Exercise> _exerciseRepository = new Repository<Exercise>();
+        private IRepository<ExerciseProgramExercise> _exerciseProgramExerciseRepository = new Repository<ExerciseProgramExercise>();
+        private IRepository<ExerciseType> _exerciseTypeRepository = new Repository<ExerciseType>();
 
-        public ExerciseProgramViewModel GetActiveExerciseProgramByUserId(int userId)
+        public ProgramViewModel GetActiveExerciseProgramByUserId(int userId)
         {
-            var exerciseProgram = db.ExercisePrograms
-                                     .FirstOrDefault(); //ToDO: restructure db to support adding userid in where clause
+            var exerciseProgram = _exerciseProgramRepository.GetAll()
+                                                            .Where(x => x.StartDate > DateTime.Now && (x.EndDate == null || x.EndDate > DateTime.Now))
+                                                            .FirstOrDefault();
 
-            var exerciseProgramViewModel = new ExerciseProgramViewModel
+            var exerciseProgramViewModel = new ProgramViewModel
             {
                     Id = exerciseProgram.ExerciseProgram_Pk,
                     Name = exerciseProgram.Name,
-                    Description = exerciseProgram.Description,
-                    DurationInDays = exerciseProgram.DurationInDays,
-                    StartDate = exerciseProgram.StartDate,
-                    EndDate = exerciseProgram.EndDate,
-                    CreatedBy = exerciseProgram.CreatedBy
+                    LengthInDays = exerciseProgram.DurationInDays
             };
             
             return exerciseProgramViewModel;
         }
 
-        public List<ExerciseProgramViewModel> GetExercisesPrograms()
+        public List<ProgramViewModel> GetExercisesPrograms()
         {
-            var exerciseProgramViewModels = new List<ExerciseProgramViewModel>();
-
-            var exercisePrograms = db.ExercisePrograms
-                                     .ToList();
-
-            foreach (var program in exercisePrograms)
+            try
             {
-                exerciseProgramViewModels.Add(new ExerciseProgramViewModel
-                {
-                    Id = program.ExerciseProgram_Pk,
-                    Name = program.Name,
-                    Description = program.Description,
-                    DurationInDays = program.DurationInDays,
-                    StartDate = program.StartDate,
-                    EndDate = program.EndDate,
-                    CreatedBy = program.CreatedBy
-                });
-            }
+                var exercisePrograms = _exerciseProgramRepository.GetAll();
+                var exerciseDetails = _exerciseRepository.GetAll();
+                var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll();
+                var exerciseType = _exerciseTypeRepository.GetAll();
 
-            return exerciseProgramViewModels;
+                var exerciseList = from ed in exerciseDetails
+                                   join et in exerciseType on ed.ExerciseType_Fk equals et.ExerciseType_Pk
+                                   join epe in exerciseProgramExercise on ed.Exercise_Pk equals epe.Exercise_Fk
+                                   select new ProgramExerciseViewModel
+                                   {
+                                       Id = epe.ExerciseProgramExercise_Pk,
+                                       WorkoutDay = (DayOfWeekEnum)epe.WorkoutDate,
+                                       ExerciseProgramFk = epe.ExerciseProgram_Fk,
+                                       Exercise = new ExerciseViewModel
+                                       {
+                                           Id = ed.Exercise_Pk,
+                                           Name = ed.Name,
+                                           Description = ed.Description,
+                                           Type = et.Name
+                                       },
+                                       Sets = epe.Sets,
+                                       Reps = epe.Repitions,
+                                       Duration = epe.CardioDuration
+                                   };
+
+
+
+                var programList =
+                                from ep in exercisePrograms
+                                join epe in exerciseProgramExercise on ep.ExerciseProgram_Pk equals epe.ExerciseProgram_Fk into gj
+                                from subEpe in gj.DefaultIfEmpty()
+                                select new ProgramViewModel
+                                {
+                                    Id = ep?.ExerciseProgram_Pk ?? 0,
+                                    Name = ep?.Name ?? string.Empty,
+                                    Description = ep?.Description ?? string.Empty,
+                                    DaysPerWeek = ep?.DaysPerWeek ?? 0,
+                                    LengthInDays = ep?.DurationInDays ?? 0,
+                                    StartDate = ep?.StartDate ?? DateTime.MinValue,
+                                    EndDate = ep?.EndDate ?? DateTime.MaxValue,
+                                    Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>()
+                                };
+
+
+                return programList.ToList();
+            }
+            catch (Exception e)
+            {
+                var repo = new Repository<ErrorLog>();
+
+                var errorLog = new ErrorLog
+                {
+                    ErrorCode = 1,
+                    ErrorDescription = e.Message,
+                    CreatedBy = Environment.UserName,
+                    CreateDate = DateTime.Now,
+                    ModifiedBy = null,
+                    ModifiedDate = null,
+                    StartDate = DateTime.Now,
+                    EndDate = null
+                };
+
+                repo.Insert(errorLog);
+
+                throw new Exception();
+
+            }
         }
 
-        public void CreateExerciseProgram(ExerciseProgramViewModel model)
+        public bool CreateExerciseProgram(ProgramViewModel model)
         {
-            var program = new Data.Entities.ExerciseProgram
+            try
             {
-                Name = model.Name,
-                Description = model.Description,
-                DurationInDays = model.DurationInDays,
-                StartDate = model.StartDate,
-                EndDate = model.StartDate.AddDays(model.DurationInDays),
-                CreatedBy = Environment.UserName,
-                CreateDate = DateTime.Now
-            };
+                var program = new Data.Entities.ExerciseProgram
+                {
+                    Name = model.Name,
+                    DurationInDays = model.LengthInDays,
+                    CreatedBy = Environment.UserName,
+                    CreateDate = DateTime.Now
+                };
 
-            db.ExercisePrograms.Add(program);
-            db.SaveChanges();
+                _exerciseProgramRepository.Insert(program);
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -115,17 +115,17 @@
     <Compile Include="Data\Entities\Base\EntityBase.cs" />
     <Compile Include="Data\Entities\ErrorLog.cs" />
     <Compile Include="Data\Entities\Exercise.cs" />
-    <Compile Include="Data\Entities\ExerciseHistory.cs" />
-    <Compile Include="Data\Entities\ExerciseProgram.cs" />
-    <Compile Include="Data\Entities\ExerciseProgramDataContext.cs" />
     <Compile Include="Data\Entities\ExerciseProgramExercise.cs" />
+    <Compile Include="Data\Entities\ExerciseProgram.cs" />
     <Compile Include="Data\Entities\ExerciseType.cs" />
     <Compile Include="Data\Entities\MuscleGroup.cs" />
     <Compile Include="Data\Entities\User.cs" />
     <Compile Include="Data\Entities\UserBodyMass.cs" />
+    <Compile Include="Data\Entities\UserExerciseProgram.cs" />
     <Compile Include="Data\Entities\UserRole.cs" />
     <Compile Include="Data\Repositories\Base\IRepository.cs" />
     <Compile Include="Data\Repositories\Base\Repository.cs" />
+    <Compile Include="Data\Entities\UserExerciseProgramHistory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

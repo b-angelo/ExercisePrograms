@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseProgramViewModel>
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ProgramViewModel>
 
 @{
     ViewBag.Title = "Create New Workout";
@@ -22,7 +22,7 @@
         });
 
         $("#btnBasicProgramInformation").click(function () {
-
+            0
             $.ajax({
                 url: '/ExerciseProgram/CreateExerciseProgram',
                 dataType: "json",
@@ -54,168 +54,151 @@
             $("#mdlCancelNewProgram").hide();
             $("#mdlNewProgram").hide();
         });
+
+        $("#btnRecordWorkout").click(function () {
+            $.ajax({
+                url: '/ExerciseProgram/GetExerciseListForProgram',
+                dataType: "json",
+                type: "GET",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                async: true,
+                processData: true,
+                cache: false
+            });
+            $("#divAddWorkout").show();
+        });
     });
 </script>
 
-<div class="jumbotron col-md-12 row">
-    <h2>My Current Program</h2>
-    <div class="container">
+
+<div class="panel panel-default col-md-12">
+    <div class="panel-heading col-md-12">
+        <h3>Available Programs</h3>
+        <input id="txtSearch" type="text" placeholder="Search" />
+    </div>
+    <div class="panel-body">
         @using (Html.BeginForm())
         {
             <table class="table table-hover">
                 <tr>
-                    <th>
+                    <th class="col-md-4">
                         Program Name
                     </th>
-                    <th>
+                    <th class="col-md-2">
                         Days Per Week
                     </th>
-                    <th>
-                        Weeks
+                    <th class="col-md-2">
+                        Program Length (Days)
                     </th>
-                    <th>
-                        Start Date
+                    <th class="col-md-2">
+                        Date Added
                     </th>
-                    <th>
-                        End Date
+                    <th class="col-md-2">
                     </th>
                 </tr>
                 <tbody>
-                    <tr>
-                        <td>
-                            <input type="text" readonly value=@Model.Select(x => x.Name).FirstOrDefault() class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@Model.Select(x => x.DaysPerWeek).FirstOrDefault() class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@Model.Select(x => x.DurationInDays).FirstOrDefault() class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@Model.Select(x => x.StartDate).FirstOrDefault() class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@Model.Select(x => x.EndDate).FirstOrDefault() class="form-control" />
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary" id="btnViewCurrentWorkout">View / Edit</button>
-                        </td>
-                    </tr>
+                    @foreach (var program in Model)
+                    {
+                        <tr>
+                            <td class="col-md-4">
+                                @program.Name
+                            </td>
+                            <td class="col-md-2">
+                                @program.DaysPerWeek
+                            </td>
+                            <td class="col-md-2">
+                                @program.LengthInDays
+                            </td>
+                            <td class="col-md-2">
+                                @program.StartDate.ToShortDateString()
+                            </td>
+                            <td class="col-md-2">
+                                <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#divWorkoutDetails" data-id>
+                                    <span class="glyphicon glyphicon-sunglasses"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
     </div>
-    <button type="button" class="btn btn-primary" id="btnRecordWorkout">Record Workout</button>
+    <div class="panel-footer">
+        <button type="button" class="btn btn-sm btn-primary" id="btnViewCurrentWorkout">Add Program</button>
+    </div>
 </div>
 
-<div class="jumbotron col-md-12 row">
-    <h2>All Programs</h2>
-    <div class="container">
+<div id="divWorkoutDetails" class="panel panel-default col-md-12">
+    <div class="panel-heading col-md-12">
+        <h3>@Model.Where(x => x.Id == 1).Select(y => y.Name).First() Program</h3>
+    </div>
+    <div class="panel-body">
         @using (Html.BeginForm())
         {
-            <table class="table table-hover">
+        <table class="table table-hover">
+            @{
+                var program = Model.Where(x => x.Id == 1).First();
+                var workoutDays = program.Exercises.Select(x => x.WorkoutDay).Distinct();
+            }
+            @foreach (var day in workoutDays)
+            {
                 <tr>
-                    <th>
-                        Name
+                    <th class="col-md-2">
+                        Workout Day: @day
                     </th>
-                    <th>
-                        Description
+                </tr>
+                <tr>
+                    <th class="col-md-2">
+                        Exercise Description
                     </th>
-                    <th>
-                        Days Per Week
+                    <th class="col-md-2">
+                        Exercise Type
                     </th>
-                    <th>
-                        Weeks
+                    <th class="col-md-2">
+                        Sets
+                    </th>
+                    <th class="col-md-2">
+                        Reps
+                    </th>
+                    <th class="col-md-2">
+                        Duration
                     </th>
                 </tr>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var exercise in program.Exercises.Where(x => x.WorkoutDay == day))
                     {
-                    <tr>
-                        <td>
-                            <input type="text" readonly value=@item.Name class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@item.Description class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@item.DaysPerWeek class="form-control" />
-                        </td>
-                        <td>
-                            <input type="text" readonly value=@item.DurationInDays class="form-control" />
-                        </td>
-                    </tr>
+                        <tr>
+                            <td class="col-md-2">
+                                @exercise.Exercise.Description
+                            </td>
+                            <td class="col-md-2">                                
+                                @exercise.Exercise.Type
+                            </td>
+                            <td class="col-md-2">
+                                @exercise.Sets
+                            </td>
+                            <td class="col-md-2">
+                                @exercise.Reps
+                            </td>
+                            <td class="col-md-2">
+                                @{
+                                    if (exercise.Exercise.Type == "Resistence Training")
+                                    {
+                                       
+                                    }
+                                    
+                                }
+                                @exercise.Duration
+                            </td>
+                        </tr>
                     }
                 </tbody>
-            </table>
-            <div>
-                <ul class="pager">
-                    <li><a href="#">|&laquo;</a></li>
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                    <li><a href="#">&raquo;|</a></li>
-                </ul>
-            </div>
+
+            }
+
+        </table>
         }
     </div>
-    <button type="button" class="btn btn-primary" id="btnLoadNewProgram">Create New Program</button>
-</div>
-<div class="container">
-    <div class="modal" id="mdlNewProgram" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4>Create New Program</h4>
-                </div>
-                <div class="modal-body">
-                    @{Html.RenderPartial("_NewExerciseProgram", Model);}
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" id="btnBasicProgramInformation" value="Next &raquo;" class="btn btn-primary pull-left" data-dismiss="modal" />
-                    <input type="submit" id="btnCancelCreateProgram" value="Cancel" class="btn btn-warning pull-right" />
-                </div>
-            </div>
-        </div>
+    <div class="panel-footer">
     </div>
 </div>
-<div class="container">
-    <div class="modal" id="mdlCancelNewProgram" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div><text class="text-danger">Are you sure? All data will be lost.</text></div>
-                    <button type="button" id="btnDismissProgramCancel" class="btn btn-primary" data-dismiss="modal">No</button>
-                    <button type="button" id="btnConfirmProgramCancel" class="btn btn-warning">Yes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="modal" id="mdlNewExerciseForProgram" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4>Add Exercise</h4>
-                </div>
-                <div class="modal-body" style="padding:40px 50px;">
-                    @{
-                        var newExercises = new List<ExerciseProgram.Models.ViewModels.ExerciseViewModel>();
-                        Html.RenderPartial("~/Views/ExerciseProgram/_NewExerciseForProgram.cshtml", newExercises);
-
-
-                    }
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" id="btnAddExerciseBack" value="&laquo; Back" class="btn btn-primary pull-left" />
-                    <input type="submit" id="btnAddExerciseSubmit" value="Add Exercise" class="btn btn-warning pull-right" />
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-@*ToDo: Add Review Modal w/ Grid and Back and Confirm/Submit buttons*@
-

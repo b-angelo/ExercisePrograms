@@ -10,7 +10,6 @@ namespace ExerciseProgram.Api.Controllers
 {
     public class ExerciseTypeController : ApiController
     {
-        private ExerciseProgramDataContext db = new ExerciseProgramDataContext();
 
         // ToDo: get exercise types
     }

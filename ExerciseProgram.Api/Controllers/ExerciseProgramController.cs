@@ -12,35 +12,42 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpGet]
         [Route("api/ExercisePrograms/Active/{id:int}")]
-        public ExerciseProgramViewModel GetActiveExerciseProgramByUserId([FromUri] int id)
+        public ProgramViewModel GetActiveExerciseProgramByUserId([FromUri] int id)
         {
             return _exerciseService.GetActiveExerciseProgramByUserId(id);
         }
 
         [HttpGet]
         [Route("api/ExercisePrograms/")]
-        public List<ExerciseProgramViewModel> GetAllExercisePrograms()
+        public List<ProgramViewModel> GetAllExercisePrograms()
         {
             return _exerciseService.GetExercisesPrograms();
         }
 
         [HttpGet]
         [Route("api/ExercisePrograms/{id:int}/Exercises/")]
-        public List<ExerciseProgramViewModel> GetAllExercisesForProgram([FromUri] int id)
+        public List<ExerciseViewModel> GetAllExercisesForProgram([FromUri] int id)
         {
-            return _exerciseService.GetExercisesPrograms(); // ToDo: create service method
+            return new List<ExerciseViewModel>();
         }
 
         [HttpPost]
         [Route("api/ExercisePrograms/")]
-        public void CreateExerciseProgram([FromBody] ExerciseProgramViewModel model)
+        public HttpStatusCode CreateExerciseProgram([FromBody] ProgramViewModel model)
         {
-            _exerciseService.CreateExerciseProgram(model); // ToDo: return status code
+            if (_exerciseService.CreateExerciseProgram(model))
+            {
+                return HttpStatusCode.Created;
+            }
+            else
+            {
+                return HttpStatusCode.InternalServerError;
+            }            
         }
 
         [HttpPut]
         [Route("api/ExercisePrograms/")]
-        public HttpStatusCode UpdateExerciseProgram([FromBody] ExerciseProgramViewModel model)
+        public HttpStatusCode UpdateExerciseProgram([FromBody] ProgramViewModel model)
         {
             _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
 

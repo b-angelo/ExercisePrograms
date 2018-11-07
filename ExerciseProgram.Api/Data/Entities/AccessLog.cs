@@ -18,7 +18,5 @@ namespace ExerciseProgram.Api.Data.Entities
 
         [StringLength(50)]
         public string Device { get; set; }
-
-        public virtual User User { get; set; }
     }
 }
