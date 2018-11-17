@@ -19,7 +19,7 @@ namespace ExerciseProgram.WebApp.Controllers
             List<ProgramViewModel> result;
 
             result = _httpClient.GetList($"api/ExercisePrograms/");
-          
+                      
             return View(result);
         }
 

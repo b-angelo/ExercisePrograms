@@ -7,6 +7,102 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+
+        $("#tbl-4").hide();
+        $("#tbl-5").hide();
+        $("#tbl-6").hide();
+        $("#tbl-7").hide();
+
+        $("#btnNextDay").click(function () {
+
+            var showDays = parseInt($("#txtShowDayTables").val());
+
+            if (showDays < 3) {
+                $("#txtShowDayTables").val(parseInt(showDays) + 1);
+            }
+
+            showDays = parseInt($("#txtShowDayTables").val());
+
+            if (showDays === 1) {
+                $("#tbl-1").show();
+                $("#tbl-2").show();
+                $("#tbl-3").show();
+
+                $("#tbl-4").hide();
+                $("#tbl-5").hide();
+                $("#tbl-6").hide();
+
+                $("#tbl-7").hide();
+            }
+            else if (showDays === 2) {
+                $("#tbl-1").hide();
+                $("#tbl-2").hide();
+                $("#tbl-3").hide();
+
+                $("#tbl-4").show();
+                $("#tbl-5").show();
+                $("#tbl-6").show();
+
+                $("#tbl-7").hide();
+            }
+            else if (showDays === 3) {
+                $("#tbl-1").hide();
+                $("#tbl-2").hide();
+                $("#tbl-3").hide();
+
+                $("#tbl-4").hide();
+                $("#tbl-5").hide();
+                $("#tbl-6").hide();
+
+                $("#tbl-7").show();
+            }
+        });
+
+        $("#btnPreviousDay").click(function () {
+
+            var showDays = parseInt($("#txtShowDayTables").val());
+
+            if (showDays > 1) {
+                $("#txtShowDayTables").val(parseInt(showDays) - 1)
+            }
+
+            showDays = parseInt($("#txtShowDayTables").val());
+
+            if (showDays === 1) {
+                $("#tbl-1").show();
+                $("#tbl-2").show();
+                $("#tbl-3").show();
+
+                $("#tbl-4").hide();
+                $("#tbl-5").hide();
+                $("#tbl-6").hide();
+
+                $("#tbl-7").hide();
+            }
+            else if (showDays === 2) {
+                $("#tbl-1").hide();
+                $("#tbl-2").hide();
+                $("#tbl-3").hide();
+
+                $("#tbl-4").show();
+                $("#tbl-5").show();
+                $("#tbl-6").show();
+
+                $("#tbl-7").hide();
+            }
+            else if (showDays === 3) {
+                $("#tbl-1").hide();
+                $("#tbl-2").hide();
+                $("#tbl-3").hide();
+
+                $("#tbl-4").hide();
+                $("#tbl-5").hide();
+                $("#tbl-6").hide();
+
+                $("#tbl-7").show();
+            }
+        });
+
         $("#btnAddNewExercise").click(function () {
             alert("test");
         });
@@ -22,7 +118,7 @@
         });
 
         $("#btnBasicProgramInformation").click(function () {
-            0
+
             $.ajax({
                 url: '/ExerciseProgram/CreateExerciseProgram',
                 dataType: "json",
@@ -67,138 +163,126 @@
             });
             $("#divAddWorkout").show();
         });
+
+        $("[name='btnViewProgram']").click(function () {
+
+            var id = $(this).parent().parent().attr("id");
+
+            $("#txtHidden").val(id)
+
+            alert($("#txtHidden").val());
+
+            $.ajax({
+                url: '/ExerciseProgram/CreateExerciseProgram',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: {
+                    Name: $("#WorkoutNameTxt").val(),
+                    Description: $("#WorkoutNameTxt").val(),
+                    StartDate: $("#dtStartDate").val(),
+                    DurationInDays: $("#txtDurationInWeeks").val()
+                },
+                async: true,
+                processData: true,
+                cache: false
+            });
+        });
+
     });
 </script>
 
 
-<div class="panel panel-default col-md-12">
-    <div class="panel-heading col-md-12">
-        <h3>Available Programs</h3>
-        <input id="txtSearch" type="text" placeholder="Search" />
+<div class="container border margin-top-10px padding-top-10px">
+    <div class="row">
+        <div class="col-sm">
+            <h3>Programs</h3>
+        </div>
+        <div class="col-sm text-right">
+            <input id="txtSearch" type="text" placeholder="Search Program Name" />
+        </div>
     </div>
-    <div class="panel-body">
-        @using (Html.BeginForm())
-        {
-            <table class="table table-hover">
-                <tr>
-                    <th class="col-md-4">
-                        Program Name
-                    </th>
-                    <th class="col-md-2">
-                        Days Per Week
-                    </th>
-                    <th class="col-md-2">
-                        Program Length (Days)
-                    </th>
-                    <th class="col-md-2">
-                        Date Added
-                    </th>
-                    <th class="col-md-2">
-                    </th>
-                </tr>
-                <tbody>
-                    @foreach (var program in Model)
-                    {
-                        <tr>
-                            <td class="col-md-4">
-                                @program.Name
-                            </td>
-                            <td class="col-md-2">
-                                @program.DaysPerWeek
-                            </td>
-                            <td class="col-md-2">
-                                @program.LengthInDays
-                            </td>
-                            <td class="col-md-2">
-                                @program.StartDate.ToShortDateString()
-                            </td>
-                            <td class="col-md-2">
-                                <button type="button" class="btn btn-default btn-sm" data-toggle="collapse" data-target="#divWorkoutDetails" data-id>
-                                    <span class="glyphicon glyphicon-sunglasses"></span>
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </div>
-    <div class="panel-footer">
-        <button type="button" class="btn btn-sm btn-primary" id="btnViewCurrentWorkout">Add Program</button>
-    </div>
-</div>
-
-<div id="divWorkoutDetails" class="panel panel-default col-md-12">
-    <div class="panel-heading col-md-12">
-        <h3>@Model.Where(x => x.Id == 1).Select(y => y.Name).First() Program</h3>
-    </div>
-    <div class="panel-body">
-        @using (Html.BeginForm())
-        {
-        <table class="table table-hover">
-            @{
-                var program = Model.Where(x => x.Id == 1).First();
-                var workoutDays = program.Exercises.Select(x => x.WorkoutDay).Distinct();
-            }
-            @foreach (var day in workoutDays)
+    <div class="row">
+        <div class="col">
+            @using (Html.BeginForm())
             {
-                <tr>
-                    <th class="col-md-2">
-                        Workout Day: @day
-                    </th>
-                </tr>
-                <tr>
-                    <th class="col-md-2">
-                        Exercise Description
-                    </th>
-                    <th class="col-md-2">
-                        Exercise Type
-                    </th>
-                    <th class="col-md-2">
-                        Sets
-                    </th>
-                    <th class="col-md-2">
-                        Reps
-                    </th>
-                    <th class="col-md-2">
-                        Duration
-                    </th>
-                </tr>
-                <tbody>
-                    @foreach (var exercise in program.Exercises.Where(x => x.WorkoutDay == day))
-                    {
+
+                <table class="table table-hover">
+                    <thead class="thead-light">
                         <tr>
-                            <td class="col-md-2">
-                                @exercise.Exercise.Description
-                            </td>
-                            <td class="col-md-2">                                
-                                @exercise.Exercise.Type
-                            </td>
-                            <td class="col-md-2">
-                                @exercise.Sets
-                            </td>
-                            <td class="col-md-2">
-                                @exercise.Reps
-                            </td>
-                            <td class="col-md-2">
-                                @{
-                                    if (exercise.Exercise.Type == "Resistence Training")
-                                    {
-                                       
-                                    }
-                                    
-                                }
-                                @exercise.Duration
-                            </td>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Days Per Week
+                            </th>
+                            <th>
+                                Weeks
+                            </th>
+                            <th>
+                                Added
+                            </th>
+                            <th>
+                                Current
+                            </th>
                         </tr>
-                    }
-                </tbody>
+                    </thead>
+                    <tbody id="tb">
+                        @foreach (var program in Model)
+                        {
+                            <tr id="tr @program.Id">
+                                <td>
+                                    @program.Name
+                                </td>
+                                <td>
+                                    @program.DaysPerWeek
+                                </td>
+                                <td>
+                                    @{var programLength = program.LengthInDays / 7;}
+                                    @programLength
+                                </td>
+                                <td>
+                                    @program.StartDate.ToShortDateString()
+                                </td>
+                                @{
+                                    if (program.StartDate < DateTime.Now && (program.EndDate == null || program.EndDate > DateTime.Now))
+                                    {
+                                        <td>&#x2714;</td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
 
             }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-primary btn-sm">Add Program</button>
 
-        </table>
-        }
+            </div>
+        </div>
+        <div class="col-sm text-right">
+            <button class="btn btn-primary btn-sm">
+                <<
+            </button>
+            <button class="btn btn-primary btn-sm">
+                >>
+            </button>
+        </div>
     </div>
-    <div class="panel-footer">
-    </div>
+
 </div>
+
+<div class="margin-top-10px padding-top-10px">
+    @Html.Partial("~/Views/ExerciseProgram/_ExerciseProgramDetail.cshtml", Model.Where(x => x.Id == 1).First())
+</div>
+
+

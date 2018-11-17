@@ -1,0 +1,94 @@
+﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
+
+<input id="txtShowDayTables" hidden="hidden" value="1" />
+
+
+
+<div class="container border">
+    <div class="row">
+
+        <div class="col-sm">
+            <h3>Program: @Model.Name</h3>
+            <button id="btnPreviousDay" class="btn btn-default btn-sm">
+                <<
+            </button>
+        </div>
+        <div class="col-sm text-right">
+            <button id="btnNextDay" class="btn btn-default btn-sm">
+                >>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @using (Html.BeginForm())
+            {
+                var dayNumber = 0;
+                foreach (var day in Enum.GetNames(typeof(ExerciseProgram.Models.Enums.DayOfWeekEnum)))
+                {
+                    var rest = Model.Exercises.Where(x => x.WorkoutDay.ToString() == day).Count() == 0;
+
+                    dayNumber += 1;
+
+
+                    <table id="tbl-@dayNumber" class="table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    @day
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (!rest)
+                            {
+                                foreach (var exercise in Model.Exercises.Where(x => x.WorkoutDay.ToString() == day))
+                                {
+                                    <tr>
+                                        <td>
+                                            @exercise.Exercise.Description
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <b>Set</b>
+                                        </td>
+                                        <td>
+                                            <b>Reps</b>
+                                        </td>
+                                    </tr>
+                                    for (var i = 1; i < exercise.Sets; i++)
+                                    {
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @i
+                                        </td>
+                                        <td>
+                                            @exercise.Reps
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>
+                                        Rest Day
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                }
+            }
+        </div>
+    </div>
+
+</div>

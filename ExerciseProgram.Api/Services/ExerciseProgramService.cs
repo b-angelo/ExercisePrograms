@@ -64,8 +64,6 @@ namespace ExerciseProgram.Api.Services
 
                 var programList =
                                 from ep in exercisePrograms
-                                join epe in exerciseProgramExercise on ep.ExerciseProgram_Pk equals epe.ExerciseProgram_Fk into gj
-                                from subEpe in gj.DefaultIfEmpty()
                                 select new ProgramViewModel
                                 {
                                     Id = ep?.ExerciseProgram_Pk ?? 0,
