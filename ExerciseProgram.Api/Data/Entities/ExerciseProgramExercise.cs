@@ -15,9 +15,9 @@ namespace ExerciseProgram.Api.Data.Entities
 
         public int Exercise_Fk { get; set; }
 
-        public int WorkoutDate { get; set; }
+        public int ExerciseDay { get; set; }
 
-        public int Sets { get; set; }
+        public int ExerciseSets { get; set; }
 
         public int Repitions { get; set; }
 

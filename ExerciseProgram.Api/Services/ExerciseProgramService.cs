@@ -46,7 +46,7 @@ namespace ExerciseProgram.Api.Services
                                    select new ProgramExerciseViewModel
                                    {
                                        Id = epe.ExerciseProgramExercise_Pk,
-                                       WorkoutDay = (DayOfWeekEnum)epe.WorkoutDate,
+                                       WorkoutDay = (DayOfWeekEnum)epe.ExerciseDay,
                                        ExerciseProgramFk = epe.ExerciseProgram_Fk,
                                        Exercise = new ExerciseViewModel
                                        {
@@ -55,7 +55,7 @@ namespace ExerciseProgram.Api.Services
                                            Description = ed.Description,
                                            Type = et.Name
                                        },
-                                       Sets = epe.Sets,
+                                       Sets = epe.ExerciseSets,
                                        Reps = epe.Repitions,
                                        Duration = epe.CardioDuration
                                    };

@@ -2,7 +2,7 @@
     ViewBag.Title = "My Workout";
 }
 
-<div class="container">
+<div class="container margin-top-10px">
     <div class="row align-items-center">
         <div class="col">
             <div class="jumbotron">
@@ -13,6 +13,7 @@
                     @DateTime.Today.Year
                 </h2>
                 <p>Time to rest, no workout scheduled.</p>
+                <p><a class="btn btn-outline-primary" href="~/Exercise/Exercise">View Programs &raquo;</a></p>
             </div>
         </div>
     </div>
@@ -37,11 +38,12 @@
         <div class="col">
             <div class="jumbotron">
                 <h2>
-                    Progress
+                    Goal Progression
                 </h2>
                 <p>
                     See progress based on <b>your</b> goals!
                 </p>
+                <p><a class="btn btn-outline-primary" href="~/Exercise/Exercise">Set Goals  &raquo;</a></p>
             </div>
         </div>
     </div>

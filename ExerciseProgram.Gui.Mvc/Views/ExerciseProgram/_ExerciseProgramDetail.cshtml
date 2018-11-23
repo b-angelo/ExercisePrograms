@@ -1,94 +1,121 @@
 ﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
 
-<input id="txtShowDayTables" hidden="hidden" value="1" />
-
-
-
 <div class="container border">
-    <div class="row">
-
-        <div class="col-sm">
-            <h3>Program: @Model.Name</h3>
-            <button id="btnPreviousDay" class="btn btn-default btn-sm">
-                <<
-            </button>
-        </div>
-        <div class="col-sm text-right">
-            <button id="btnNextDay" class="btn btn-default btn-sm">
-                >>
-            </button>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row margin-top-10px">
         <div class="col">
-            @using (Html.BeginForm())
-            {
-                var dayNumber = 0;
-                foreach (var day in Enum.GetNames(typeof(ExerciseProgram.Models.Enums.DayOfWeekEnum)))
-                {
-                    var rest = Model.Exercises.Where(x => x.WorkoutDay.ToString() == day).Count() == 0;
-
-                    dayNumber += 1;
-
-
-                    <table id="tbl-@dayNumber" class="table">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>
-                                    @day
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (!rest)
-                            {
-                                foreach (var exercise in Model.Exercises.Where(x => x.WorkoutDay.ToString() == day))
-                                {
-                                    <tr>
-                                        <td>
-                                            @exercise.Exercise.Description
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            <b>Set</b>
-                                        </td>
-                                        <td>
-                                            <b>Reps</b>
-                                        </td>
-                                    </tr>
-                                    for (var i = 1; i < exercise.Sets; i++)
-                                    {
-                                    <tr>
-                                        <td></td>
-                                        <td>
-                                            @i
-                                        </td>
-                                        <td>
-                                            @exercise.Reps
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td>
-                                        Rest Day
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-
-                }
-            }
+            <h3>@Model.Name Program</h3>
         </div>
     </div>
+    <div class="container border">
+        <div class="row margin-top-10px">
+            <div class="col">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </div>
+        </div>       
+    </div>
+    <div class="container border">
+        <div class="row margin-top-10px padding-bottom-10px">
+            <div class="col">
+                Programs change, check out each week. <br /> <br />            
+                <select>
+                    <option>
+                        Week 1
+                    </option>
+                    <option>
+                        Week 2
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-top-10px">
+        <div class="col">
+            <div class="accordion" id="accordionExample">
+                @{
+                    var dayNumber = 0;
+                    var rest = false;
+                }
+                @foreach (var day in Enum.GetNames(typeof(ExerciseProgram.Models.Enums.DayOfWeekEnum)))
+                {
+                    {
+                        rest = Model.Exercises.Where(x => x.WorkoutDay.ToString() == day).Count() == 0;
+                    }
 
+                    var collapseId = $"collapse{day}";
+
+                    if (rest)
+                    {
+                        <div class="card margin-top-10px border">
+                            <div class="card-header">
+                                <label class="disabled" readonly value="test" />
+                                    <b>@day</b> / Rest Day
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card margin-top-10px border">
+                            <div style="cursor:pointer" class="card-header workout-day-card-header" id="headingOne" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                                <b>@day</b> / Chest Day
+                            </div>
+                            <div id="@collapseId" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    @{
+                                        dayNumber += 1;
+                                    }
+                                    <div class="row">
+                                        <div class="col">
+                                            <table class="table table-hover">
+                                                @foreach (var exercise in Model.Exercises.Where(x => x.WorkoutDay.ToString() == day))
+                                                {
+                                                    var exerciseId = $"{exercise.Id}{day}";
+
+                                                    <thead class="thead-light">
+                                                        <tr style="cursor:pointer" class="head-dark card-header workout-day-card-header" id="headingTwo" data-toggle="collapse" data-target="#@exerciseId" aria-expanded="true" aria-controls="@exerciseId">
+                                                            <td class="thead-light" colspan="12">
+                                                                <b> @exercise.Exercise.Description </b>
+                                                            </td>
+                                                        </tr>
+                                                    </thead>
+                                                    <thead id="@exerciseId" class="collapse" aria-labelledby="headingTwo">
+                                                        <tr>
+                                                            <th>
+                                                                Set
+                                                            </th>
+                                                            <th>
+                                                                Reps
+                                                            </th>
+                                                            <th>
+                                                                Rest/Seconds
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    for (var i = 1; i <= exercise.Sets; i++)
+                                                    {
+                                                        <tr id="@exerciseId" class="collapse" aria-labelledby="headingOne">
+                                                            <td>
+                                                                @i
+                                                            </td>
+                                                            <td>
+                                                                @exercise.Reps
+                                                            </td>
+                                                            <td>
+                                                                180
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
 </div>

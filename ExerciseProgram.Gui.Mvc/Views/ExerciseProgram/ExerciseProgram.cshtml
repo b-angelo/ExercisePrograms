@@ -8,113 +8,8 @@
 <script>
     $(document).ready(function () {
 
-        $("#tbl-4").hide();
-        $("#tbl-5").hide();
-        $("#tbl-6").hide();
-        $("#tbl-7").hide();
-
-        $("#btnNextDay").click(function () {
-
-            var showDays = parseInt($("#txtShowDayTables").val());
-
-            if (showDays < 3) {
-                $("#txtShowDayTables").val(parseInt(showDays) + 1);
-            }
-
-            showDays = parseInt($("#txtShowDayTables").val());
-
-            if (showDays === 1) {
-                $("#tbl-1").show();
-                $("#tbl-2").show();
-                $("#tbl-3").show();
-
-                $("#tbl-4").hide();
-                $("#tbl-5").hide();
-                $("#tbl-6").hide();
-
-                $("#tbl-7").hide();
-            }
-            else if (showDays === 2) {
-                $("#tbl-1").hide();
-                $("#tbl-2").hide();
-                $("#tbl-3").hide();
-
-                $("#tbl-4").show();
-                $("#tbl-5").show();
-                $("#tbl-6").show();
-
-                $("#tbl-7").hide();
-            }
-            else if (showDays === 3) {
-                $("#tbl-1").hide();
-                $("#tbl-2").hide();
-                $("#tbl-3").hide();
-
-                $("#tbl-4").hide();
-                $("#tbl-5").hide();
-                $("#tbl-6").hide();
-
-                $("#tbl-7").show();
-            }
-        });
-
-        $("#btnPreviousDay").click(function () {
-
-            var showDays = parseInt($("#txtShowDayTables").val());
-
-            if (showDays > 1) {
-                $("#txtShowDayTables").val(parseInt(showDays) - 1)
-            }
-
-            showDays = parseInt($("#txtShowDayTables").val());
-
-            if (showDays === 1) {
-                $("#tbl-1").show();
-                $("#tbl-2").show();
-                $("#tbl-3").show();
-
-                $("#tbl-4").hide();
-                $("#tbl-5").hide();
-                $("#tbl-6").hide();
-
-                $("#tbl-7").hide();
-            }
-            else if (showDays === 2) {
-                $("#tbl-1").hide();
-                $("#tbl-2").hide();
-                $("#tbl-3").hide();
-
-                $("#tbl-4").show();
-                $("#tbl-5").show();
-                $("#tbl-6").show();
-
-                $("#tbl-7").hide();
-            }
-            else if (showDays === 3) {
-                $("#tbl-1").hide();
-                $("#tbl-2").hide();
-                $("#tbl-3").hide();
-
-                $("#tbl-4").hide();
-                $("#tbl-5").hide();
-                $("#tbl-6").hide();
-
-                $("#tbl-7").show();
-            }
-        });
-
-        $("#btnAddNewExercise").click(function () {
+        $("#btnAddProgram").click(function () {
             alert("test");
-        });
-
-        $("#btnAddNewExerciseProgram").click(function () {
-            alert("test program");
-        });
-
-        $("#ExerciseSelect").prop("disabled", true);
-
-        $("#btnLoadNewProgram").click(function () {
-            $("#mdlNewProgram").modal();
         });
 
         $("#btnBasicProgramInformation").click(function () {
@@ -191,97 +86,168 @@
 
     });
 </script>
-
-
-<div class="container border margin-top-10px padding-top-10px">
+<div class="container border margin-top-10px">
     <div class="row">
-        <div class="col-sm">
-            <h3>Programs</h3>
+        <div class="col">
+            <h5>
+                View and start a program.
+            </h5>
+            <text>Can't find what you're looking for?</text>
+            <text> Create your own!</text>
         </div>
-        <div class="col-sm text-right">
-            <input id="txtSearch" type="text" placeholder="Search Program Name" />
+    </div>
+</div>
+
+<div class="container border margin-top-10px">
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover table-responsive-sm">
+                <thead class="thead-light table">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Emphasis
+                        </th>
+                        <th>
+                            Days
+                        </th>
+                        <th>
+                            Weeks
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var program in Model)
+                    {
+                        <tr id="tr @program.Id">
+                            <td>
+                                @program.Name
+                            </td>
+                            <td>
+                                Strength
+                            </td>
+                            <td>
+                                @program.DaysPerWeek
+                            </td>
+                            <td>
+                                @{var programLength = program.LengthInDays / 7;}
+                                @programLength
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button id="btnCreateProgram" class="btn btn-primary btn-sm">Create Program</button>
+                                </div>
+
+                            </div>
+                        </td>
+                        <td colspan="12">
+                            <div class="btn-group mr-2 float-right" role="group" aria-label="Second group">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container border margin-top-10px">
+    <div class="row">
+        <div class="col">
+            <h5>
+                Filter
+            </h5>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            @using (Html.BeginForm())
-            {
-
-                <table class="table table-hover">
-                    <thead class="thead-light">
+            <table class="table table-hover table-responsive-sm">
+                <thead class="thead-light table">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Emphasis
+                        </th>
+                        <th>
+                            Days
+                        </th>
+                        <th>
+                            Weeks
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
                         <tr>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Days Per Week
-                            </th>
-                            <th>
-                                Weeks
-                            </th>
-                            <th>
-                                Added
-                            </th>
-                            <th>
-                                Current
-                            </th>
+                            <td>
+                                <input placeholder="Search..." type="text" />                               
+                            </td>
+                            <td>
+                                <select>
+                                    <option>
+                                        Strength
+                                    </option>
+                                    <option>
+                                        Cardio
+                                    </option>
+                                    <option>
+                                        Full Body
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" />
+                            </td>
+                            <td>
+                                <input type="number" />
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody id="tb">
-                        @foreach (var program in Model)
-                        {
-                            <tr id="tr @program.Id">
-                                <td>
-                                    @program.Name
-                                </td>
-                                <td>
-                                    @program.DaysPerWeek
-                                </td>
-                                <td>
-                                    @{var programLength = program.LengthInDays / 7;}
-                                    @programLength
-                                </td>
-                                <td>
-                                    @program.StartDate.ToShortDateString()
-                                </td>
-                                @{
-                                    if (program.StartDate < DateTime.Now && (program.EndDate == null || program.EndDate > DateTime.Now))
-                                    {
-                                        <td>&#x2714;</td>
-                                    }
-                                    else
-                                    {
-                                        <td></td>
-                                    }
-                                }
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group mr-2" role="group" aria-label="First group">
+                                    <button id="btnApplyFilter" class="btn btn-primary btn-sm">Apply Filter</button>
+                                </div>
 
-            }
+                            </div>
+                        </td>                      
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm">
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button class="btn btn-primary btn-sm">Add Program</button>
-
-            </div>
-        </div>
-        <div class="col-sm text-right">
-            <button class="btn btn-primary btn-sm">
-                <<
-            </button>
-            <button class="btn btn-primary btn-sm">
-                >>
-            </button>
-        </div>
-    </div>
-
 </div>
 
-<div class="margin-top-10px padding-top-10px">
+<div class="margin-top-10px">
     @Html.Partial("~/Views/ExerciseProgram/_ExerciseProgramDetail.cshtml", Model.Where(x => x.Id == 1).First())
 </div>
 
