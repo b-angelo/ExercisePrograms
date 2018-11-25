@@ -1,24 +1,38 @@
 ﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
 
 <div class="container border">
-    <div class="row margin-top-10px">
-        <div class="col">
-            <h3>@Model.Name Program</h3>
+    <div class="container border background-white margin-top-10px">
+        <div class="row margin-top-10px">
+            <div class="col-sm-12">
+                <h3>@Model.Name</h3>
+            </div>
+            <div>      
+                <div class="col-sm-12">
+                    10 Votes
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    </div>
+                </div>
         </div>
-    </div>
-    <div class="container border">
         <div class="row margin-top-10px">
             <div class="col">
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
             </div>
-        </div>       
+        </div>
     </div>
-    <div class="container border">
+    <div class="container border background-white">
         <div class="row margin-top-10px padding-bottom-10px">
             <div class="col">
-                Programs change, check out each week. <br /> <br />            
+                @{
+                    var programLength = Model.LengthInDays / 7;
+                }
+                <b>Emphasis:</b> Strength <br /> <br />
+                <b>Days Per Week:</b> @Model.DaysPerWeek <br /> <br />
+                <b>Program Length:</b> @programLength Weeks <br /> <br />
                 <select>
                     <option>
                         Week 1
@@ -47,40 +61,38 @@
 
                     if (rest)
                     {
-                        <div class="card margin-top-10px border">
+                        <div id="divRestDay" class="card margin-top-10px border text-center">
                             <div class="card-header">
-                                <label class="disabled" readonly value="test" />
-                                    <b>@day</b> / Rest Day
+                                <h5>@day</h5> Rest Day
                             </div>
                         </div>
                     }
                     else
                     {
                         <div class="card margin-top-10px border">
-                            <div style="cursor:pointer" class="card-header workout-day-card-header" id="headingOne" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
-                                <b>@day</b> / Chest Day
+                            <div style="cursor:pointer" class="card-header workout-day-card-header text-center" id="headingOne" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                                <h5>@day</h5> Chest Day
                             </div>
                             <div id="@collapseId" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">
                                     @{
                                         dayNumber += 1;
                                     }
-                                    <div class="row">
+                                    <div class="row accordion" id="accordionExample2">
                                         <div class="col">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover border">
                                                 @foreach (var exercise in Model.Exercises.Where(x => x.WorkoutDay.ToString() == day))
                                                 {
-                                                    var exerciseId = $"{exercise.Id}{day}";
-
+                                                    var exerciseId = $"{day}{exercise.Id}";
                                                     <thead class="thead-light">
-                                                        <tr style="cursor:pointer" class="head-dark card-header workout-day-card-header" id="headingTwo" data-toggle="collapse" data-target="#@exerciseId" aria-expanded="true" aria-controls="@exerciseId">
-                                                            <td class="thead-light" colspan="12">
+                                                        <tr>
+                                                            <td style="cursor:pointer" colspan="12" class="card-header workout-day-card-header" id="headingOne" data-toggle="collapse" data-target="#@exerciseId" aria-expanded="true" aria-controls="@exerciseId">
                                                                 <b> @exercise.Exercise.Description </b>
                                                             </td>
                                                         </tr>
                                                     </thead>
-                                                    <thead id="@exerciseId" class="collapse" aria-labelledby="headingTwo">
-                                                        <tr>
+                                                    <thead>
+                                                        <tr id="@exerciseId" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample2">
                                                             <th>
                                                                 Set
                                                             </th>
@@ -94,7 +106,7 @@
                                                     </thead>
                                                     for (var i = 1; i <= exercise.Sets; i++)
                                                     {
-                                                        <tr id="@exerciseId" class="collapse" aria-labelledby="headingOne">
+                                                        <tr id="@exerciseId" class="collapse yellow-paper-background" aria-labelledby="headingOne" data-parent="#accordionExample2">
                                                             <td>
                                                                 @i
                                                             </td>

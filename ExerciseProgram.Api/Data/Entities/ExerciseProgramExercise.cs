@@ -19,7 +19,7 @@ namespace ExerciseProgram.Api.Data.Entities
 
         public int ExerciseSets { get; set; }
 
-        public int Repitions { get; set; }
+        public int ExerciseRepitions { get; set; }
 
         public int CardioDuration { get; set; }
     }

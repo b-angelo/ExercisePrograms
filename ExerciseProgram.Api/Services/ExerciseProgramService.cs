@@ -56,7 +56,7 @@ namespace ExerciseProgram.Api.Services
                                            Type = et.Name
                                        },
                                        Sets = epe.ExerciseSets,
-                                       Reps = epe.Repitions,
+                                       Reps = epe.ExerciseRepitions,
                                        Duration = epe.CardioDuration
                                    };
 

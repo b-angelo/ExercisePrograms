@@ -208,6 +208,7 @@
     <Content Include="Views\ExerciseProgram\_AddWorkout.cshtml" />
     <Content Include="Views\ExerciseProgram\ChartArrayBasic.cshtml" />
     <Content Include="Views\ExerciseProgram\_ExerciseProgramDetail.cshtml" />
+    <Content Include="Views\ExerciseProgram\CreateExerciseProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
