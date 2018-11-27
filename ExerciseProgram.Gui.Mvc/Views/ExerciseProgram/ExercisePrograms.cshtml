@@ -1,0 +1,120 @@
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ProgramViewModel>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+        $(".trProgramId").click(function () {
+
+             var programId = $(this).attr("id");
+
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+        });
+
+        $("#aNext").click(function () {
+
+            var programId = $(this).attr("id");
+
+            $(location).attr('href', '/ExerciseProgram/ExercisePrograms/?pagingFrom=2&pagingTo=3' + programId);
+        });
+
+    });
+</script>
+<div class="container">
+    <div id="divAllProgramsHeader" class="container border margin-top-10px background-white">
+        <div class="row">
+            <div class="col">
+                <h5>
+                    View/start a program.
+                </h5>
+                <text>Can't find what you're looking for?</text>
+                <text> Create your own and choose whether or not to share it with our community.</text>
+            </div>
+        </div>
+        <div class="row margin-top-10px">
+            <div class="col">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <a class="btn btn-primary btn-sm" href="~/ExerciseProgram/CreateExerciseProgram">Create Program</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="divAllPrograms" class="container border margin-top-10px background-white">
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover table-responsive-sm">
+                    <thead class="thead-light table">
+                        <tr>
+                            <th colspan="2">
+                                Name
+                            </th>
+                            <th>
+                                Emphasis
+                            </th>
+                            <th colspan="2">
+                                Rating
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var program in Model)
+                        {
+                            <tr class="trProgramId" style="cursor:pointer" id=@program.Id onclick="">
+                                <td colspan="2">
+                                    @program.Name
+                                </td>
+                                <td colspan="1">
+                                    Strength
+                                </td>
+                                <td colspan="31">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="12">
+                                <div class="btn-group mr-2" role="group" aria-label="Second group">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Previous">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#" aria-label="Next" id="aNext">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

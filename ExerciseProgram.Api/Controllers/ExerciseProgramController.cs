@@ -11,10 +11,10 @@ namespace ExerciseProgram.Api.Controllers
         private ExerciseProgramService _exerciseService = new ExerciseProgramService();
 
         [HttpGet]
-        [Route("api/ExercisePrograms/Active/{id:int}")]
-        public ProgramViewModel GetActiveExerciseProgramByUserId([FromUri] int id)
+        [Route("api/ExercisePrograms/{id:int}")]
+        public ProgramViewModel GetExerciseProgramById([FromUri] int id)
         {
-            return _exerciseService.GetActiveExerciseProgramByUserId(id);
+            return _exerciseService.GetExerciseProgramById(id);
         }
 
         [HttpGet]

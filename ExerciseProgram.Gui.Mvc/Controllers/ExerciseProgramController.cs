@@ -11,38 +11,33 @@ namespace ExerciseProgram.WebApp.Controllers
     public class ExerciseProgramController : Controller
     {
         private readonly HttpClientBase<ProgramViewModel> _httpClient = new HttpClientBase<ProgramViewModel>();
-        private readonly HttpClientBase<ExerciseViewModel> _httpClient2 = new HttpClientBase<ExerciseViewModel>();
 
         [HttpGet]
-        public ActionResult ExerciseProgram()
+        public ActionResult ExercisePrograms()
         {
             List<ProgramViewModel> result;
 
+            if (Request.QueryString.HasKeys())
+            {
+                var pagingFrom = Request.QueryString["pagingFrom"].ToString();
+                var pagingTo = Request.QueryString["pagingTo"].ToString();
+            }
+                        
             result = _httpClient.GetList($"api/ExercisePrograms/");
                       
             return View(result);
         }
 
         [HttpGet]
-        public ActionResult GetExerciseList()
+        public ActionResult ExerciseProgramDetail(int id)
         {
-            List<ExerciseViewModel> result;
+            ProgramViewModel result;
 
-            result = _httpClient2.GetList($"api/Exercise/");
+            result = _httpClient.GetSingle($"api/ExercisePrograms/{id}");
 
             return View(result);
         }
-
-        [HttpGet]
-        public ActionResult GetExerciseListForProgram()
-        {
-            List<ExerciseViewModel> result;
-
-            result = _httpClient2.GetList($"api/ExercisePrograms/1/Exercises/");
-
-            return View(result);
-        }
-
+        
         [HttpPost]
         public void CreateExerciseProgram(ProgramViewModel model)
         {

@@ -191,7 +191,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\ExerciseProgram\ExerciseProgram.cshtml" />
+    <Content Include="Views\ExerciseProgram\ExercisePrograms.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\UserProfile\UserProfile.cshtml" />
     <Content Include="Views\ExerciseProgram\_NewExerciseProgram.cshtml" />
@@ -207,7 +207,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\ExerciseProgram\_AddWorkout.cshtml" />
     <Content Include="Views\ExerciseProgram\ChartArrayBasic.cshtml" />
-    <Content Include="Views\ExerciseProgram\_ExerciseProgramDetail.cshtml" />
+    <Content Include="Views\ExerciseProgram\ExerciseProgramDetail.cshtml" />
     <Content Include="Views\ExerciseProgram\CreateExerciseProgram.cshtml" />
   </ItemGroup>
   <ItemGroup>

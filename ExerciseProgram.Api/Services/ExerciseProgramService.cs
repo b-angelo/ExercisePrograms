@@ -15,20 +15,11 @@ namespace ExerciseProgram.Api.Services
         private IRepository<ExerciseProgramExercise> _exerciseProgramExerciseRepository = new Repository<ExerciseProgramExercise>();
         private IRepository<ExerciseType> _exerciseTypeRepository = new Repository<ExerciseType>();
 
-        public ProgramViewModel GetActiveExerciseProgramByUserId(int userId)
+        public ProgramViewModel GetExerciseProgramById(int id)
         {
-            var exerciseProgram = _exerciseProgramRepository.GetAll()
-                                                            .Where(x => x.StartDate > DateTime.Now && (x.EndDate == null || x.EndDate > DateTime.Now))
-                                                            .FirstOrDefault();
+            var exerciseProgram = GetExercisesPrograms().FirstOrDefault(x => x.Id == id);
 
-            var exerciseProgramViewModel = new ProgramViewModel
-            {
-                    Id = exerciseProgram.ExerciseProgram_Pk,
-                    Name = exerciseProgram.Name,
-                    LengthInDays = exerciseProgram.DurationInDays
-            };
-            
-            return exerciseProgramViewModel;
+            return exerciseProgram;
         }
 
         public List<ProgramViewModel> GetExercisesPrograms()

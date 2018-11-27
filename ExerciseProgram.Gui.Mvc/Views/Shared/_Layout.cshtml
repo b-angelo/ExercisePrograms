@@ -7,12 +7,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-
-
-        });
-    </script>
 </head>
 <body>
     <nav class="navbar fixed-top navbar-dark bg-dark navbar-expand-lg">
@@ -35,9 +29,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="#">My Programs</a>
-                        <a class="dropdown-item" href=@Url.Action("ExerciseProgram", "ExerciseProgram")>All Programs</a>
-
-                        @*<div class="dropdown-divider"></div>*@
+                        <a class="dropdown-item" href=@Url.Action("ExercisePrograms", "ExerciseProgram")>All Programs</a>
                     </div>
                 </li>
             </ul>
@@ -51,9 +43,6 @@
         @RenderBody()
     </div>
    
-       
-
-    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
