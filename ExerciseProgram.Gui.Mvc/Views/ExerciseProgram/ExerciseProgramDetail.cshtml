@@ -14,6 +14,7 @@
         <div class="row margin-top-10px">
             <div class="col-sm-12">
                 <h3>@Model.Name</h3>
+                <hr />
             </div>
             <div>
                 <div class="col-sm-12">
@@ -25,35 +26,30 @@
                 </div>
             </div>
         </div>
-        <div class="row margin-top-10px">
-            <div class="col">
-                <p>
-                    @Model.Description
-                </p>
-            </div>
-        </div>
-    </div>
-    <div class="container border background-white">
         <div class="row margin-top-10px padding-bottom-10px">
             <div class="col">
                 @{
                     var programLength = Model.LengthInDays / 7;
                 }
                 <b>Emphasis:</b> Strength <br /> <br />
-                <b>Days Per Week:</b> @Model.DaysPerWeek <br /> <br />
-                <b>Program Length:</b> @programLength Weeks <br /> <br />
+                <b>Program Length:</b> @programLength Weeks <br />  <br />
+                <b>Description: </b> @Model.Description <br /> <br />
                 <select class="form-control">
                     @for (var i = 1; i < 12; i++)
                     {
                         var week = $"Week {@i}";
-                    <option>
-                        <text class="ddl-workout-week">@week</text> (3 Days)
-                    </option>
+                        <option>
+                            <text class="ddl-workout-week">@week</text> (3 Days)
+                        </option>
                     }
                 </select>
             </div>
         </div>
+        <div class="row margin-top-10px">
+          
+        </div>
     </div>
+  
     <div class="row margin-top-10px">
         <div class="col">
             <div class="accordion" id="accordionExample">

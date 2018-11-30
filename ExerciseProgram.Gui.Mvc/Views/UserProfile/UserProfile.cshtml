@@ -8,111 +8,145 @@
 
 <script>
     $(document).ready(function () {
-    $("#btnUpdateProfile").click(function () {
-        
-        $.ajax({
-            url: '/UserProfile/UpdateProfile',
-            dataType: "json",
-            type: "POST",
-            contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-            data: {
-                EmailAddress: $("#txtEmail").val(),
-                Weight: $("#txtWeight").val(),
-                Height: $("#txtHeight").val()
-            },
-            async: true,
-            processData: true,
-            cache: false
+        $("#btnUpdateProfile").click(function () {
+
+            $.ajax({
+                url: '/UserProfile/UpdateProfile',
+                dataType: "json",
+                type: "POST",
+                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
+                data: {
+                    EmailAddress: $("#txtEmail").val(),
+                    Weight: $("#txtWeight").val(),
+                    Height: $("#txtHeight").val()
+                },
+                async: true,
+                processData: true,
+                cache: false
             });
         });
     });
 </script>
 
-<div class="col-md-12 jumbotron row">
-    <div class="row">
-        <div class="col-md-4">
-            @Html.Label("txtDob", "Date of Birth")
-            <input type="text" readonly id="DobTxt" value=@Model.DateOfBirth.ToShortDateString() class="form-control" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("txtDateJoined", "Member Since")
-            <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("lblEmail", "Email Address")
-            <input type="text" id="txtEmail" value=@Model.EmailAddress class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            @Html.Label("lblHeight", "Height (In Inches)")
-            <input type="text" id="txtHeight" value=@Model.Height class="form-control" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("lblWeight", "Weight")
-            <input type="text" id="txtWeight" value=@Model.Weight class="form-control" />
-        </div>
-        <div class="col-md-4">
-            @Html.Label("lblBmi", "BMI")
-            <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <input type="submit" id="btnUpdateProfile" value="Update Profile" class="btn btn-primary" />
-        </div>
-    </div>
-</div>
-<div class="jumbotron col-md-12 row">
-    <div class="container">
-        @using (Html.BeginForm())
-        {
-            <table class="table table-hover">
-                <tr>
-                    <th>
-                        Date
-                    </th>
-                    <th>
-                        Weight
-                    </th>
-                    <th>
-                        BMI
-                    </th>
-                    <th>
-                        Category
-                    </th>
-                </tr>
-                <tbody>
-                    @foreach (var item in Model?.WeightHistory)
-                    {
-                        <tr>
-                            <td>
-                                <input type="text" readonly value=@item.CreateDate.ToShortDateString() class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.WeightInPounds class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.Bmi class="form-control" />
-                            </td>
-                            <td>
-                                <input type="text" readonly value=@item.BmiCategory class="form-control" />
-                            </td>
-                            <td>
-                                <input type="submit" name="btnDeleteWeight" value="Delete" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-danger" />
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <div>
-                <ul class="pager">
-                    <li><a href="#">|&laquo;</a></li>
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                    <li><a href="#">&raquo;|</a></li>
-                </ul>
+
+<div class="container">
+    <div id="divAllProgramsHeader" class="container border margin-top-10px background-white">
+        <div class="row margin-top-10px">
+            <div class="col-sm-offset-2 col-sm-12">
+                @{
+                    var profileHeader = $"{Model.FirstName}'s Profile";
+                }
+                <h3>
+                    @profileHeader
+                </h3>
+                <hr />
             </div>
-        }
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("txtDob", "Date of Birth")
+                <input type="text" readonly id="DobTxt" value=@Model.DateOfBirth.ToShortDateString() class="form-control" />
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("txtDateJoined", "Member Since")
+                <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("lblEmail", "Email Address")
+                <input type="text" id="txtEmail" value=@Model.EmailAddress class="form-control" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("lblHeight", "Height (In Inches)")
+                <input type="text" id="txtHeight" value=@Model.Height class="form-control" />
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("lblWeight", "Weight")
+                <input type="text" id="txtWeight" value=@Model.Weight class="form-control" />
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("lblBmi", "BMI")
+                <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
+            </div>
+        </div>
+        <div class="row margin-bottom-10px">
+            <div class="col-sm-offset-2 col-sm-12">
+                <hr />
+                <input type="submit" id="btnUpdateProfile" value="Update Profile" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+        </div>
+    </div>
+
+<div class="container">
+    <div id="divAllProgramsHeader" class="container border margin-top-10px background-white">
+        <div class="row">
+            <div class="col">
+
+                @using (Html.BeginForm())
+                {
+                    <table class="table table-hover">
+                        <tr>
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Weight
+                            </th>
+                            <th>
+                                BMI
+                            </th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in Model?.WeightHistory)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.CreateDate.ToShortDateString()
+                                    </td>
+                                    <td>
+                                        @item.WeightInPounds
+                                    </td>
+                                    <td>
+                                        @{
+                                            var bmiText = $"{item.Bmi} / {item.BmiCategory}";
+                                        }
+                                        @bmiText
+                                    </td>
+                                    <td>
+                                        <input type="submit" name="btnDeleteWeight" value="X" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm btn-danger" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div>
+                        <div class="btn-group mr-2" role="group" aria-label="Second group">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next" id="aNext">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
     </div>
 </div>

@@ -48,6 +48,8 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile/weight/{id:int}")]
         public HttpStatusCode DeleteUserWeight([FromUri] int id)
         {
+            _userProfileService.DeleteUserWeight(id);
+
             return HttpStatusCode.OK;
         }
     }
