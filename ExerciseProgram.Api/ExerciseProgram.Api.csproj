@@ -119,7 +119,7 @@
     <Compile Include="Data\Entities\ExerciseProgram.cs" />
     <Compile Include="Data\Entities\ExerciseType.cs" />
     <Compile Include="Data\Entities\MuscleGroup.cs" />
-    <Compile Include="Data\Entities\User.cs" />
+    <Compile Include="Data\Entities\UserProfile.cs" />
     <Compile Include="Data\Entities\UserBodyMass.cs" />
     <Compile Include="Data\Entities\UserExerciseProgram.cs" />
     <Compile Include="Data\Entities\UserRole.cs" />

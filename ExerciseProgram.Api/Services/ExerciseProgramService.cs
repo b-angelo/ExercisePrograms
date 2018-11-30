@@ -1,6 +1,7 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Api.Data.Repositories.Base;
 using ExerciseProgram.Models.Enums;
+using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,6 @@ namespace ExerciseProgram.Api.Services
                                     Id = ep?.ExerciseProgram_Pk ?? 0,
                                     Name = ep?.Name ?? string.Empty,
                                     Description = ep?.Description ?? string.Empty,
-                                    DaysPerWeek = ep?.DaysPerWeek ?? 0,
                                     LengthInDays = ep?.DurationInDays ?? 0,
                                     StartDate = ep?.StartDate ?? DateTime.MinValue,
                                     EndDate = ep?.EndDate ?? DateTime.MaxValue,
@@ -93,21 +93,23 @@ namespace ExerciseProgram.Api.Services
             }
         }
 
-        public bool CreateExerciseProgram(ProgramViewModel model)
+        public bool CreateExerciseProgram(NewProgramInputModel model)
         {
             try
             {
                 var program = new Data.Entities.ExerciseProgram
                 {
                     Name = model.Name,
+                    Description = model.Description,
                     DurationInDays = model.LengthInDays,
+                    StartDate = DateTime.Now,
                     CreatedBy = Environment.UserName,
                     CreateDate = DateTime.Now
                 };
 
                 _exerciseProgramRepository.Insert(program);
             }
-            catch(Exception)
+            catch(Exception e)
             {
                 return false;
             }

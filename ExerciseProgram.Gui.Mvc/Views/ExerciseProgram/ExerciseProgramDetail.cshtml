@@ -28,7 +28,7 @@
         <div class="row margin-top-10px">
             <div class="col">
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    @Model.Description
                 </p>
             </div>
         </div>
@@ -42,13 +42,14 @@
                 <b>Emphasis:</b> Strength <br /> <br />
                 <b>Days Per Week:</b> @Model.DaysPerWeek <br /> <br />
                 <b>Program Length:</b> @programLength Weeks <br /> <br />
-                <select>
+                <select class="form-control">
+                    @for (var i = 1; i < 12; i++)
+                    {
+                        var week = $"Week {@i}";
                     <option>
-                        Week 1
+                        <text class="ddl-workout-week">@week</text> (3 Days)
                     </option>
-                    <option>
-                        Week 2
-                    </option>
+                    }
                 </select>
             </div>
         </div>
@@ -70,9 +71,10 @@
 
                     if (rest)
                     {
-                        <div id="divRestDay" class="card margin-top-10px border text-center">
+                        <div id="divRestDay" class="card margin-top-10px border text-center rest-day">
                             <div class="card-header">
-                                <h5>@day</h5> Rest Day
+                                <h5>@day</h5>
+                                <text>Rest Day</text>
                             </div>
                         </div>
                     }
@@ -80,7 +82,10 @@
                     {
                         <div class="card margin-top-10px border">
                             <div style="cursor:pointer" class="card-header workout-day-card-header text-center" id="headingOne" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
-                                <h5>@day</h5> Chest Day
+                                <h5>@day</h5>
+                                <text>
+                                    Chest Day
+                                </text>
                             </div>
                             <div id="@collapseId" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="card-body">

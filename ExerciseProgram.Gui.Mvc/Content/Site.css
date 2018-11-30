@@ -73,3 +73,16 @@ textarea {
 .background-white {
     background-color: whitesmoke;
 }
+
+.rest-day {
+    color: silver;
+}
+
+.rest-day:hover{
+    cursor: not-allowed;
+}
+
+.ddl-workout-week{
+    font: bold !important;
+    color: darkblue !important;
+}

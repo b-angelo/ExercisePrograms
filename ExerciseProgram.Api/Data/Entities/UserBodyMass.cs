@@ -1,6 +1,5 @@
+using Dapper.Contrib.Extensions;
 using ExerciseProgram.Api.Data.Entities.Base;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
@@ -9,13 +8,8 @@ namespace ExerciseProgram.Api.Data.Entities
     {
         [Key]
         public int UserBodyMass_Pk { get; set; }
-
-        public int User_Fk { get; set; }
-
+        public int UserProfile_Fk { get; set; }
         public int HeightInInches { get; set; }
-
         public int WeightInPounds { get; set; }
-
-        public virtual User User { get; set; }
     }
 }

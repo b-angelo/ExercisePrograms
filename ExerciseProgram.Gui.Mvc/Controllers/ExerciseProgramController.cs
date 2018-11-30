@@ -1,4 +1,5 @@
-﻿using ExerciseProgram.Models.ViewModels;
+﻿using ExerciseProgram.Models.InputModel;
+using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace ExerciseProgram.WebApp.Controllers
                 var pagingTo = Request.QueryString["pagingTo"].ToString();
             }
                         
+
+
             result = _httpClient.GetList($"api/ExercisePrograms/");
                       
             return View(result);
@@ -35,17 +38,32 @@ namespace ExerciseProgram.WebApp.Controllers
 
             result = _httpClient.GetSingle($"api/ExercisePrograms/{id}");
 
+            //if (result == null)
+            //{
+            //    Response.Redirect("/ExerciseProgram/ExercisePrograms/");
+            //}
+
             return View(result);
         }
         
+        [HttpGet]
+        public ActionResult CreateExerciseProgram()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public void CreateExerciseProgram(ProgramViewModel model)
+        public ActionResult CreateExerciseProgram(NewProgramInputModel model)
         {
             model.LengthInDays = model.LengthInDays * 7;
 
-            var content = new ObjectContent(typeof(ProgramViewModel), model, new JsonMediaTypeFormatter());
+            var content = new ObjectContent(typeof(NewProgramInputModel), model, new JsonMediaTypeFormatter());
 
             _httpClient.Post($"api/ExercisePrograms/", content);
+
+            ViewBag.Saved = "Saved";
+
+            return View();
         }
     }
 }

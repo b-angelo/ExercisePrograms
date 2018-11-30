@@ -10,7 +10,7 @@ namespace ExerciseProgram.Api.Data.Entities
     {
         public UserRole()
         {
-            Users = new HashSet<User>();
+            Users = new HashSet<UserProfile>();
         }
 
         [Key]
@@ -24,6 +24,6 @@ namespace ExerciseProgram.Api.Data.Entities
         [StringLength(50)]
         public string Description { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<UserProfile> Users { get; set; }
     }
 }

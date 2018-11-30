@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using ExerciseProgram.Api.Services;
+using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
 
 namespace ExerciseProgram.Api.Controllers
@@ -33,7 +34,7 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpPost]
         [Route("api/ExercisePrograms/")]
-        public HttpStatusCode CreateExerciseProgram([FromBody] ProgramViewModel model)
+        public HttpStatusCode CreateExerciseProgram([FromBody] NewProgramInputModel model)
         {
             if (_exerciseService.CreateExerciseProgram(model))
             {
@@ -47,7 +48,7 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpPut]
         [Route("api/ExercisePrograms/")]
-        public HttpStatusCode UpdateExerciseProgram([FromBody] ProgramViewModel model)
+        public HttpStatusCode UpdateExerciseProgram([FromBody] NewProgramInputModel model)
         {
             _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
 

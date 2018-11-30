@@ -8,6 +8,6 @@ namespace ExerciseProgram.Api.Data.Entities
         [Key]
         public int UserExerciseProgram_Pk { get; set; }
         public int ExerciseProgram_Fk { get; set; }
-        public int User_Fk { get; set; }
+        public int UserProfile_Fk { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile")]
         public UserProfileViewModel UserProfile([FromUri] string pageFrom, [FromUri] string pageTo)
         {
-            return new UserProfileViewModel();
+            return _userProfileService.GetUserProfile();
         }
 
         [HttpPost]
