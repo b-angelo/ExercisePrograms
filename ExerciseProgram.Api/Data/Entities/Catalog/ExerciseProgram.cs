@@ -1,15 +1,15 @@
 using ExerciseProgram.Api.Data.Entities.Base;
-using System.Collections.Generic;
 using Dapper.Contrib.Extensions;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
-    [Table("ExerciseType")]
-    public partial class ExerciseType : EntityBase
-    {
+    [Table("catalog.ExerciseProgram")]
+    public class ExerciseProgram : EntityBase
+    {        
         [Key]
-        public int ExerciseType_Pk { get; set; }
+        public int ExerciseProgram_Pk { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public int DurationInDays { get; set; }
     }
 }

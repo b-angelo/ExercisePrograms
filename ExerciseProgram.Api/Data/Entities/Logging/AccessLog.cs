@@ -6,7 +6,7 @@ public partial class AccessLog : EntityBase
 {
     [Key]
     public int Access_Pk { get; set; }
-    public int? UserProfile_Fk { get; set; }
+    public int? Profile_Fk { get; set; }
     public string IPAddress { get; set; }
     public string Device { get; set; }
 }

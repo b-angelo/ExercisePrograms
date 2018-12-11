@@ -7,6 +7,7 @@ namespace ExerciseProgram.Models.ViewModels
     public class ProgramViewModel
     {
         public int Id { get; set; }
+        public bool IsCurrent { get; set; }
         public string Name { get; set; }
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }

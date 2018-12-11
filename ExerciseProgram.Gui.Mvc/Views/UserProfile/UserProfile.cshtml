@@ -8,30 +8,147 @@
 
 <script>
     $(document).ready(function () {
-        $("#btnUpdateProfile").click(function () {
 
-            $.ajax({
-                url: '/UserProfile/UpdateProfile',
-                dataType: "json",
-                type: "POST",
-                contentType: 'application/x-www-form-urlencoded; charset=utf-8',
-                data: {
-                    EmailAddress: $("#txtEmail").val(),
-                    Weight: $("#txtWeight").val(),
-                    Height: $("#txtHeight").val()
-                },
-                async: true,
-                processData: true,
-                cache: false
+        
+
+        $(".profile-change").change(function () {
+
+            $("#txtEmailAddress").addClass("input-pending-save");
+            $("#btnUpdateProfile").addClass("input-pending-save");
+
+        });
+
+        $("#txtWeight").keyup(function () {
+
+            var height = $("#txtHeight").val();
+            var weight = $("#txtWeight").val();
+            var bmi = ((703 * weight) / Math.pow(74, 2)).toFixed(2);
+
+            $("#txtBmi").val(bmi);
+
+        });
+
+        $("#divWeightHistory").ready(function () {
+
+
+            var resultsPerPage = 5;
+            var currentPage = parseInt($("#currentPage").val());
+            var lastPage = parseInt($(".trBmiId").length / resultsPerPage);
+            var remainder = $(".trBmiId").length % resultsPerPage;
+
+            if (remainder > 0) {
+                lastPage++;
+            }
+
+            currentPage = currentPage;
+
+            var pageXofY = "Page " + currentPage + " of " + lastPage;
+
+            $("#txtPageXofY").val(pageXofY);
+
+            $(".trBmiId").each(function () {
+                if (this.id > 5) {
+                    this.hidden = true;
+                }
             });
         });
+
+        $("#liPrevious").click(function () {
+
+            var resultsPerPage = 5;
+            var currentPage = parseInt($("#currentPage").val());
+            var lastPage = parseInt($(".trBmiId").length / resultsPerPage);
+            var remainder = $(".trBmiId").length % resultsPerPage;
+
+            if (remainder > 0) {
+                lastPage++;
+            }
+
+            if (currentPage <= 1) {
+                return;
+            }
+
+            currentPage = currentPage - 1;
+
+            var lowerBound = currentPage * resultsPerPage - resultsPerPage + 1;
+            var upperBound = currentPage * resultsPerPage;
+
+            var pageXofY = "Page " + currentPage + " of " + lastPage;
+
+            $("#txtPageXofY").val(pageXofY);
+
+            $("#currentPage").val(currentPage);
+
+            $(".trBmiId").each(function () {
+                if (this.id < lowerBound || this.id > upperBound) {
+                    this.hidden = true;
+                }
+                else {
+                    this.hidden = false;
+                }
+            });
+
+        });
+
+        $("#liNext").click(function () {
+
+            var resultsPerPage = 5;
+            var currentPage = parseInt($("#currentPage").val());
+            var lastPage = parseInt($(".trBmiId").length / resultsPerPage);
+            var remainder = $(".trBmiId").length % resultsPerPage;
+
+            if (remainder > 0) {
+                lastPage++;
+            }
+
+            if (currentPage >= lastPage) {
+                return;
+            }
+
+            currentPage = currentPage + 1;
+
+            var lowerBound = currentPage * resultsPerPage - resultsPerPage + 1;
+            var upperBound = currentPage * resultsPerPage;
+
+            var pageXofY = "Page " + currentPage + " of " + lastPage;
+
+            $("#txtPageXofY").val(pageXofY);
+
+            $("#currentPage").val(currentPage);
+
+            $(".trBmiId").each(function () {
+                if (this.id < lowerBound || this.id > upperBound) {
+                    this.hidden = true;
+                }
+                else {
+                    this.hidden = false;
+                }
+            });
+
+        });
+
     });
 </script>
 
+@if (TempData["Saved"]?.ToString() == "Saved")
+{
+    <div class="container">
+        <div class="row margin-top-20px">
+            <div class="col-sm-12">
+                <div id="divSuccess" class="alert alert-success" role="alert">
+                    Saved
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <div class="container">
-    <div id="divAllProgramsHeader" class="container border margin-top-10px background-white">
-        <div class="row margin-top-10px">
+    <div id="divAllProgramsHeader" class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
             <div class="col-sm-offset-2 col-sm-12">
                 @{
                     var profileHeader = $"{Model.FirstName}'s Profile";
@@ -42,110 +159,112 @@
                 <hr />
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("txtDob", "Date of Birth")
-                <input type="text" readonly id="DobTxt" value=@Model.DateOfBirth.ToShortDateString() class="form-control" />
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("txtDateJoined", "Member Since")
+                    <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
+                </div>
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("txtDob", "Date of Birth")
+                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtDob" } })
+                </div>
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("lblEmail", "Email Address")
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtEmailAddress" } })
+                </div>
             </div>
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("txtDateJoined", "Member Since")
-                <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
+            <div class="row">
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("lblHeight", "Height (In Inches)")
+                    @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control profile-change" }, id = "txtHeight" })
+                </div>
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("lblWeight", "Weight")
+                    @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtWeight" } })
+                </div>
+                <div class="col-sm-offset-2 col-sm-4">
+                    @Html.Label("lblBmi", "BMI")
+                    <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
+                </div>
             </div>
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("lblEmail", "Email Address")
-                <input type="text" id="txtEmail" value=@Model.EmailAddress class="form-control" />
+            <div class="row margin-bottom-20px">
+                <div class="col-sm-offset-2 col-sm-12">
+                    <hr />
+                    @*<input type="submit" name="btnDeleteWeight" value="X" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm btn-danger" />*@
+                    <input type="submit" id="btnUpdateProfile" formaction=@Url.Action("UpdateProfile") formmethod="post" value="Update Profile" class="btn btn-sm btn-primary" />
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("lblHeight", "Height (In Inches)")
-                <input type="text" id="txtHeight" value=@Model.Height class="form-control" />
-            </div>
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("lblWeight", "Weight")
-                <input type="text" id="txtWeight" value=@Model.Weight class="form-control" />
-            </div>
-            <div class="col-sm-offset-2 col-sm-4">
-                @Html.Label("lblBmi", "BMI")
-                <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
-            </div>
-        </div>
-        <div class="row margin-bottom-10px">
-            <div class="col-sm-offset-2 col-sm-12">
-                <hr />
-                <input type="submit" id="btnUpdateProfile" value="Update Profile" class="btn btn-sm btn-primary" />
-            </div>
-        </div>
-        </div>
+        }
     </div>
+</div>
 
 <div class="container">
-    <div id="divAllProgramsHeader" class="container border margin-top-10px background-white">
+    <div id="divWeightHistory" class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12">
+                <h4>
+                    Weight History
+                </h4>
+                <hr />
+            </div>
+        </div>
         <div class="row">
             <div class="col">
-
                 @using (Html.BeginForm())
                 {
-                    <table class="table table-hover">
-                        <tr>
-                            <th>
-                                Date
-                            </th>
-                            <th>
-                                Weight
-                            </th>
-                            <th>
-                                BMI
-                            </th>
-                        </tr>
+                    <table class="table table-hover table-responsive-sm">
+                        <thead class="thead-light table">
+                            <tr>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Weight
+                                </th>
+                                @*<th>
+                                        BMI
+                                    </th>*@
+                                <th>
+                                    Delete
+                                </th>
+                            </tr>
+                        </thead>
                         <tbody>
+                            @{
+                                var bmiId = 1;
+                            }
                             @foreach (var item in Model?.WeightHistory)
                             {
-                                <tr>
+                                <tr class="trBmiId" id=@bmiId>
                                     <td>
-                                        @item.CreateDate.ToShortDateString()
+                                        @item.CreateDate.ToString("MM/dd/yy")
                                     </td>
                                     <td>
                                         @item.WeightInPounds
                                     </td>
+                                    @*<td>
+                                            @{
+                                                var bmiText = $"{item.Bmi} / {item.BmiCategory}";
+                                            }
+                                            @bmiText
+                                        </td>*@
                                     <td>
-                                        @{
-                                            var bmiText = $"{item.Bmi} / {item.BmiCategory}";
-                                        }
-                                        @bmiText
-                                    </td>
-                                    <td>
-                                        <input type="submit" name="btnDeleteWeight" value="X" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm btn-danger" />
+                                        <input type="submit" name="btnDeleteWeight" value="delete" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm material-icons" />
                                     </td>
                                 </tr>
+                                bmiId++;
                             }
                         </tbody>
+                        <tfoot>
+                        </tfoot>
                     </table>
-                    <div>
-                        <div class="btn-group mr-2" role="group" aria-label="Second group">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next" id="aNext">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
                 }
-
+                <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liPrevious">&laquo;</span>
+                <input id="txtPageXofY" readonly class="input-pageXofY" value="Page 1 of 2" />
+                <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liNext">&raquo;</span> <br /> <br />
+                <input id="currentPage" hidden="hidden" value="1" />
             </div>
         </div>
     </div>

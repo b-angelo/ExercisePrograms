@@ -1,6 +1,6 @@
 ﻿namespace ExerciseProgram.Models.InputModel
 {
-    public class NewProgramInputModel
+    public class ProgramInputModel
     {
         public string Name { get; set; }
         public int LengthInDays { get; set; }

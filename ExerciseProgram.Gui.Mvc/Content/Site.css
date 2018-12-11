@@ -24,12 +24,12 @@ textarea {
     max-width: 280px;
 }
 
-.margin-top-10px{
-    margin-top: 10px;
+.margin-top-20px{
+    margin-top: 20px;
 }
 
-.margin-bottom-10px {
-    margin-bottom: 10px;
+.margin-bottom-20px {
+    margin-bottom: 20px;
 }
 
 .padding-top-10px {
@@ -74,8 +74,12 @@ textarea {
     font: italic !important;
 }
 
-.background-white {
+.background-white-smoke {
     background-color: whitesmoke;
+}
+
+.background-white {
+    background-color: white;
 }
 
 .rest-day {
@@ -91,3 +95,26 @@ textarea {
     color: darkblue !important;    
 }
 
+.input-pageXofY {
+    border: none !important;
+    background-color: #dee2e6 !important;
+    width: 100px;
+    font: bold;
+    text-align: center;
+}
+
+.input-pending-save {
+    border-color: red;
+}
+
+.td-place-holder {
+    color: whitesmoke;
+}
+
+.input-weight-used {
+    width: 50px;
+}
+
+.btn-toolbar-width {
+    width: 100px;
+}

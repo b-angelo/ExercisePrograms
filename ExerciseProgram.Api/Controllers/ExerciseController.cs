@@ -15,16 +15,9 @@ namespace ExerciseProgram.Api.Controllers
         {
             return _exerciseService.GetExerciseById(id);
         }
-
+        
         [HttpGet]
-        [Route("api/Exercise/{muscleGroupName}")]
-        public List<ExerciseViewModel> GetExercisesByMuscleGroup([FromUri] string muscleGroupName)
-        {
-            return _exerciseService.GetExercises();
-        }
-
-        [HttpGet]
-        [Route("api/Exercise/")]
+        [Route("api/Exercises/")]
         public List<ExerciseViewModel> GetAllExercises()
         {           
             return _exerciseService.GetExercises();

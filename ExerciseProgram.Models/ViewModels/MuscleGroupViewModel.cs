@@ -3,7 +3,7 @@
     public class MuscleGroupViewModel
     {
         public int Id { get; set; }
-        public string MuscleGroupName { get; set; }
-        public string MuscleGroupDescription { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

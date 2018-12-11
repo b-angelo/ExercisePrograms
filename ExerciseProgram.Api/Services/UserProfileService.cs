@@ -1,5 +1,6 @@
 ﻿using ExerciseProgram.Api.Data.Entities;
 using ExerciseProgram.Api.Data.Repositories.Base;
+using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,14 @@ namespace ExerciseProgram.Api.Services
 {
     public class UserProfileService
     {
-        private readonly IRepository<UserProfile> _userRepository = new Repository<UserProfile>();
-        private readonly IRepository<UserBodyMass> _userBodyMassRepository = new Repository<UserBodyMass>();
+        private readonly IRepository<SubscriberProfile> _userRepository = new Repository<SubscriberProfile>();
+        private readonly IRepository<BodyMass> _userBodyMassRepository = new Repository<BodyMass>();
 
         public UserProfileViewModel GetUserProfile()
         {
             var user = _userRepository.GetById(2);
             var userBodyMass = _userBodyMassRepository.GetAll()
-                                                      .Where(x => x.UserProfile_Fk == 2 && (x.EndDate > DateTime.Now || x.EndDate == null))
+                                                      .Where(x => x.Profile_Fk == 2 && (x.EndDate > DateTime.Now || x.EndDate == null))
                                                       .OrderByDescending(x => x.CreateDate);
 
             var weightHistory = new List<WeightHistory>();
@@ -45,7 +46,7 @@ namespace ExerciseProgram.Api.Services
 
                 weightHistory.Add(new WeightHistory
                 {
-                    Id = entry.UserBodyMass_Pk,
+                    Id = entry.BodyMass_Pk,
                     WeightInPounds = entry.WeightInPounds,
                     CreateDate = entry.CreateDate,
                     Bmi = bmi,
@@ -55,13 +56,14 @@ namespace ExerciseProgram.Api.Services
 
             var profile = new UserProfileViewModel
             {
-                UserName = user.UserName,
+                UserName = user.DisplayName,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 EmailAddress = user.EmailAddress,
                 DateOfBirth = user.DateOfBirth.Value,
                 Height = 74,
-                BodyMassIndex = 0,
+                BodyMassIndex = weightHistory.OrderByDescending(x => x.CreateDate).FirstOrDefault().Bmi,
+                Weight = weightHistory.OrderByDescending(x => x.CreateDate).FirstOrDefault().WeightInPounds,
                 WeightHistory = weightHistory,
                 DateJoined = user.CreateDate
             };
@@ -79,6 +81,37 @@ namespace ExerciseProgram.Api.Services
             userBodyMass.ModifiedBy = Environment.UserName;
 
             _userBodyMassRepository.Update(userBodyMass);
+        }
+
+        public void UpdateUserProfile(UpdateProfileInputModel model)
+        {
+            var userProfile = _userRepository.GetById(model.Id);
+            
+            userProfile.EmailAddress = model.EmailAddress;
+            userProfile.ModifiedBy = Environment.UserName;
+            userProfile.ModifiedDate = DateTime.Now;                 
+
+            var userBodyMass = new BodyMass
+            {
+                Profile_Fk = userProfile.Profile_Pk,
+                HeightInInches = model.Height,
+                WeightInPounds = model.Weight,
+                CreateDate = DateTime.Now,
+                CreatedBy = Environment.UserName,
+                StartDate = DateTime.Now
+            };
+
+            var bmis = _userBodyMassRepository.GetAll().Any(x => x.WeightInPounds == model.Weight &&
+                                                            x.HeightInInches == model.Height  &&
+                                                            x.CreateDate.Date == DateTime.Today);
+    
+            if (userProfile.EmailAddress == model.EmailAddress && bmis)
+            {
+                return;
+            }
+
+            _userRepository.Update(userProfile);
+            _userBodyMassRepository.Insert(userBodyMass);
         }
     }
 }

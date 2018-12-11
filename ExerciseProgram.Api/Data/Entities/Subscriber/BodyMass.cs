@@ -3,12 +3,12 @@ using ExerciseProgram.Api.Data.Entities.Base;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
-    [Table("UserBodyMass")]
-    public partial class UserBodyMass : EntityBase
+    [Table("subscriber.BodyMass")]
+    public partial class BodyMass : EntityBase
     {
         [Key]
-        public int UserBodyMass_Pk { get; set; }
-        public int UserProfile_Fk { get; set; }
+        public int BodyMass_Pk { get; set; }
+        public int Profile_Fk { get; set; }
         public int HeightInInches { get; set; }
         public int WeightInPounds { get; set; }
     }

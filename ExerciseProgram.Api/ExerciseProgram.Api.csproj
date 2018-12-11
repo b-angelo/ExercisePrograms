@@ -109,23 +109,23 @@
     <Compile Include="Controllers\ExerciseProgramController.cs" />
     <Compile Include="Controllers\ExerciseTypeController.cs" />
     <Compile Include="Controllers\MuscleGroupController.cs" />
-    <Compile Include="Controllers\UserProfileController.cs" />
-    <Compile Include="Data\Entities\AccessLog.cs" />
-    <Compile Include="Data\Entities\ChangeLog.cs" />
+    <Compile Include="Controllers\SubscriberProfileController.cs" />
+    <Compile Include="Data\Entities\Logging\AccessLog.cs" />
+    <Compile Include="Data\Entities\Logging\ChangeLog.cs" />
     <Compile Include="Data\Entities\Base\EntityBase.cs" />
-    <Compile Include="Data\Entities\ErrorLog.cs" />
-    <Compile Include="Data\Entities\Exercise.cs" />
-    <Compile Include="Data\Entities\ExerciseProgramExercise.cs" />
-    <Compile Include="Data\Entities\ExerciseProgram.cs" />
-    <Compile Include="Data\Entities\ExerciseType.cs" />
-    <Compile Include="Data\Entities\MuscleGroup.cs" />
-    <Compile Include="Data\Entities\UserProfile.cs" />
-    <Compile Include="Data\Entities\UserBodyMass.cs" />
-    <Compile Include="Data\Entities\UserExerciseProgram.cs" />
-    <Compile Include="Data\Entities\UserRole.cs" />
+    <Compile Include="Data\Entities\Logging\ErrorLog.cs" />
+    <Compile Include="Data\Entities\Catalog\Exercise.cs" />
+    <Compile Include="Data\Entities\Catalog\ExerciseProgramExercise.cs" />
+    <Compile Include="Data\Entities\Catalog\ExerciseProgram.cs" />
+    <Compile Include="Data\Entities\Catalog\ExerciseType.cs" />
+    <Compile Include="Data\Entities\Catalog\MuscleGroup.cs" />
+    <Compile Include="Data\Entities\Subscriber\SubscriberProfile.cs" />
+    <Compile Include="Data\Entities\Subscriber\BodyMass.cs" />
+    <Compile Include="Data\Entities\Subscriber\SubscriberExerciseProgram.cs" />
+    <Compile Include="Data\Entities\Catalog\Role.cs" />
     <Compile Include="Data\Repositories\Base\IRepository.cs" />
     <Compile Include="Data\Repositories\Base\Repository.cs" />
-    <Compile Include="Data\Entities\UserExerciseProgramHistory.cs" />
+    <Compile Include="Data\Entities\Subscriber\SubscriberExerciseProgramHistory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,7 +158,9 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\AngelosTestApp - Web Deploy.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

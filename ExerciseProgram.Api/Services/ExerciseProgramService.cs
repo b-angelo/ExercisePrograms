@@ -45,11 +45,10 @@ namespace ExerciseProgram.Api.Services
                                            Id = ed.Exercise_Pk,
                                            Name = ed.Name,
                                            Description = ed.Description,
-                                           Type = et.Name
+                                           Type = new ExerciseTypeViewModel()
                                        },
                                        Sets = epe.ExerciseSets,
-                                       Reps = epe.ExerciseRepitions,
-                                       Duration = epe.CardioDuration
+                                       Reps = epe.ExerciseRepitions
                                    };
 
 
@@ -59,6 +58,7 @@ namespace ExerciseProgram.Api.Services
                                 select new ProgramViewModel
                                 {
                                     Id = ep?.ExerciseProgram_Pk ?? 0,
+                                    IsCurrent = true,
                                     Name = ep?.Name ?? string.Empty,
                                     Description = ep?.Description ?? string.Empty,
                                     LengthInDays = ep?.DurationInDays ?? 0,
@@ -93,7 +93,7 @@ namespace ExerciseProgram.Api.Services
             }
         }
 
-        public bool CreateExerciseProgram(NewProgramInputModel model)
+        public long CreateExerciseProgram(ProgramInputModel model)
         {
             try
             {
@@ -107,14 +107,36 @@ namespace ExerciseProgram.Api.Services
                     CreateDate = DateTime.Now
                 };
 
-                _exerciseProgramRepository.Insert(program);
+                return _exerciseProgramRepository.Insert(program);
             }
             catch(Exception e)
             {
-                return false;
+                throw new Exception();
             }
+        }
 
-            return true;
+        public long AddExerciseToProgram(int programId, int exerciseId)
+        {
+            try
+            {
+                var exercise = new ExerciseProgramExercise
+                {
+                    ExerciseProgram_Fk = programId,
+                    Exercise_Fk = exerciseId,
+                    ExerciseDay = 0,
+                    ExerciseSets = 1,
+                    ExerciseRepitions = 2,
+                    StartDate = DateTime.Now,
+                    CreatedBy = Environment.UserName,
+                    CreateDate = DateTime.Now
+                };
+
+                return _exerciseProgramExerciseRepository.Insert(exercise);
+            }
+            catch(Exception e)
+            {
+                throw new Exception();
+            }
         }
     }
 }

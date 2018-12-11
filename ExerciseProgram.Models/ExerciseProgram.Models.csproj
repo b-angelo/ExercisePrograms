@@ -44,7 +44,9 @@
     <Compile Include="Enums\DayOfWeekEnum.cs" />
     <Compile Include="InputModel\NewProgramInputModel.cs" />
     <Compile Include="InputModel\PagingInputModel.cs" />
+    <Compile Include="InputModel\UpdateProfileInputModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ExerciseTypeViewModel.cs" />
     <Compile Include="ViewModels\UserExerciseHistoryViewModel.cs" />
     <Compile Include="ViewModels\ProgramViewModel.cs" />
     <Compile Include="ViewModels\ExerciseViewModel.cs" />

@@ -1,12 +1,12 @@
 ﻿using ExerciseProgram.Api.Services;
+using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
-using System;
 using System.Net;
 using System.Web.Http;
 
 namespace ExerciseProgram.Api.Controllers
 {
-    public class UserProfileController : ApiController
+    public class SubscriberProfileController : ApiController
     {
         private UserProfileService _userProfileService = new UserProfileService();
 
@@ -19,23 +19,13 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpPost]
         [Route("api/UserProfile")]
-        public HttpStatusCode CreateUserProfile([FromBody] UserProfileViewModel model)
+        public HttpStatusCode CreateUserProfile([FromBody] UpdateProfileInputModel model)
         {
-            // ToDo: add "create user view model"
-            // ToDo: add service method for "create" user profile;
-            
-            return HttpStatusCode.Created;
-        }
-
-        [HttpPost]
-        [Route("api/UserProfile/{userId:int}")]
-        public HttpStatusCode UpdateUserProfile([FromUri] int userId, [FromBody] UserProfileViewModel model)
-        {     
-           
+            _userProfileService.UpdateUserProfile(model);
 
             return HttpStatusCode.Created;
         }
-
+        
         [HttpDelete]
         [Route("api/UserProfile/{userId:int}")]
         public HttpStatusCode DeleteUserProfile([FromUri] int id)

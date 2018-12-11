@@ -1,0 +1,163 @@
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ExerciseViewModel>
+
+@{
+    ViewBag.Title = "View1";
+}
+
+<div class="container">
+    <div id="divNewExercise" class="margin-top-20px container border background-white-smoke">
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-3">
+                <b>Type</b>
+            </div>
+            <div class="col-sm-3">
+                <select id="slExerciseType" class="form-control">
+                    <option></option>
+                    @foreach(var type in Model.Select(x => x.Type.Name).Distinct())
+                    {
+                        <option>@type</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-3">
+                <b>Muscle Group</b>
+            </div>
+            <div class="col-sm-3">
+                <select id="slMuscleGroup" class="form-control">
+                    <option></option>
+                    @foreach (var muscleGroup in Model.Select(x => x.MuscleGroup).Distinct())
+                    {
+                        <option>@muscleGroup.Description</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-3">
+                <b>Exercise</b>
+            </div>
+            <div class="col-sm-3">
+                <select id="slExercise" class="form-control">
+                    <option></option>
+                    @foreach (var exercise in Model)
+                    {
+                        <option value="@exercise.Id">
+                            @exercise.Description
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-3">
+                <b>Sets/Duration</b>
+            </div>
+            <div class="col-sm-3">
+                <input id="txtSetsDuration" type="number" class="form-control" />
+            </div>
+        </div>
+        <div class="row margin-bottom-20px">
+            <div class="col">
+                <hr />
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="btnSaveAddExercise" class="btn btn-primary btn-sm btn-toolbar-width">Save</button>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button id="btnCancelAddExercise" class="btn btn-secondary btn-sm btn-toolbar-width">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $("#btnSaveAddExercise").click(function (event) {
+
+            var exerciseId = $("#slExercise").val();
+            alert(exerciseId);
+            event.preventDefault();
+            var posting = $.post("/ExerciseProgram/AddExerciseToProgram", { programId: 1, exerciseId: exerciseId });
+
+            posting.done(function (data) {
+                $("#divSuccess").show();
+                $("#divBasicProgramInfo").show();
+                $("#btnAddWeek").focus();
+            });
+        });
+        //$("#divAddExercise").hide();
+        //$("#divNewExercise").hide();
+        //$("#divExerciseGrid").hide();
+
+        //$("#slMuscleGroup").prop("disabled", true);
+        //$("#slExercise").prop("disabled", true);
+        //$("#txtSetsDuration").prop("disabled", true);
+
+        //$("#btnStartNewWorkout").click(function (event) {
+
+        //    $.post("/ExerciseProgram/CreateExerciseProgram");
+
+        //});
+
+        $("#btnAddExercise").click(function () {
+            $("#divNewExercise").show();
+            $("#slMuscleGroup").focus();
+            $("#divAddExercise").hide();
+            $("#divExerciseGrid").hide();
+        });
+
+        $("#btnSaveAddExercise").click(function () {
+            $("#txtSuccess").val("Exercise Added Successfully");
+            $("#divSuccess").show();                  
+            $("#divNewExercise").hide();
+            $("#divAddExercise").show();
+            $("#divExerciseGrid").show();
+        });
+
+        $("#btnCancelAddExercise").click(function () {
+            $("#divNewExercise").hide();
+            $("#divAddExercise").show();
+            $("#divExerciseGrid").show();
+        });
+
+        $("#slExerciseType").change(function () {
+
+            if ($(this).val() != "") {
+                $("#slMuscleGroup").prop("disabled", false);
+                $("#slExerciseType").prop("disabled", true);
+                $("#slExercise").prop("disabled", true);
+                $("#txtSetsDuration").prop("disabled", true);
+            };           
+        });
+
+        $("#slMuscleGroup").change(function () {
+            if ($(this).val() != "") {
+                $("#slMuscleGroup").prop("disabled", true);
+                $("#slExerciseType").prop("disabled", true);
+                $("#slExercise").prop("disabled", false);
+                $("#txtSetsDuration").prop("disabled", true);
+            }           
+        });
+
+        $("#slExercise").click(function () {
+            if ($(this).val() != "") {
+                $("#slMuscleGroup").prop("disabled", true);
+                $("#slExerciseType").prop("disabled", true);
+                $("#slExercise").prop("disabled", true);
+                $("#txtSetsDuration").prop("disabled", false);
+            }    
+        });
+        
+        $("#btnSaveExerciseGrid").click(function () {
+            $("#txtSuccess").val("Progress Saved");
+            $("#divSuccess").show();
+            $("#txtSuccess").focus();
+        });
+
+    });
+</script>

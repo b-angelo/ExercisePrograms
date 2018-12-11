@@ -1,17 +1,14 @@
 ﻿@{
-    ViewBag.Title = "My Workout";
+                /**/
+
+                ViewBag.Title = "My Workout";
 }
 
-<div class="container margin-top-10px">
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="jumbotron">
-                <h2>
-                    Workout for @DateTime.Today.DayOfWeek,
-                    @System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(DateTime.Today.Month)
-                    @DateTime.Today.Day
-                    @DateTime.Today.Year
-                </h2>
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                <h4> @DateTime.Today.DayOfWeek</h4> <h6>@DateTime.Today.ToString("MM/dd/yyyy")</h6>
                 <p>
                     No workout scheduled.
                 </p>
@@ -21,29 +18,14 @@
     </div>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="jumbotron">
-                <h2>
-                    Current Program
-                </h2>
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                <h4>
+                    History
+                </h4>
                 <p>
-                    No workout scheduled.
-                </p>
-                <a class="btn btn-outline-primary" href="~/ExerciseProgram/ExercisePrograms">View All Programs. &raquo;</a>                
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="jumbotron">
-                <h2>
-                    Goal Progression
-                </h2>
-                <p>
-                    No goals set.
+                    Nothing to show.
                 </p>
                 <a class="btn btn-outline-primary" href="~/ExerciseProgram/ExercisePrograms">Set a new goal. &raquo;</a>
             </div>

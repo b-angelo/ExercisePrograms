@@ -4,13 +4,13 @@ using System;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
-    [Table("UserProfile")]
-    public partial class UserProfile : EntityBase
+    [Table("subscriber.Profile")]
+    public partial class SubscriberProfile : EntityBase
     {
         [Key]
-        public int UserProfile_Pk { get; set; }
-        public int UserRole_Fk { get; set; }
-        public string UserName { get; set; }
+        public int Profile_Pk { get; set; }
+        public int Role_Fk { get; set; }
+        public string DisplayName { get; set; }
         public byte[] PasswordHash { get; set; }
         public Guid Salt { get; set; }
         public Guid? ResetPasswordGuid { get; set; }
@@ -20,6 +20,5 @@ namespace ExerciseProgram.Api.Data.Entities
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public DateTime? DateOfBirth { get; set; }
-        public virtual UserRole UserRole { get; set; }
     }
 }

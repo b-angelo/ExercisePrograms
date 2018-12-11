@@ -1,5 +1,4 @@
-﻿using ExerciseProgram.Models.InputModel;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ExerciseProgram.Api.Data.Repositories.Base
 {

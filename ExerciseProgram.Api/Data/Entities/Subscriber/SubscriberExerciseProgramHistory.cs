@@ -2,12 +2,12 @@
 
 namespace ExerciseProgram.Api.Data
 {
-    [Table("UserExerciseProgramHistory")]
-    public class UserExerciseProgramHistory
+    [Table("subscriber.ExerciseProgramHistory")]
+    public class SubscriberExerciseProgramHistory
     {
         [Key]
-        public int UserExerciseProgramHistory_Pk { get; set; }
-        public int UserExerciseProgram_Fk { get; set; }
+        public int ExerciseProgramHistory_Pk { get; set; }
+        public int ExerciseProgram_Fk { get; set; }
         public int Exercise_Fk { get; set; }
         public int Set { get; set; }
         public int Repititions { get; set; }

@@ -56,7 +56,7 @@ namespace ExerciseProgram.WebApp.Extentions
             }
         }
 
-        public void Post(string endPoint, ObjectContent content)
+        public HttpResponseMessage Post(string endPoint, ObjectContent content)
         {
             using (var client = new HttpClient())
             {
@@ -70,8 +70,27 @@ namespace ExerciseProgram.WebApp.Extentions
 
                 if (!result.IsSuccessStatusCode)
                     throw new Exception($"Failed to post data to {endPoint}.");
+
+                return result;
             }
         }
+
+        //public void Post(string endPoint, ObjectContent content)
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["ExerciseApiService"]);
+
+        //        var responseTask = client.PostAsync($"{endPoint}", content);
+
+        //        responseTask.Wait();
+
+        //        var result = responseTask.Result;
+
+        //        if (!result.IsSuccessStatusCode)
+        //            throw new Exception($"Failed to post data to {endPoint}.");
+        //    }
+        //}
 
         public void Put(string endPoint)
         {

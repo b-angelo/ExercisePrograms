@@ -3,7 +3,7 @@ using Dapper.Contrib.Extensions;
 
 namespace ExerciseProgram.Api.Data.Entities
 {
-    [Table("ExerciseProgramExercise")]
+    [Table("catalog.ExerciseProgramExercise")]
     public partial class ExerciseProgramExercise : EntityBase
     {
         [Key]
@@ -13,6 +13,5 @@ namespace ExerciseProgram.Api.Data.Entities
         public int ExerciseDay { get; set; }
         public int ExerciseSets { get; set; }
         public int ExerciseRepitions { get; set; }
-        public int CardioDuration { get; set; }
     }
 }

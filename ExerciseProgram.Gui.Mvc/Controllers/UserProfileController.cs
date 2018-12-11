@@ -1,4 +1,5 @@
-﻿using ExerciseProgram.Models.ViewModels;
+﻿using ExerciseProgram.Models.InputModel;
+using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -19,12 +20,21 @@ namespace ExerciseProgram.WebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult UpdateProfile(UserProfileViewModel model, int userId = 2)
+        public ActionResult UpdateProfile(UserProfileViewModel model)
         {
-            var content = new ObjectContent(typeof(UserProfileViewModel), model, new JsonMediaTypeFormatter());
-            
-            _httpClient.Post($"api/UserProfile/{userId}", content);
+            UpdateProfileInputModel inputModel = new UpdateProfileInputModel
+            {
+                Id = 2,
+                Weight = model.Weight,
+                Height = model.Height,
+                EmailAddress = model.EmailAddress
+            };
 
+            var content = new ObjectContent(typeof(UpdateProfileInputModel), inputModel, new JsonMediaTypeFormatter());
+
+            _httpClient.Post($"api/UserProfile/", content);
+
+            TempData["Saved"] = "Saved";
             return Redirect(Request.UrlReferrer.ToString());
         }
 

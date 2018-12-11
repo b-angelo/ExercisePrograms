@@ -1,20 +1,10 @@
 ﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
 
-<script>
-    $(document).ready(function () {
-
-
-    });
-</script>
-
-
-@if (ViewBag.Saved == "Saved")
-{
-    <div class="container">
-        <div class="row margin-top-10px">
+    <div id="divSuccess" class="container">
+        <div class="row margin-top-20px">
             <div class="col-sm-12">
-                <div id="divSuccess" class="alert alert-success" role="alert">
-                    Saved
+                <div class="alert alert-success" role="alert">
+                    Basic Program Info Saved!
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -22,12 +12,13 @@
             </div>
         </div>
     </div>
-}
 
+
+<input hidden="hidden" id="txtProgramId" />
 
 <div class="container">
-    <div class="container border background-white margin-top-10px">
-        <div class="row margin-top-10px">
+    <div class="container border background-white-smoke margin-top-20px">
+        <div class="row margin-top-20px">
             <div class="col-sm-12">
 
                 @using (Html.BeginForm())
@@ -37,24 +28,36 @@
                         <h3>Create Progam</h3>
                         <hr />
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                        <div class="col-sm-6">
-                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "50 character limit" } })
-                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-sm-6">
-                            @Html.LabelFor(model => model.LengthInDays, "Length in Days", htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.LengthInDays, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.LengthInDays, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-sm-12">
-                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
-                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control col-sm-12", @rows = 5, placeholder = "250 character limit" } })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-offset-2 col-sm-12 margin-bottom-10px">
-                            <hr />
-                            <input id="btnSubmit" type="submit" value="Save Details" class="btn btn-sm btn-primary" />
+                        <b>@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })</b>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "50 character limit", id = "txtName" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" }) <br />
+                        <b><label>Emphasis</label></b>
+                        <select class="form-control">
+                            <option>
+                                -- Select --
+                            </option>
+                            <option>
+                                Strength
+                            </option>
+                            <option>
+                                Cardio
+                            </option>
+                            <option>
+                                Hybrid
+                            </option>
+                        </select> <br />
+                        <b>@Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })</b>
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control col-sm-12", @rows = 5, placeholder = "250 character limit", id = "txtDescription" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" }) <br />
+                        <div class="row margin-bottom-20px">
+                            <div class="col">
+                                <hr />
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                                        <input type="submit" id="btnSubmit" class="btn btn-primary btn-sm" value="Save Basic Info" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 }
@@ -64,53 +67,88 @@
 </div>
 
 <div class="container">
-    <div class="container border background-white margin-top-10px">
-        <div class="row margin-top-10px">
-            <div class="col-sm-12">
-                <div class="row margin-top-10px">
-                    <div class="col-sm-12">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Week
-                                    </th>
-                                    <th>
-                                        Workout Days
-                                    </th>
-                                    <th>
-                                        Edit
-                                    </th>
-                                    <th>
-                                        Delete
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        1
-                                    </td>
-                                    <td>
-                                        3
-                                    </td>
-                                    <td>
-                                        <a href="#">Edit</a>
-                                    </td>
-                                    <td>
-                                        <a href="#">Delete</a>
-                                    </td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="col-md-offset-2 col-sm-12 margin-bottom-10px">
-                        <hr />
-                        <input id="btnSubmit" type="submit" value="Save Details" class="btn btn-sm btn-primary" />
+    <div id="divBasicProgramInfo" class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col">
+                <h3>
+                    Weekly Schedule
+                </h3>
+                <hr />
+            </div>
+        </div>
+
+
+        <div class="row margin-top-20px">
+
+            <div class="col">
+                <table class="table table-hover table-responsive-sm">
+                    <thead class="thead-light table">
+                        <tr>
+                            <th>
+                                Week #
+                            </th>
+                            <th>
+                                Days
+                            </th>
+                            <th>
+                                Edit
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="trProgramId" style="cursor:pointer">
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                5
+                            </td>
+                            <td>
+                                <a href="#">Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr />
+            </div>
+        </div>
+        <div class="row margin-bottom-20px">
+            <div class="col">
+                <hr />
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        
+                        <input type="button" id="btnAddWeek" class="btn btn-primary btn-sm" value="Add Week" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+<script>
+    $(document).ready(function () {
+
+        $("#divSuccess").hide();
+        $("#divBasicProgramInfo").hide();
+
+        $("#btnSubmit").click(function (event) {
+
+            event.preventDefault();
+
+            var name = $("#txtName").val();
+            var description = $("#txtDescription").val();
+
+            var posting = $.post("/ExerciseProgram/CreateExerciseProgram", { name: name, description: description, lengthInDays: 1 });
+
+            posting.done(function (data) {
+                $("#divSuccess").show();
+                $("#divBasicProgramInfo").show();
+                $("#btnAddWeek").focus();
+            });
+
+        });
+
+    });
+</script>

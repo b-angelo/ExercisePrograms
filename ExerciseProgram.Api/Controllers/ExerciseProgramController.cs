@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.InputModel;
@@ -34,21 +36,19 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpPost]
         [Route("api/ExercisePrograms/")]
-        public HttpStatusCode CreateExerciseProgram([FromBody] NewProgramInputModel model)
+        public HttpResponseMessage CreateExerciseProgram([FromBody] ProgramInputModel model)
         {
-            if (_exerciseService.CreateExerciseProgram(model))
-            {
-                return HttpStatusCode.Created;
-            }
-            else
-            {
-                return HttpStatusCode.InternalServerError;
-            }            
+            var programId = _exerciseService.CreateExerciseProgram(model);
+            var response = Request.CreateResponse(HttpStatusCode.Created);
+           
+            response.Headers.Location = new System.Uri($"{ConfigurationManager.AppSettings["ExerciseApiService"]}api/ExercisePrograms/{programId}");
+
+            return response;
         }
 
         [HttpPut]
         [Route("api/ExercisePrograms/")]
-        public HttpStatusCode UpdateExerciseProgram([FromBody] NewProgramInputModel model)
+        public HttpStatusCode UpdateExerciseProgram([FromBody] ProgramInputModel model)
         {
             _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
 
@@ -56,10 +56,11 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         [HttpPost]
-        [Route("api/ExercisePrograms/{id:int}/Exercises")]
-        public HttpStatusCode AddExerciseToProgram([FromBody] ExerciseViewModel model)
+        [Route("api/ExercisePrograms/{programId:int}/Exercises/{exerciseId:int}")]
+        public HttpStatusCode AddExerciseToProgram([FromUri] int programId, [FromUri] int exerciseId)
         {
-            //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            _exerciseService.AddExerciseToProgram(programId, exerciseId);
+
             return HttpStatusCode.Created;
         }
 

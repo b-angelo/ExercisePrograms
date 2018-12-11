@@ -23,8 +23,6 @@ namespace ExerciseProgram.WebApp.Controllers
                 var pagingFrom = Request.QueryString["pagingFrom"].ToString();
                 var pagingTo = Request.QueryString["pagingTo"].ToString();
             }
-                        
-
 
             result = _httpClient.GetList($"api/ExercisePrograms/");
                       
@@ -38,32 +36,48 @@ namespace ExerciseProgram.WebApp.Controllers
 
             result = _httpClient.GetSingle($"api/ExercisePrograms/{id}");
 
-            //if (result == null)
-            //{
-            //    Response.Redirect("/ExerciseProgram/ExercisePrograms/");
-            //}
-
             return View(result);
         }
         
-        [HttpGet]
         public ActionResult CreateExerciseProgram()
         {
-            return View();
+            var model = new ProgramInputModel
+            {
+                Name = $"{Environment.UserName} - {DateTime.Today.ToShortDateString()}",
+                Description = $"{Environment.UserName} - {DateTime.Today.ToShortDateString()}",
+                LengthInDays = 1
+
+            };
+            var content = new ObjectContent(typeof(ProgramInputModel), model, new JsonMediaTypeFormatter());
+
+            var reponse = _httpClient.Post($"api/ExercisePrograms/", content);
+            var index = reponse.Headers.Location.ToString().LastIndexOf('/') + 1;
+            var programId = reponse.Headers.Location.ToString().Substring(index);
+
+            ViewBag.ProgramCreated = "Created";
+
+            return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(programId)});
         }
 
-        [HttpPost]
-        public ActionResult CreateExerciseProgram(NewProgramInputModel model)
+        public ActionResult AddExerciseToProgram(int programId, int exerciseId)
         {
-            model.LengthInDays = model.LengthInDays * 7;
+            var reponse = _httpClient.Post($"api/ExercisePrograms/{programId}/Exercises/{exerciseId}", null);
 
-            var content = new ObjectContent(typeof(NewProgramInputModel), model, new JsonMediaTypeFormatter());
-
-            _httpClient.Post($"api/ExercisePrograms/", content);
-
-            ViewBag.Saved = "Saved";
-
-            return View();
+            return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(programId) });
         }
+
+        //[HttpPost]
+        //public ActionResult CreateExerciseProgram(NewProgramInputModel model)
+        //{
+        //    model.LengthInDays = model.LengthInDays * 7;
+
+        //    var content = new ObjectContent(typeof(NewProgramInputModel), model, new JsonMediaTypeFormatter());
+
+        //    _httpClient.Post($"api/ExercisePrograms/", content);
+
+        //    ViewBag.Saved = "ProgramInfoSaved";
+
+        //    return View();
+        //}
     }
 }
