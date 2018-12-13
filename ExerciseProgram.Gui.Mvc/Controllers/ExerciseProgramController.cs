@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace ExerciseProgram.WebApp.Controllers
 {
@@ -41,15 +42,21 @@ namespace ExerciseProgram.WebApp.Controllers
         
         public ActionResult CreateExerciseProgram()
         {
+            var program = _httpClient.GetList($"api/ExercisePrograms/")
+                                      .Where(x => x.Name.Contains(DateTime.Now.ToShortDateString()))
+                                      .FirstOrDefault();
+
+            if (program != null)
+                return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(program.Id) });
+
             var model = new ProgramInputModel
             {
                 Name = $"{Environment.UserName} - {DateTime.Today.ToShortDateString()}",
-                Description = $"{Environment.UserName} - {DateTime.Today.ToShortDateString()}",
+                Description = $"Workout for {DateTime.Today.ToShortDateString()}",
                 LengthInDays = 1
 
             };
             var content = new ObjectContent(typeof(ProgramInputModel), model, new JsonMediaTypeFormatter());
-
             var reponse = _httpClient.Post($"api/ExercisePrograms/", content);
             var index = reponse.Headers.Location.ToString().LastIndexOf('/') + 1;
             var programId = reponse.Headers.Location.ToString().Substring(index);
@@ -59,11 +66,16 @@ namespace ExerciseProgram.WebApp.Controllers
             return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(programId)});
         }
 
-        public ActionResult AddExerciseToProgram(int programId, int exerciseId)
+        public void AddExerciseToProgram(AddExerciseToProgramInputModel model)
         {
-            var reponse = _httpClient.Post($"api/ExercisePrograms/{programId}/Exercises/{exerciseId}", null);
+            var exercises = _httpClient.GetList($"api/ExercisePrograms/");
 
-            return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(programId) });
+            //if (exercises.Any(x => x.Exercises.Where(x => x.Exercise.Id == model.ExerciseId)))
+            //    return;
+
+            var content = new ObjectContent(typeof(AddExerciseToProgramInputModel), model, new JsonMediaTypeFormatter());
+
+            _httpClient.Post($"api/ExercisePrograms/{model.ProgramId}/exercises", content);
         }
 
         //[HttpPost]

@@ -105,6 +105,7 @@ textarea {
 
 .input-pending-save {
     border-color: red;
+    color: red;
 }
 
 .td-place-holder {

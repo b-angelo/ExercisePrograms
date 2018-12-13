@@ -56,10 +56,10 @@ namespace ExerciseProgram.Api.Controllers
         }
 
         [HttpPost]
-        [Route("api/ExercisePrograms/{programId:int}/Exercises/{exerciseId:int}")]
-        public HttpStatusCode AddExerciseToProgram([FromUri] int programId, [FromUri] int exerciseId)
+        [Route("api/ExercisePrograms/{programId:int}/exercises/")]
+        public HttpStatusCode AddExerciseToProgram([FromUri] int programId, [FromBody] AddExerciseToProgramInputModel model)
         {
-            _exerciseService.AddExerciseToProgram(programId, exerciseId);
+            _exerciseService.AddExerciseToProgram(programId, model);
 
             return HttpStatusCode.Created;
         }

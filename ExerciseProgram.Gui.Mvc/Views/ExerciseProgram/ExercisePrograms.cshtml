@@ -5,10 +5,45 @@
 <div class="container">
     <div id="divRecordWorkout" class="margin-top-20px container border background-white-smoke">
         <div class="row margin-top-20px margin-bottom-20px">
-            <div class="col-sm-3">
-                <b>View Previous</b>
+            <div class="col">
+                <h4>Workout History</h4>
+                <hr />
             </div>
-            <div class="col-sm-3">
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <b>Current Workout</b>
+            </div> <br />
+            <div class="col">
+                @{
+                    var todaysWorkoutName = $"{DateTime.Now.ToShortDateString()}";
+                }
+                <h6>
+                    <a id="btnStartNewWorkout" class="btn-link" href="~/ExerciseProgram/CreateExerciseProgram">@todaysWorkoutName</a>
+                </h6> <br />
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <b>Go to Previous</b>
+            </div> <br />
+            <div class="col">
+                <select id="slPreviousProgram" class="form-control">
+                    <option></option>
+                    @foreach (var program in Model)
+                    {
+                        <option value=@program.Id>
+                            @program.Name
+                        </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <b>Start Workout</b>
+            </div> <br />
+            <div class="col">
                 <select id="slPreviousProgram" class="form-control">
                     <option></option>
                     @foreach (var program in Model)
@@ -23,7 +58,7 @@
         <hr />
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col">
-                <a id="btnStartNewWorkout" class="btn btn-primary btn-sm" href="~/ExerciseProgram/CreateExerciseProgram">Start New Workout</a>
+                @* <a id="btnStartNewWorkout" class="btn btn-primary btn-sm" href="~/ExerciseProgram/CreateExerciseProgram">Start New Workout</a>*@
             </div>
         </div>
     </div>
@@ -33,306 +68,8 @@
 <script>
     $(document).ready(function () {
         $("#slPreviousProgram").change(function () {
-            var programId = $(this).val();            
-            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);            
+            var programId = $(this).val();
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
         });
     });
 </script>
-
-@*<div class="container">
-        <div id="divACurrentProgram" class="container border margin-top-20px background-white-smoke">
-            <div class="row margin-top-20px">
-                <div class="col">
-                    <h3>
-                        Current Program
-                    </h3>
-                    <hr />
-                    @{
-                        if (Model.Any(x => x.IsCurrent))
-                        {
-                            var currentProgram = Model.First(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now);
-
-                            <table class="table table-hover table-responsive-sm">
-                                <thead class="thead-light table">
-                                    <tr>
-                                        <th>
-                                            Name
-                                        </th>
-                                        <th>
-                                            Emphasis
-                                        </th>
-                                        <th>
-                                            Started On
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        <tr class="trProgramId" style="cursor:pointer" id="@currentProgram.Id">
-                                            <td>
-                                                @currentProgram.Name
-                                            </td>
-                                            <td>
-                                                Strength
-                                            </td>
-                                            <td>
-                                                @currentProgram.StartDate.ToShortDateString()
-                                            </td>
-                                        </tr>
-                                </tbody>
-                            </table>
-                        }
-                    }
-                </div>
-            </div>
-            <div class="row margin-bottom-20px">
-                <div class="col">
-                    <hr />
-                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                        <div class="btn-group mr-2" role="group" aria-label="First group">
-                            <a class="btn btn-primary btn-sm disabled" href="~/ExerciseProgram/CreateExerciseProgram">Record Workout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div id="divAllProgramsHeader" class="container border margin-top-20px background-white-smoke">
-            <div class="row margin-top-20px">
-                <div class="col">
-                    <h4>
-                        All Programs
-                    </h4>
-                    <hr />
-                </div>
-            </div>
-            <div class="background-white border padding-bottom-10px padding-top-10px">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h5>Filter</h5>
-                    </div><br /><br />
-                    <hr />
-                    <div class="col">
-                        <b>Name:</b>
-                        <input type="text" placeholder="Search..." class="form-control" />
-                    </div>
-                    <div class="col">
-                        <b>Emphasis:</b>
-                        <select class="form-control">
-                            <option>
-                                Any
-                            </option>
-                            <option>
-                                Strength
-                            </option>
-                            <option>
-                                Cardio
-                            </option>
-                            <option>
-                                Hybrid
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col">
-                        <b>Days</b>
-                        <input type="number" class="form-control" placeholder="Per Week" />
-                    </div>
-                    <div class="col">
-                        <b>Length</b>
-                        <input type="number" class="form-control" placeholder="In Weeks" />
-                    </div>
-                </div>
-            </div>
-                <div class="row margin-top-20px">
-                    <div class="col">
-                        <table class="table table-hover table-responsive-sm">
-                            <thead class="thead-light table">
-                                <tr>
-                                    <th>
-                                        Name
-                                    </th>
-                                    <th>
-                                        Emphasis
-                                    </th>
-                                    <th>
-                                        Rating
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    var programId = 1;
-                                }
-                                @foreach (var program in Model)
-                                {
-                                    <tr class="trProgramId" style="cursor:pointer" id=@programId>
-                                        <td>
-                                            @program.Name
-                                        </td>
-                                        <td>
-                                            Strength
-                                        </td>
-                                        <td>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star checked"></span>
-                                            <span class="fa fa-star"></span>
-                                        </td>
-                                    </tr>
-                                    programId++;
-                                }
-                                @{
-                                    var numPrograms = 0;
-
-                                    if (Model.Count() % 5 != 0)
-                                    {
-                                        numPrograms = 5 - (Model.Count() % 5);
-                                    }
-                                }
-                                @for (var i = 0; i < numPrograms; i++)
-                                {
-                                    <tr class="trProgramId td-place-holder" id=@programId>
-                                        <td>
-                                            Place holder
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    programId++;
-                                }
-                            </tbody>
-                        </table>
-                        <hr />
-                        <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liPrevious">&laquo;</span>
-                        <input id="txtPageXofY" readonly class="input-pageXofY" value="Page 1 of 2" />
-                        <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liNext">&raquo;</span> <br /> <br />
-                        <input id="currentPage" hidden="hidden" value="1" />
-                    </div>
-                </div>
-                <div class="row margin-bottom-20px">
-                    <div class="col">
-                        <hr />
-                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                            <div class="btn-group mr-2" role="group" aria-label="First group">
-                                <a class="btn btn-primary btn-sm" href="~/ExerciseProgram/CreateExerciseProgram">Create Program</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-
-            <script>
-                $(document).ready(function () {
-
-                    $("#divAllPrograms").ready(function () {
-
-                        var resultsPerPage = 5;
-                        var currentPage = parseInt($("#currentPage").val());
-                        var lastPage = parseInt($(".trProgramId").length / resultsPerPage);
-                        var remainder = $(".trProgramId").length % resultsPerPage;
-
-                        if (remainder > 0) {
-                            lastPage++;
-                        }
-
-                        currentPage = currentPage;
-
-                        var pageXofY = "Page " + currentPage + " of " + lastPage;
-
-                        $("#txtPageXofY").val(pageXofY);
-
-                        $(".trProgramId").each(function () {
-                            if (this.id > 5) {
-                                this.hidden = true;
-                            }
-                        });
-                    });
-
-                    $("#liPrevious").click(function () {
-
-                        var resultsPerPage = 5;
-                        var currentPage = parseInt($("#currentPage").val());
-                        var lastPage = parseInt($(".trProgramId").length / resultsPerPage);
-                        var remainder = $(".trProgramId").length % resultsPerPage;
-
-                        if (remainder > 0) {
-                            lastPage++;
-                        }
-
-                        if (currentPage <= 1) {
-                            return;
-                        }
-
-                        currentPage = currentPage - 1;
-
-                        var lowerBound = currentPage * resultsPerPage - resultsPerPage + 1;
-                        var upperBound = currentPage * resultsPerPage;
-
-                        var pageXofY = "Page " + currentPage + " of " + lastPage;
-
-                        $("#txtPageXofY").val(pageXofY);
-
-                        $("#currentPage").val(currentPage);
-
-                        $(".trProgramId").each(function () {
-                            if (this.id < lowerBound || this.id > upperBound) {
-                                this.hidden = true;
-                            }
-                            else {
-                                this.hidden = false;
-                            }
-                        });
-
-                    });
-
-                    $("#liNext").click(function () {
-
-                        var resultsPerPage = 5;
-                        var currentPage = parseInt($("#currentPage").val());
-                        var lastPage = parseInt($(".trProgramId").length / resultsPerPage);
-                        var remainder = $(".trProgramId").length % resultsPerPage;
-
-                        if (remainder > 0) {
-                            lastPage++;
-                        }
-
-                        if (currentPage >= lastPage) {
-                            return;
-                        }
-
-                        currentPage = currentPage + 1;
-
-                        var lowerBound = currentPage * resultsPerPage - resultsPerPage + 1;
-                        var upperBound = currentPage * resultsPerPage;
-
-                        var pageXofY = "Page " + currentPage + " of " + lastPage;
-
-                        $("#txtPageXofY").val(pageXofY);
-
-                        $("#currentPage").val(currentPage);
-
-                        $(".trProgramId").each(function () {
-                            if (this.id < lowerBound || this.id > upperBound) {
-                                this.hidden = true;
-                            }
-                            else {
-                                this.hidden = false;
-                            }
-                        });
-
-                    });
-
-                    $(".trProgramId").click(function () {
-
-                        var programId = $(this).attr("id");
-
-                        $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
-                    });
-
-                });
-            </script>*@

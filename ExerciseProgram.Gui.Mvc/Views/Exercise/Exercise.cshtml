@@ -6,14 +6,14 @@
 
 <div class="container">
     <div id="divNewExercise" class="margin-top-20px container border background-white-smoke">
-        <div class="row margin-top-20px margin-bottom-20px">
+        @*<div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-3">
                 <b>Type</b>
             </div>
             <div class="col-sm-3">
                 <select id="slExerciseType" class="form-control">
                     <option></option>
-                    @foreach(var type in Model.Select(x => x.Type.Name).Distinct())
+                    @foreach (var type in Model.Select(x => x.Type.Name).Distinct())
                     {
                         <option>@type</option>
                     }
@@ -33,7 +33,7 @@
                     }
                 </select>
             </div>
-        </div>
+        </div>*@
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-3">
                 <b>Exercise</b>
@@ -70,94 +70,34 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function () {
 
         $("#btnSaveAddExercise").click(function (event) {
 
             var exerciseId = $("#slExercise").val();
-            alert(exerciseId);
-            event.preventDefault();
-            var posting = $.post("/ExerciseProgram/AddExerciseToProgram", { programId: 1, exerciseId: exerciseId });
+            var programId = $(location).attr("href").substring($(location).attr("href").lastIndexOf('/') + 1);
+            var txtSetsDuration = $("#txtSetsDuration").val();
+            var posting = $.post("/ExerciseProgram/AddExerciseToProgram",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId,
+                    sets: txtSetsDuration
+                });
 
             posting.done(function (data) {
-                $("#divSuccess").show();
-                $("#divBasicProgramInfo").show();
-                $("#btnAddWeek").focus();
+                $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
             });
-        });
-        //$("#divAddExercise").hide();
-        //$("#divNewExercise").hide();
-        //$("#divExerciseGrid").hide();
-
-        //$("#slMuscleGroup").prop("disabled", true);
-        //$("#slExercise").prop("disabled", true);
-        //$("#txtSetsDuration").prop("disabled", true);
-
-        //$("#btnStartNewWorkout").click(function (event) {
-
-        //    $.post("/ExerciseProgram/CreateExerciseProgram");
-
-        //});
-
-        $("#btnAddExercise").click(function () {
-            $("#divNewExercise").show();
-            $("#slMuscleGroup").focus();
-            $("#divAddExercise").hide();
-            $("#divExerciseGrid").hide();
-        });
-
-        $("#btnSaveAddExercise").click(function () {
-            $("#txtSuccess").val("Exercise Added Successfully");
-            $("#divSuccess").show();                  
-            $("#divNewExercise").hide();
-            $("#divAddExercise").show();
-            $("#divExerciseGrid").show();
         });
 
         $("#btnCancelAddExercise").click(function () {
-            $("#divNewExercise").hide();
-            $("#divAddExercise").show();
-            $("#divExerciseGrid").show();
-        });
 
-        $("#slExerciseType").change(function () {
+            var programId = $(location).attr("href").substring($(location).attr("href").lastIndexOf('/') + 1);
 
-            if ($(this).val() != "") {
-                $("#slMuscleGroup").prop("disabled", false);
-                $("#slExerciseType").prop("disabled", true);
-                $("#slExercise").prop("disabled", true);
-                $("#txtSetsDuration").prop("disabled", true);
-            };           
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
         });
-
-        $("#slMuscleGroup").change(function () {
-            if ($(this).val() != "") {
-                $("#slMuscleGroup").prop("disabled", true);
-                $("#slExerciseType").prop("disabled", true);
-                $("#slExercise").prop("disabled", false);
-                $("#txtSetsDuration").prop("disabled", true);
-            }           
-        });
-
-        $("#slExercise").click(function () {
-            if ($(this).val() != "") {
-                $("#slMuscleGroup").prop("disabled", true);
-                $("#slExerciseType").prop("disabled", true);
-                $("#slExercise").prop("disabled", true);
-                $("#txtSetsDuration").prop("disabled", false);
-            }    
-        });
-        
-        $("#btnSaveExerciseGrid").click(function () {
-            $("#txtSuccess").val("Progress Saved");
-            $("#divSuccess").show();
-            $("#txtSuccess").focus();
-        });
-
     });
 </script>

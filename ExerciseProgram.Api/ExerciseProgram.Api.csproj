@@ -121,11 +121,11 @@
     <Compile Include="Data\Entities\Catalog\MuscleGroup.cs" />
     <Compile Include="Data\Entities\Subscriber\SubscriberProfile.cs" />
     <Compile Include="Data\Entities\Subscriber\BodyMass.cs" />
-    <Compile Include="Data\Entities\Subscriber\SubscriberExerciseProgram.cs" />
+    <Compile Include="Data\Entities\Subscriber\Workout.cs" />
     <Compile Include="Data\Entities\Catalog\Role.cs" />
     <Compile Include="Data\Repositories\Base\IRepository.cs" />
     <Compile Include="Data\Repositories\Base\Repository.cs" />
-    <Compile Include="Data\Entities\Subscriber\SubscriberExerciseProgramHistory.cs" />
+    <Compile Include="Data\Entities\Subscriber\WorkoutHistory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

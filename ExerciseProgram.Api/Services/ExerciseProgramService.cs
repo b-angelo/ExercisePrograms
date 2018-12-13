@@ -15,6 +15,8 @@ namespace ExerciseProgram.Api.Services
         private IRepository<Exercise> _exerciseRepository = new Repository<Exercise>();
         private IRepository<ExerciseProgramExercise> _exerciseProgramExerciseRepository = new Repository<ExerciseProgramExercise>();
         private IRepository<ExerciseType> _exerciseTypeRepository = new Repository<ExerciseType>();
+        private IRepository<Workout> _workoutRepository = new Repository<Workout>();
+        private IRepository<WorkoutHistory> _workoutHistoryRepository = new Repository<WorkoutHistory>();
 
         public ProgramViewModel GetExerciseProgramById(int id)
         {
@@ -107,7 +109,20 @@ namespace ExerciseProgram.Api.Services
                     CreateDate = DateTime.Now
                 };
 
-                return _exerciseProgramRepository.Insert(program);
+                var programPk = _exerciseProgramRepository.Insert(program);
+
+                var workout = new Workout
+                {
+                    Profile_Fk = 1,
+                    ExerciseProgram_Fk = (int)programPk,
+                    StartDate = DateTime.Now,
+                    CreatedBy = Environment.UserName,
+                    CreateDate = DateTime.Now
+                };
+
+                _workoutRepository.Insert(workout);
+
+                return programPk;
             }
             catch(Exception e)
             {
@@ -115,17 +130,17 @@ namespace ExerciseProgram.Api.Services
             }
         }
 
-        public long AddExerciseToProgram(int programId, int exerciseId)
+        public long AddExerciseToProgram(int programId, AddExerciseToProgramInputModel model)
         {
             try
             {
                 var exercise = new ExerciseProgramExercise
                 {
                     ExerciseProgram_Fk = programId,
-                    Exercise_Fk = exerciseId,
+                    Exercise_Fk = model.ExerciseId,
                     ExerciseDay = 0,
-                    ExerciseSets = 1,
-                    ExerciseRepitions = 2,
+                    ExerciseSets = model.Sets,
+                    ExerciseRepitions = 0,
                     StartDate = DateTime.Now,
                     CreatedBy = Environment.UserName,
                     CreateDate = DateTime.Now
