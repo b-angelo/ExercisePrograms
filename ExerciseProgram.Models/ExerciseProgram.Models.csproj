@@ -45,10 +45,11 @@
     <Compile Include="InputModel\AddExerciseToProgramInputModel.cs" />
     <Compile Include="InputModel\NewProgramInputModel.cs" />
     <Compile Include="InputModel\PagingInputModel.cs" />
+    <Compile Include="InputModel\SaveWorkoutInputModel.cs" />
     <Compile Include="InputModel\UpdateProfileInputModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ExerciseTypeViewModel.cs" />
-    <Compile Include="ViewModels\UserExerciseHistoryViewModel.cs" />
+    <Compile Include="ViewModels\WorkoutHistoryViewModel.cs" />
     <Compile Include="ViewModels\ProgramViewModel.cs" />
     <Compile Include="ViewModels\ExerciseViewModel.cs" />
     <Compile Include="ViewModels\MuscleGroupViewModel.cs" />

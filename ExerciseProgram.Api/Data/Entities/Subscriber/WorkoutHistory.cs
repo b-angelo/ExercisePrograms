@@ -10,7 +10,7 @@ namespace ExerciseProgram.Api.Data.Entities
         public int WorkoutHistory_Pk { get; set; }
         public int Workout_Fk { get; set; }
         public int ExerciseProgramExercise_Fk { get; set; }
-        public int Set { get; set; }
+        public int SetNumber { get; set; }
         public int Repititions { get; set; }
         public int WeightUsed { get; set; }
         public int Duration { get; set; }

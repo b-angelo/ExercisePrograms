@@ -62,13 +62,24 @@
                                 <button class="btn btn-sm btn-outline-success btn-save-exercise float-right">Save</button>
                             </td>   
                             <td>
-                                @set
+                                <input readonly class="input-weight-used form-control-sm input-changed exercise-set"  value="@set" type="number" />
                             </td>
-                            <td class="blah">
-                                <input class="input-weight-used form-control-sm input-changed exercise-set" type="number" />
+                            <td>
+                                @{ 
+                                    var reps = string.Empty;
+                                    var weight = string.Empty;
+                                    var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
+
+                                    if (setReps != null)
+                                    {
+                                        reps = setReps.Reps.ToString();
+                                        weight = setReps.Weight.ToString();
+                                    }
+                                }
+                                <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
                             </td>
                             <td class="td-reps-duration">
-                                <input class="input-weight-used form-control-sm input-changed exercise-reps-duration" type="number" />
+                                <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
                             </td>
                         </tr>
                             }
@@ -107,10 +118,10 @@
 
         $(".input-changed").change(function () {
 
-            var exerciseSet = $(this).closest(".program-name").find(".exercise-set").val();
-            var exerciseRepsDuration = $(this).closest(".program-name").find(".exercise-reps-duration").val();
+            var reps = $(this).closest(".program-name").find(".exercise-reps").val();
+            var weight = $(this).closest(".program-name").find(".exercise-weight").val();
 
-            if (exerciseSet > 0 && exerciseRepsDuration > 0) {
+            if (reps > 0 && weight > 0) {
                 //$(this).closest(".program-name").addClass("input-pending-save");
                 $(this).closest(".program-name").find(".btn-save-exercise").show();
             }
@@ -127,16 +138,31 @@
 
             var programId = $("#txtHiddenProgramId").val();
             var exerciseId = $(this).closest(".program-name").attr("id");
-            var exerciseSet = $(this).closest(".program-name").find(".exercise-set").val();
-            var exerciseRepsDuration = $(this).closest(".program-name").find(".exercise-reps-duration").val();
+            var set = $(this).closest(".program-name").find(".exercise-set").val();
+            var reps = $(this).closest(".program-name").find(".exercise-reps").val();
+            var weight = $(this).closest(".program-name").find(".exercise-weight").val();
 
-            alert(programId);
+            var posting = $.post("/ExerciseProgram/SaveExercise",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId,
+                    set: set,
+                    reps: reps,
+                    weight: weight
+                });
 
-            alert(exerciseId);
+            posting.done(function (data) {
+                location.reload(true);
+            });
 
-            alert(exerciseSet);
+            //alert(programId);
 
-            alert(exerciseRepsDuration);
+            //alert(exerciseId);
+
+            //alert(set);
+
+            //alert(reps);
+            //alert(weight);  
         });
     });
 </script>

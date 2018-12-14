@@ -33,6 +33,21 @@ namespace ExerciseProgram.Api.Services
                 var exerciseDetails = _exerciseRepository.GetAll();
                 var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll();
                 var exerciseType = _exerciseTypeRepository.GetAll();
+                var workoutHistory = _workoutHistoryRepository.GetAll();
+
+                var setsReps = new List<SetsReps>();
+
+                foreach (var workout in workoutHistory)
+                {
+                    setsReps.Add(new SetsReps
+                    {
+                        ProgramId = workout.Workout_Fk,
+                        ExerciseId = workout.ExerciseProgramExercise_Fk,
+                        Set = workout.SetNumber,
+                        Reps = workout.Repititions,
+                        Weight = workout.WeightUsed
+                    });
+                }
 
                 var exerciseList = from ed in exerciseDetails
                                    join et in exerciseType on ed.ExerciseType_Fk equals et.ExerciseType_Pk
@@ -47,28 +62,26 @@ namespace ExerciseProgram.Api.Services
                                            Id = ed.Exercise_Pk,
                                            Name = ed.Name,
                                            Description = ed.Description,
-                                           Type = new ExerciseTypeViewModel()
+                                           Type = new ExerciseTypeViewModel(),
                                        },
                                        Sets = epe.ExerciseSets,
                                        Reps = epe.ExerciseRepitions
                                    };
 
-
-
                 var programList =
                                 from ep in exercisePrograms
                                 select new ProgramViewModel
                                 {
-                                    Id = ep?.ExerciseProgram_Pk ?? 0,
+                                    Id = ep.ExerciseProgram_Pk,
                                     IsCurrent = true,
                                     Name = ep?.Name ?? string.Empty,
                                     Description = ep?.Description ?? string.Empty,
                                     LengthInDays = ep?.DurationInDays ?? 0,
                                     StartDate = ep?.StartDate ?? DateTime.MinValue,
                                     EndDate = ep?.EndDate ?? DateTime.MaxValue,
-                                    Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>()
+                                    Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>(),
+                                    SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>()
                                 };
-
 
                 return programList.ToList();
             }
@@ -128,6 +141,40 @@ namespace ExerciseProgram.Api.Services
             {
                 throw new Exception();
             }
+        }
+
+        public void SaveWorkout(SaveWorkoutInputModel model)
+        {
+            var recordedSet = _workoutHistoryRepository.GetAll()
+                                                       .Where(x => x.Workout_Fk == model.ProgramId &&
+                                                                   x.ExerciseProgramExercise_Fk == model.ExerciseId &&
+                                                                   x.SetNumber == model.Set)
+                                                        .FirstOrDefault();
+            if (recordedSet != null)
+            {
+                recordedSet.Repititions = model.Reps;
+                recordedSet.WeightUsed = model.Weight;
+                recordedSet.ModifiedBy = Environment.UserName;
+                recordedSet.ModifiedDate = DateTime.Now;
+
+                _workoutHistoryRepository.Update(recordedSet);
+            }
+            else
+            {
+                var workout = new WorkoutHistory
+                {
+                    Workout_Fk = model.ProgramId,
+                    ExerciseProgramExercise_Fk = model.ExerciseId,
+                    SetNumber = model.Set,
+                    Repititions = model.Reps,
+                    WeightUsed = model.Weight,
+                    StartDate = DateTime.Now,
+                    CreatedBy = Environment.UserName,
+                    CreateDate = DateTime.Now
+                };
+
+                _workoutHistoryRepository.Insert(workout);
+            }            
         }
 
         public long AddExerciseToProgram(int programId, AddExerciseToProgramInputModel model)

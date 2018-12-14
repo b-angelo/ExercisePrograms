@@ -71,5 +71,14 @@ namespace ExerciseProgram.Api.Controllers
             //  _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
             return HttpStatusCode.OK;
         }
+
+        [HttpPost]
+        [Route("api/ExercisePrograms/workout/")]
+        public HttpStatusCode SaveWorkout([FromBody] SaveWorkoutInputModel model)
+        {
+            _exerciseService.SaveWorkout(model);
+
+            return HttpStatusCode.Created;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ExerciseProgram.Models.Enums;
+using System.Collections.Generic;
 
 namespace ExerciseProgram.Models.ViewModels
 {
@@ -9,7 +10,6 @@ namespace ExerciseProgram.Models.ViewModels
         public int ExerciseProgramFk { get; set; }
         public ExerciseViewModel Exercise { get; set; }
         public int Sets { get; set; }
-        public int Reps { get; set; }
-        public int Duration { get; set; }
+        public int Reps { get; set; }        
     }
 }

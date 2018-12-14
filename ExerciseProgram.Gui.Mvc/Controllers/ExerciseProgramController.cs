@@ -78,18 +78,16 @@ namespace ExerciseProgram.WebApp.Controllers
             _httpClient.Post($"api/ExercisePrograms/{model.ProgramId}/exercises", content);
         }
 
-        //[HttpPost]
-        //public ActionResult CreateExerciseProgram(NewProgramInputModel model)
-        //{
-        //    model.LengthInDays = model.LengthInDays * 7;
+        [HttpPost]
+        public ActionResult SaveExercise(SaveWorkoutInputModel model)
+        {
+            var content = new ObjectContent(typeof(SaveWorkoutInputModel), model, new JsonMediaTypeFormatter());
 
-        //    var content = new ObjectContent(typeof(NewProgramInputModel), model, new JsonMediaTypeFormatter());
+            _httpClient.Post($"api/ExercisePrograms/workout", content);
 
-        //    _httpClient.Post($"api/ExercisePrograms/", content);
+            ViewBag.Saved = "ProgramInfoSaved";
 
-        //    ViewBag.Saved = "ProgramInfoSaved";
-
-        //    return View();
-        //}
+            return View();
+        }
     }
 }

@@ -9,6 +9,6 @@ namespace ExerciseProgram.Models.ViewModels
         public ProgramViewModel Program { get; set; }
         public DateTime WorkoutDate { get; set; }
         public int WorkoutNumber { get; set; }
-        public List<UserExerciseHistoryViewModel> ExerciseHistory { get; set; }
+        public List<WorkoutHistoryViewModel> ExerciseHistory { get; set; }
     }
 }

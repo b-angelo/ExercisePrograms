@@ -15,6 +15,16 @@ namespace ExerciseProgram.Models.ViewModels
         public int LengthInDays { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public List<ProgramExerciseViewModel> Exercises { get; set; }        
+        public List<ProgramExerciseViewModel> Exercises { get; set; }
+        public List<SetsReps> SetsReps { get; set; }
+    }
+
+    public class SetsReps
+    {
+        public int ProgramId { get; set; }
+        public int ExerciseId { get; set; }
+        public int Set { get; set; }
+        public int Reps { get; set; }
+        public int Weight { get; set; }
     }
 }
