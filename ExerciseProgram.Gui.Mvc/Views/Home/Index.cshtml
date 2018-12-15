@@ -1,18 +1,44 @@
-﻿@{
-                /**/
+﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
 
-                ViewBag.Title = "My Workout";
+@{
+    /**/
+
+    ViewBag.Title = "My Workout";
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <div class="container">
     <div class="container border margin-top-20px background-white-smoke">
         <div class="row margin-top-20px">
             <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
-                <h4> @DateTime.Today.DayOfWeek</h4> <h6>@DateTime.Today.ToString("MM/dd/yyyy")</h6>
-                <p>
-                    No workout scheduled.
+                @{
+                    var todaysDate = @DateTime.Today.ToString("MM/dd/yyyy");
+                    var headerText = $"{DateTime.Today.DayOfWeek}'s Workout";
+                }
+                <h4> @headerText </h4>
+                @{
+                    var workoutScheduled = Model.WorkoutStarted ? "yes" : "no";
+                    var exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                }
+                <p id="pWorkoutScheduled">
+                    <br />
+                    <b>Name:</b> @Model.Name
+                    <br />
+                    <b>Exercises:</b> @exerciseCount
+                    <br />
+                    <b>Complete:</b> 67%
+                    <br /> <br />
+                    <a id="aWorkoutScheduled" class="btn btn-outline-primary home-page-button" href="#">Go to workout &raquo;</a>
+                    <br />
                 </p>
-                <a class="btn btn-outline-primary" href="~/ExerciseProgram/ExercisePrograms">View All Programs. &raquo;</a>
+                <p id="pNoWorkoutScheduled">
+                    <br />
+                    No workout scheduled for today.
+                    <br /><br />
+                    <a id="aNoWorkoutScheduled" class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/CreateExerciseProgram">Create Workout</a>
+                </p>
+                <input id="txtWorkoutScheduled" hidden="hidden" value=@workoutScheduled />
             </div>
         </div>
     </div>
@@ -22,13 +48,41 @@
         <div class="row margin-top-20px">
             <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
                 <h4>
-                    History
+                    Workout History
                 </h4>
+                (Workouts marked complete)
                 <p>
-                    Nothing to show.
+                    <br />
+                    <b>This Week:</b> 0
                 </p>
-                <a class="btn btn-outline-primary" href="~/ExerciseProgram/ExercisePrograms">Set a new goal. &raquo;</a>
+                <p>
+                    <b>This Month:</b> 0
+                </p>
+                <p>
+                    <b>This Year:</b> 0
+                </p>
+                <br />
+                <a class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/ExercisePrograms">View Past Workouts &raquo;</a>
             </div>
         </div>
     </div>
 </div>
+<input hidden="hidden" id="txtProgramId" value="@Model.Id" />
+<script>
+    $(document).ready(function () {
+
+        if ($('#txtWorkoutScheduled').val() === 'yes') {
+            $('#pNoWorkoutScheduled').hide();
+            $('#pWorkoutScheduled').show();
+        }
+        else {
+            $('#pNoWorkoutScheduled').show();
+            $('#pWorkoutScheduled').hide();
+        }
+
+        $("#aWorkoutScheduled").click(function () {
+            var programId = $("#txtProgramId").val();
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+        });
+    });
+</script>

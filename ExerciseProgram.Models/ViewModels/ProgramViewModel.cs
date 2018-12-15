@@ -17,6 +17,7 @@ namespace ExerciseProgram.Models.ViewModels
         public DateTime? EndDate { get; set; }
         public List<ProgramExerciseViewModel> Exercises { get; set; }
         public List<SetsReps> SetsReps { get; set; }
+        public bool WorkoutStarted { get; set; }
     }
 
     public class SetsReps

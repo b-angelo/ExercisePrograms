@@ -16,7 +16,7 @@ namespace ExerciseProgram.Api.Controllers
         [HttpGet]
         [Route("api/ExercisePrograms/{id:int}")]
         public ProgramViewModel GetExerciseProgramById([FromUri] int id)
-        {
+        {           
             return _exerciseService.GetExerciseProgramById(id);
         }
 

@@ -2,23 +2,16 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-@{
-    if (ViewBag.ProgramCreated == "Created")
-    {
+
         <div id="divSuccess" class="container">
             <div class="row margin-top-20px">
                 <div class="col-sm-12">
-                    <div class="alert alert-success" role="alert">
-                        New Program Created
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                    <div id="divSuccess" class="alert show fade alert-success" role="alert">
+                        Saved Successfully
                     </div>
                 </div>
             </div>
         </div>
-    }
-}
 
 <div class="container">
     <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
@@ -29,7 +22,11 @@
         </div>
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col">
-                <table class="table table-hover table-responsive-sm">
+                @{
+                    var exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                }
+                <input hidden="hidden" id="txtExerciseCount" value="@exerciseCount" />
+                <table id="tblExerciseSummary" class="table table-hover table-responsive-sm">
                     <thead class="thead-light table">
                         <tr>
                             <th colspan="1">
@@ -49,39 +46,39 @@
                         {
                             for (var set = 1; set <= exercise.Sets; set++)
                             {
-                        <tr>
-                            @if (set == 1)
-                            {
-                            <td colspan="4">
-                                <b>@exercise.Exercise.Description</b>
-                            </td>
-                            }
-                        </tr>
-                        <tr id="@exercise.Id" class="program-name">
-                            <td>
-                                <button class="btn btn-sm btn-outline-success btn-save-exercise float-right">Save</button>
-                            </td>   
-                            <td>
-                                <input readonly class="input-weight-used form-control-sm input-changed exercise-set"  value="@set" type="number" />
-                            </td>
-                            <td>
-                                @{ 
-                                    var reps = string.Empty;
-                                    var weight = string.Empty;
-                                    var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
-
-                                    if (setReps != null)
+                                <tr>
+                                    @if (set == 1)
                                     {
-                                        reps = setReps.Reps.ToString();
-                                        weight = setReps.Weight.ToString();
+                                        <td colspan="4">
+                                            <b>@exercise.Exercise.Description</b>
+                                        </td>
                                     }
-                                }
-                                <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
-                            </td>
-                            <td class="td-reps-duration">
-                                <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
-                            </td>
-                        </tr>
+                                </tr>
+                                <tr id="@exercise.Id" class="program-name">
+                                    <td>
+                                        <button class="btn btn-sm btn-success btn-save-exercise float-right disabled">+</button>
+                                    </td>
+                                    <td>
+                                        <input readonly class="form-control-plaintext exercise-set" value="@set" type="number" />
+                                    </td>
+                                    <td>
+                                        @{
+                                            var reps = string.Empty;
+                                            var weight = string.Empty;
+                                            var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
+
+                                            if (setReps != null)
+                                            {
+                                                reps = setReps.Reps.ToString();
+                                                weight = setReps.Weight.ToString();
+                                            }
+                                        }
+                                        <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
+                                    </td>
+                                    <td class="td-reps-duration">
+                                        <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
+                                    </td>
+                                </tr>
                             }
                         }
                     </thead>
@@ -107,12 +104,17 @@
 <script>
     $(document).ready(function () {
 
-        $(".btn-save-exercise").hide();
+        if ($("#txtExerciseCount").val() == 0) {
+            $("#tblExerciseSummary").hide();
+            $("#btnMarkComplete").hide();
+        };
+
+        $("#divSuccess").hide();
 
         $("#btnAddExercise").click(function () {
 
             var programId = $("#txtHiddenProgramId").val();
-            
+
             $(location).attr('href', '/Exercise/Exercise/' + programId);
         });
 
@@ -122,16 +124,11 @@
             var weight = $(this).closest(".program-name").find(".exercise-weight").val();
 
             if (reps > 0 && weight > 0) {
-                //$(this).closest(".program-name").addClass("input-pending-save");
-                $(this).closest(".program-name").find(".btn-save-exercise").show();
+                $(this).closest(".program-name").find(".btn-save-exercise").removeClass("disabled");
             }
             else {
-                //$(this).closest(".program-name").removeClass("input-pending-save");
-                $(this).closest(".program-name").find(".btn-save-exercise").hide();
+                $(this).closest(".program-name").find(".btn-save-exercise").addClass("disabled");
             }
-            
-           
-            //$(location).attr('href', '/Exercise/Exercise/' + programId);
         });
 
         $(".btn-save-exercise").click(function () {
@@ -142,27 +139,33 @@
             var reps = $(this).closest(".program-name").find(".exercise-reps").val();
             var weight = $(this).closest(".program-name").find(".exercise-weight").val();
 
-            var posting = $.post("/ExerciseProgram/SaveExercise",
+            $.post("/ExerciseProgram/SaveExercise",
                 {
                     programId: programId,
                     exerciseId: exerciseId,
                     set: set,
                     reps: reps,
                     weight: weight
+                },
+                function (result) {                    
+                    $("#divSuccess").show();
+                    $("#divSuccess").fadeOut(3000);
+                    $(".btn-save-exercise").each(function () {
+                        $(this).addClass("disabled");
+                    });
                 });
 
-            posting.done(function (data) {
-                location.reload(true);
-            });
+            //$.post("demo_ajax_gethint.asp", { suggest: txt }, function (result) {
+            //    $("span").html(result);
+            //});
 
-            //alert(programId);
-
-            //alert(exerciseId);
-
-            //alert(set);
-
-            //alert(reps);
-            //alert(weight);  
+            //var success = (function (data) {
+            //    alert("test");
+            //    $("#divSuccess").show();
+            //    //$(".btn-save-exercise").each(function () {
+            //    //    $(this).addClass("disabled");
+            //    //});
+            //});
         });
     });
 </script>

@@ -34,7 +34,8 @@ namespace ExerciseProgram.Api.Services
                 var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll();
                 var exerciseType = _exerciseTypeRepository.GetAll();
                 var workoutHistory = _workoutHistoryRepository.GetAll();
-
+                var workoutProgram = _workoutRepository.GetAll();
+    
                 var setsReps = new List<SetsReps>();
 
                 foreach (var workout in workoutHistory)
@@ -77,10 +78,11 @@ namespace ExerciseProgram.Api.Services
                                     Name = ep?.Name ?? string.Empty,
                                     Description = ep?.Description ?? string.Empty,
                                     LengthInDays = ep?.DurationInDays ?? 0,
-                                    StartDate = ep?.StartDate ?? DateTime.MinValue,
-                                    EndDate = ep?.EndDate ?? DateTime.MaxValue,
+                                    StartDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.StartDate ?? DateTime.MinValue,
+                                    EndDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.EndDate ?? DateTime.MaxValue,
                                     Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>(),
-                                    SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>()
+                                    SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>(),
+                                    WorkoutStarted = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk) != null
                                 };
 
                 return programList.ToList();
@@ -117,7 +119,8 @@ namespace ExerciseProgram.Api.Services
                     Name = model.Name,
                     Description = model.Description,
                     DurationInDays = model.LengthInDays,
-                    StartDate = DateTime.Now,
+                    StartDate = DateTime.Today.Date,
+                    EndDate = DateTime.Today.AddDays(1).AddSeconds(-1),
                     CreatedBy = Environment.UserName,
                     CreateDate = DateTime.Now
                 };
