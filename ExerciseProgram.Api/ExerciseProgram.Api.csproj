@@ -132,7 +132,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ExerciseProgramService.cs" />
     <Compile Include="Services\ExerciseService.cs" />
-    <Compile Include="Services\UserProfileService.cs" />
+    <Compile Include="Services\SubscriberProfileService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />

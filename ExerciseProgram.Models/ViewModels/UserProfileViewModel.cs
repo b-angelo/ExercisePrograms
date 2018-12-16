@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ExerciseProgram.Models.ViewModels
 {
-    public class UserProfileViewModel
+    public class SubscriberProfileViewModel
     {
-        public string UserName { get; set; }
+        public string SubscriberName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
@@ -17,6 +17,12 @@ namespace ExerciseProgram.Models.ViewModels
         public double BodyMassIndex { get; set; }
         public List<WeightHistory> WeightHistory { get; set; }
         public DateTime DateJoined { get; set; }
+        public int CurrentProgramId { get; set; }
+        public string CurrentWorkoutName { get; set; }
+        public int CurrentWorkoutExerciseCount { get; set; }
+        public int WorkoutsCompletedWeek { get; set; }
+        public int WorkoutsCompletedMonth { get; set; }
+        public int WorkoutCompletedYear { get; set; }
     }
 
     public class WeightHistory

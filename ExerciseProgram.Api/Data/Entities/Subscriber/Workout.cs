@@ -10,5 +10,6 @@ namespace ExerciseProgram.Api.Data.Entities
         public int Workout_Pk { get; set; }
         public int Profile_Fk { get; set; }
         public int ExerciseProgram_Fk { get; set; }
+        public bool Complete { get; set; }
     }
 }

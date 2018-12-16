@@ -78,7 +78,16 @@ namespace ExerciseProgram.Api.Controllers
         {
             _exerciseService.SaveWorkout(model);
 
-            return HttpStatusCode.Created;
+            return HttpStatusCode.OK;
+        }
+
+        [HttpPost]
+        [Route("api/ExercisePrograms/workout/complete/{programId:int}")]
+        public HttpStatusCode CompleteWorkout([FromUri] int programId)
+        {
+            _exerciseService.CompleteWorkout(programId);
+
+            return HttpStatusCode.OK;
         }
     }
 }

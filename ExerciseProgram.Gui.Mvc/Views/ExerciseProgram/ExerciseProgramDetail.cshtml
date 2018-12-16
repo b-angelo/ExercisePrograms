@@ -2,22 +2,29 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-
-        <div id="divSuccess" class="container">
-            <div class="row margin-top-20px">
-                <div class="col-sm-12">
-                    <div id="divSuccess" class="alert show fade alert-success" role="alert">
-                        Saved Successfully
-                    </div>
-                </div>
+@*<div id="divSuccess" class="container">
+    <div class="row margin-top-20px">
+        <div class="col-sm-12">
+            <div id="divSuccess" class="alert show fade alert-success" role="alert">
+                Saved Successfully
             </div>
         </div>
-
+    </div>
+</div>*@
+<input hidden id="whatever" />
 <div class="container">
     <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col">
                 <h4>Workout for @DateTime.Today.ToShortDateString()</h4>
+                @{ 
+                    if (Model.Complete)
+                    {
+                        <div>
+                            Workout Completed
+                        </div>
+                    }
+                }
             </div>
         </div>
         <div class="row margin-top-20px margin-bottom-20px">
@@ -26,11 +33,11 @@
                     var exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
                 }
                 <input hidden="hidden" id="txtExerciseCount" value="@exerciseCount" />
-                <table id="tblExerciseSummary" class="table table-hover table-responsive-sm">
+                <table id="tblExerciseSummary" class="table table-hover table-sm">
                     <thead class="thead-light table">
                         <tr>
                             <th colspan="1">
-                                Name
+                                Exercise
                             </th>
                             <th colspan="1">
                                 Set
@@ -42,6 +49,8 @@
                                 Weight
                             </th>
                         </tr>
+                    </thead>
+                    <tbody>
                         @foreach (var exercise in Model.Exercises)
                         {
                             for (var set = 1; set <= exercise.Sets; set++)
@@ -56,7 +65,7 @@
                                 </tr>
                                 <tr id="@exercise.Id" class="program-name">
                                     <td>
-                                        <button class="btn btn-sm btn-success btn-save-exercise float-right disabled">+</button>
+                                        <input class="btn btn-sm btn-success btn-save-exercise float-right form-control-sm form-control-plaintext" value="Save"/>
                                     </td>
                                     <td>
                                         <input readonly class="form-control-plaintext exercise-set" value="@set" type="number" />
@@ -81,28 +90,49 @@
                                 </tr>
                             }
                         }
-                    </thead>
+                    </tbody>
                 </table>
             </div>
         </div>
         <div class="row margin-bottom-20px">
             <div class="col">
                 <hr />
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-1" role="group" aria-label="First group">
-                        <button id="btnAddExercise" class="btn btn-sm btn-outline-primary btn-toolbar-width">Add Exercise</button>
-                    </div>
-                    <div class="btn-group mr-1" role="group" aria-label="First group">
-                        <button id="btnMarkComplete" class="btn btn-sm btn-outline-secondary btn-toolbar-width">Finish</button>
-                    </div>
-                </div>
+                @{
+                    if (!Model.Complete)
+                    {
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-1" role="group" aria-label="First group">
+                                <button id="btnAddExercise" class="btn btn-sm btn-outline-primary btn-toolbar-width">Add Exercise</button>
+                            </div>
+                            <div class="btn-group mr-1" role="group" aria-label="First group">
+                                <button id="btnMarkComplete" class="btn btn-sm btn-outline-secondary btn-toolbar-width">Finished</button>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>
 </div>
 <input hidden="hidden" value="@Model.Id" id="txtHiddenProgramId" />
+<input hidden="hidden" value="@Model.Complete" id="txtWorkoutComplete" />
 <script>
     $(document).ready(function () {
+
+        if ($("#txtWorkoutComplete").val()) {
+            $(".exercise-reps").each(function () {
+                $(this).prop("disabled", true);
+                $(this).removeClass("form-control-sm").addClass("form-control-plaintext");
+            });
+            $(".exercise-weight").each(function () {
+                $(this).prop("disabled", true);
+                $(this).removeClass("form-control-sm").addClass("form-control-plaintext");
+            });
+        }
+
+        $(".btn-save-exercise").each(function () {
+            $(this).hide();
+        });
 
         if ($("#txtExerciseCount").val() == 0) {
             $("#tblExerciseSummary").hide();
@@ -124,14 +154,16 @@
             var weight = $(this).closest(".program-name").find(".exercise-weight").val();
 
             if (reps > 0 && weight > 0) {
-                $(this).closest(".program-name").find(".btn-save-exercise").removeClass("disabled");
+                $(this).closest(".program-name").find(".btn-save-exercise").show();
             }
             else {
-                $(this).closest(".program-name").find(".btn-save-exercise").addClass("disabled");
+                $(this).closest(".program-name").find(".btn-save-exercise").hide();
             }
         });
 
         $(".btn-save-exercise").click(function () {
+
+            var thisId = $(this);
 
             var programId = $("#txtHiddenProgramId").val();
             var exerciseId = $(this).closest(".program-name").attr("id");
@@ -147,25 +179,27 @@
                     reps: reps,
                     weight: weight
                 },
-                function (result) {                    
-                    $("#divSuccess").show();
-                    $("#divSuccess").fadeOut(3000);
-                    $(".btn-save-exercise").each(function () {
-                        $(this).addClass("disabled");
-                    });
+                function () {
+                    //$("#divSuccess").show();
+                    //$("#divSuccess").fadeOut(10000);
+                    //$(".btn-save-exercise").each(function () {
+                    //    $(this).hide();
+                    //});
+                    $(thisId).hide();
                 });
+        });
 
-            //$.post("demo_ajax_gethint.asp", { suggest: txt }, function (result) {
-            //    $("span").html(result);
-            //});
+        $("#btnMarkComplete").click(function () {
 
-            //var success = (function (data) {
-            //    alert("test");
-            //    $("#divSuccess").show();
-            //    //$(".btn-save-exercise").each(function () {
-            //    //    $(this).addClass("disabled");
-            //    //});
-            //});
+            var programId = $("#txtHiddenProgramId").val();
+
+            $.post("/ExerciseProgram/CompleteWorkout",
+                {
+                    programId: programId
+                },
+                function () {
+                    $(location).attr('href', '/Home/Index/');
+                });
         });
     });
 </script>

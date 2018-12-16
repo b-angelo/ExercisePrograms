@@ -1,4 +1,4 @@
-﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
+﻿@model ExerciseProgram.Models.ViewModels.SubscriberProfileViewModel
 
 @{
     /**/
@@ -18,16 +18,13 @@
                 }
                 <h4> @headerText </h4>
                 @{
-                    var workoutScheduled = Model.WorkoutStarted ? "yes" : "no";
-                    var exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                    var workoutScheduled = Model != null ? "yes" : "no";
                 }
                 <p id="pWorkoutScheduled">
                     <br />
-                    <b>Name:</b> @Model.Name
+                    <b>Name:</b> @Model.CurrentWorkoutName
                     <br />
-                    <b>Exercises:</b> @exerciseCount
-                    <br />
-                    <b>Complete:</b> 67%
+                    <b>Exercises:</b> @Model.CurrentWorkoutExerciseCount
                     <br /> <br />
                     <a id="aWorkoutScheduled" class="btn btn-outline-primary home-page-button" href="#">Go to workout &raquo;</a>
                     <br />
@@ -50,28 +47,27 @@
                 <h4>
                     Workout History
                 </h4>
-                (Workouts marked complete)
                 <p>
                     <br />
-                    <b>This Week:</b> 0
-                </p>
-                <p>
-                    <b>This Month:</b> 0
-                </p>
-                <p>
-                    <b>This Year:</b> 0
-                </p>
-                <br />
-                <a class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/ExercisePrograms">View Past Workouts &raquo;</a>
+                    <b>This Week:</b> @Model.WorkoutsCompletedWeek
+                    <br />
+                    <b>This Month:</b> @Model.WorkoutsCompletedMonth
+                    <br />
+                    <b>This Year:</b> @Model.WorkoutCompletedYear
+                    <br />
+                    <br />
+                    <a class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/ExercisePrograms">View Past Workouts &raquo;</a>
+                </p>                            
             </div>
         </div>
     </div>
 </div>
-<input hidden="hidden" id="txtProgramId" value="@Model.Id" />
+<input hidden="hidden" id="txtProgramId" value="@Model.CurrentProgramId" />
 <script>
     $(document).ready(function () {
 
         if ($('#txtWorkoutScheduled').val() === 'yes') {
+            
             $('#pNoWorkoutScheduled').hide();
             $('#pWorkoutScheduled').show();
         }

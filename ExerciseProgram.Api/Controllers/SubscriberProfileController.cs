@@ -8,20 +8,20 @@ namespace ExerciseProgram.Api.Controllers
 {
     public class SubscriberProfileController : ApiController
     {
-        private UserProfileService _userProfileService = new UserProfileService();
+        private SubscriberProfileService _subscriberProfileService = new SubscriberProfileService();
 
         [HttpGet]
-        [Route("api/UserProfile")]
-        public UserProfileViewModel UserProfile([FromUri] string pageFrom, [FromUri] string pageTo)
+        [Route("api/SubscriberProfile")]
+        public SubscriberProfileViewModel UserProfile()
         {
-            return _userProfileService.GetUserProfile();
+            return _subscriberProfileService.GetUserProfile();
         }
 
         [HttpPost]
         [Route("api/UserProfile")]
         public HttpStatusCode CreateUserProfile([FromBody] UpdateProfileInputModel model)
         {
-            _userProfileService.UpdateUserProfile(model);
+            _subscriberProfileService.UpdateUserProfile(model);
 
             return HttpStatusCode.Created;
         }
@@ -38,7 +38,7 @@ namespace ExerciseProgram.Api.Controllers
         [Route("api/UserProfile/weight/{id:int}")]
         public HttpStatusCode DeleteUserWeight([FromUri] int id)
         {
-            _userProfileService.DeleteUserWeight(id);
+            _subscriberProfileService.DeleteUserWeight(id);
 
             return HttpStatusCode.OK;
         }

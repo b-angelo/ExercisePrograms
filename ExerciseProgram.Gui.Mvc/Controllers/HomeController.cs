@@ -9,18 +9,17 @@ namespace ExerciseProgram.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly HttpClientBase<ProgramViewModel> _httpClient = new HttpClientBase<ProgramViewModel>();
+        private readonly HttpClientBase<SubscriberProfileViewModel> _httpClient = new HttpClientBase<SubscriberProfileViewModel>();
 
         public ActionResult Index()
         {
-            ProgramViewModel todaysWorkout;
+            SubscriberProfileViewModel todaysWorkout;
 
-            todaysWorkout = _httpClient.GetList($"api/ExercisePrograms/")
-                                       .FirstOrDefault(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now);
+            todaysWorkout = _httpClient.GetSingle($"api/SubscriberProfile/");
 
             if (todaysWorkout == null)
             {
-                todaysWorkout = new ProgramViewModel();
+                todaysWorkout = new SubscriberProfileViewModel();
             }
 
             return View(todaysWorkout);

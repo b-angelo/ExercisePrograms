@@ -35,7 +35,7 @@ namespace ExerciseProgram.Api.Services
                 var exerciseType = _exerciseTypeRepository.GetAll();
                 var workoutHistory = _workoutHistoryRepository.GetAll();
                 var workoutProgram = _workoutRepository.GetAll();
-    
+                                  
                 var setsReps = new List<SetsReps>();
 
                 foreach (var workout in workoutHistory)
@@ -69,21 +69,21 @@ namespace ExerciseProgram.Api.Services
                                        Reps = epe.ExerciseRepitions
                                    };
 
-                var programList =
-                                from ep in exercisePrograms
-                                select new ProgramViewModel
-                                {
-                                    Id = ep.ExerciseProgram_Pk,
-                                    IsCurrent = true,
-                                    Name = ep?.Name ?? string.Empty,
-                                    Description = ep?.Description ?? string.Empty,
-                                    LengthInDays = ep?.DurationInDays ?? 0,
-                                    StartDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.StartDate ?? DateTime.MinValue,
-                                    EndDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.EndDate ?? DateTime.MaxValue,
-                                    Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>(),
-                                    SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>(),
-                                    WorkoutStarted = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk) != null
-                                };
+                var programList = from ep in exercisePrograms
+                                  select new ProgramViewModel
+                                  {
+                                      Id = ep.ExerciseProgram_Pk,
+                                      IsCurrent = true,
+                                      Name = ep?.Name ?? string.Empty,
+                                      Description = ep?.Description ?? string.Empty,
+                                      LengthInDays = ep?.DurationInDays ?? 0,
+                                      StartDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.StartDate ?? DateTime.MinValue,
+                                      EndDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.EndDate ?? DateTime.MaxValue,
+                                      Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>(),
+                                      SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>(),
+                                      WorkoutStarted = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk) != null,
+                                      Complete = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.Complete ?? false
+                                  };
 
                 return programList.ToList();
             }
@@ -119,8 +119,7 @@ namespace ExerciseProgram.Api.Services
                     Name = model.Name,
                     Description = model.Description,
                     DurationInDays = model.LengthInDays,
-                    StartDate = DateTime.Today.Date,
-                    EndDate = DateTime.Today.AddDays(1).AddSeconds(-1),
+                    StartDate = DateTime.Today.Date,                    
                     CreatedBy = Environment.UserName,
                     CreateDate = DateTime.Now
                 };
@@ -132,6 +131,7 @@ namespace ExerciseProgram.Api.Services
                     Profile_Fk = 1,
                     ExerciseProgram_Fk = (int)programPk,
                     StartDate = DateTime.Now,
+                    EndDate = DateTime.Today.AddDays(1).AddSeconds(-1),
                     CreatedBy = Environment.UserName,
                     CreateDate = DateTime.Now
                 };
@@ -199,6 +199,24 @@ namespace ExerciseProgram.Api.Services
                 return _exerciseProgramExerciseRepository.Insert(exercise);
             }
             catch(Exception e)
+            {
+                throw new Exception();
+            }
+        }
+
+        public void CompleteWorkout(int programId)
+        {
+            try
+            {
+                var workout = _workoutRepository.GetById(programId);
+
+                workout.Complete = true;
+                workout.ModifiedBy = Environment.UserName;
+                workout.ModifiedDate = DateTime.Now;
+
+                _workoutRepository.Update(workout);
+            }
+            catch (Exception e)
             {
                 throw new Exception();
             }

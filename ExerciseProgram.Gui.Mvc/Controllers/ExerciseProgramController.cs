@@ -82,5 +82,11 @@ namespace ExerciseProgram.WebApp.Controllers
 
             _httpClient.Post($"api/ExercisePrograms/workout", content);
         }
+
+        [HttpPost]
+        public void CompleteWorkout(int? programId)
+        {
+            _httpClient.Post($"api/ExercisePrograms/workout/complete/{programId}", null);
+        }
     }
 }

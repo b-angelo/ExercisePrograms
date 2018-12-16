@@ -18,6 +18,7 @@ namespace ExerciseProgram.Models.ViewModels
         public List<ProgramExerciseViewModel> Exercises { get; set; }
         public List<SetsReps> SetsReps { get; set; }
         public bool WorkoutStarted { get; set; }
+        public bool Complete { get; set; }
     }
 
     public class SetsReps

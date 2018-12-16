@@ -7,20 +7,20 @@ using System.Web.Mvc;
 
 namespace ExerciseProgram.WebApp.Controllers
 {
-    public class UserProfileController : Controller
+    public class SubscriberProfileController : Controller
     {
-        private readonly HttpClientBase<UserProfileViewModel> _httpClient = new HttpClientBase<UserProfileViewModel>();
+        private readonly HttpClientBase<SubscriberProfileViewModel> _httpClient = new HttpClientBase<SubscriberProfileViewModel>();
 
         [HttpGet]
-        public ActionResult UserProfile()
+        public ActionResult SubscriberProfile()
         {
-            var result = _httpClient.GetSingle("api/UserProfile?pageFrom=1&pageTo=5");
+            var result = _httpClient.GetSingle("api/SubscriberProfile");
 
             return View(result);
         }
 
         [HttpPost]
-        public ActionResult UpdateProfile(UserProfileViewModel model)
+        public ActionResult UpdateProfile(SubscriberProfileViewModel model)
         {
             UpdateProfileInputModel inputModel = new UpdateProfileInputModel
             {

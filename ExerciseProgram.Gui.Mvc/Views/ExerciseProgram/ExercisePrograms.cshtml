@@ -54,8 +54,11 @@
 
 <script>
     $(document).ready(function () {
+
         $("#slPreviousProgram").change(function () {
+
             var programId = $(this).val();
+
             $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
         });
     });
