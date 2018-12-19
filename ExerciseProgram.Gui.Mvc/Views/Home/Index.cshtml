@@ -18,7 +18,16 @@
                 }
                 <h4> @headerText </h4>
                 @{
-                    var workoutScheduled = Model != null ? "yes" : "no";
+                    var workoutScheduled = string.Empty;
+
+                    if (Model == null || Model.CurrentProgramId <= 0)
+                    {
+                        workoutScheduled = "no";
+                    }
+                    else
+                    {
+                        workoutScheduled = "yes";
+                    }
                 }
                 <p id="pWorkoutScheduled">
                     <br />

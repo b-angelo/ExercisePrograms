@@ -3,26 +3,38 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 @*<div id="divSuccess" class="container">
-    <div class="row margin-top-20px">
-        <div class="col-sm-12">
-            <div id="divSuccess" class="alert show fade alert-success" role="alert">
-                Saved Successfully
+        <div class="row margin-top-20px">
+            <div class="col-sm-12">
+                <div id="divSuccess" class="alert show fade alert-success" role="alert">
+                    Saved Successfully
+                </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 <input hidden id="whatever" />
 <div class="container">
     <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col">
                 <h4>Workout for @DateTime.Today.ToShortDateString()</h4>
-                @{ 
-                    if (Model.Complete)
+                @{
+                    if (Model != null)
                     {
-                        <div>
-                            Workout Completed
-                        </div>
+                        if (Model.Complete)
+                        {
+                            <div>
+                                Workout Completed
+                            </div>
+                            <div>
+                                <b>Workout Name:</b> <input class="form-control" readonly value="@Model.Name" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <b>Workout Name:</b> <input class="form-control" value="@Model.Name" />
+                            </div>
+                        }
                     }
                 }
             </div>
@@ -30,7 +42,11 @@
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col">
                 @{
-                    var exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                    var exerciseCount = 0;
+                    if (Model != null)
+                    {
+                        exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                    }
                 }
                 <input hidden="hidden" id="txtExerciseCount" value="@exerciseCount" />
                 <table id="tblExerciseSummary" class="table table-hover table-sm">
@@ -51,43 +67,46 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var exercise in Model.Exercises)
+                        @if (Model != null)
                         {
-                            for (var set = 1; set <= exercise.Sets; set++)
+                            foreach (var exercise in Model?.Exercises)
                             {
-                                <tr>
-                                    @if (set == 1)
-                                    {
-                                        <td colspan="4">
+                                for (var set = 1; set <= exercise.Sets; set++)
+                                {
+                                    <tr class="exercise-name">
+                                        @if (set == 1)
+                                        {
+                                        <td colspan="4">                                            
                                             <b>@exercise.Exercise.Description</b>
                                         </td>
-                                    }
-                                </tr>
-                                <tr id="@exercise.Id" class="program-name">
-                                    <td>
-                                        <input class="btn btn-sm btn-success btn-save-exercise float-right form-control-sm form-control-plaintext" value="Save"/>
-                                    </td>
-                                    <td>
-                                        <input readonly class="form-control-plaintext exercise-set" value="@set" type="number" />
-                                    </td>
-                                    <td>
-                                        @{
-                                            var reps = string.Empty;
-                                            var weight = string.Empty;
-                                            var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
-
-                                            if (setReps != null)
-                                            {
-                                                reps = setReps.Reps.ToString();
-                                                weight = setReps.Weight.ToString();
-                                            }
                                         }
-                                        <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
-                                    </td>
-                                    <td class="td-reps-duration">
-                                        <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
-                                    </td>
-                                </tr>
+                                    </tr>
+                                    <tr id="@exercise.Id" class="program-name">
+                                        <td>
+                                            <input class="btn btn-sm btn-success btn-save-exercise float-right form-control-sm form-control-plaintext" value="Save" />
+                                        </td>
+                                        <td>
+                                            <input readonly class="form-control-plaintext exercise-set" value="@set" type="number" />
+                                        </td>
+                                        <td>
+                                            @{
+                                                var reps = string.Empty;
+                                                var weight = string.Empty;
+                                                var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
+
+                                                if (setReps != null)
+                                                {
+                                                    reps = setReps.Reps.ToString();
+                                                    weight = setReps.Weight.ToString();
+                                                }
+                                            }
+                                            <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
+                                        </td>
+                                        <td class="td-reps-duration">
+                                            <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
                     </tbody>
@@ -98,27 +117,33 @@
             <div class="col">
                 <hr />
                 @{
-                    if (!Model.Complete)
+                    if (Model != null)
                     {
-                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                            <div class="btn-group mr-1" role="group" aria-label="First group">
-                                <button id="btnAddExercise" class="btn btn-sm btn-outline-primary btn-toolbar-width">Add Exercise</button>
+                        if (!Model.Complete)
+                        {
+                            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                <div class="btn-group mr-1" role="group" aria-label="First group">
+                                    <button id="btnAddExercise" class="btn btn-sm btn-outline-primary btn-toolbar-width">Add Exercise</button>
+                                </div>
+                                <div class="btn-group mr-1" role="group" aria-label="First group">
+                                    <button id="btnMarkComplete" class="btn btn-sm btn-outline-secondary btn-toolbar-width">Finished</button>
+                                </div>
                             </div>
-                            <div class="btn-group mr-1" role="group" aria-label="First group">
-                                <button id="btnMarkComplete" class="btn btn-sm btn-outline-secondary btn-toolbar-width">Finished</button>
-                            </div>
-                        </div>
+                        }
                     }
                 }
             </div>
         </div>
     </div>
 </div>
+ @if (Model != null)
+ {
 <input hidden="hidden" value="@Model.Id" id="txtHiddenProgramId" />
 <input hidden="hidden" value="@Model.Complete" id="txtWorkoutComplete" />
+ }
 <script>
     $(document).ready(function () {
-
+    
         if ($("#txtWorkoutComplete").val()) {
             $(".exercise-reps").each(function () {
                 $(this).prop("disabled", true);

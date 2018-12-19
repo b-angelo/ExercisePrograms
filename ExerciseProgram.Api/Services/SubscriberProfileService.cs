@@ -107,7 +107,7 @@ namespace ExerciseProgram.Api.Services
                 WorkoutCompletedYear = workoutsCompletedYear,
                 CurrentWorkoutExerciseCount = excerciseCount
             };
-
+            
             return profile;
 
         }
