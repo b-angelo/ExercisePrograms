@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [ExercisePrograms]    Script Date: 7/21/2018 2:13:01 AM ******/
+/****** Object:  Database [ExercisePrograms]    Script Date: 12/19/2018 12:24:00 AM ******/
 CREATE DATABASE [ExercisePrograms]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -77,35 +77,24 @@ ALTER DATABASE [ExercisePrograms] SET QUERY_STORE = OFF
 GO
 USE [ExercisePrograms]
 GO
-ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = ON;
+/****** Object:  Schema [catalog]    Script Date: 12/19/2018 12:24:00 AM ******/
+CREATE SCHEMA [catalog]
 GO
-ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
-GO
-ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
-GO
-ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
-GO
-USE [ExercisePrograms]
-GO
-/****** Object:  Schema [logging]    Script Date: 7/21/2018 2:13:02 AM ******/
+/****** Object:  Schema [logging]    Script Date: 12/19/2018 12:24:00 AM ******/
 CREATE SCHEMA [logging]
 GO
-/****** Object:  Table [dbo].[Exercise]    Script Date: 7/21/2018 2:13:02 AM ******/
+/****** Object:  Schema [subscriber]    Script Date: 12/19/2018 12:24:00 AM ******/
+CREATE SCHEMA [subscriber]
+GO
+/****** Object:  Schema [user]    Script Date: 12/19/2018 12:24:00 AM ******/
+CREATE SCHEMA [user]
+GO
+/****** Object:  Table [catalog].[Exercise]    Script Date: 12/19/2018 12:24:00 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Exercise](
+CREATE TABLE [catalog].[Exercise](
 	[Exercise_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[ExerciseType_Fk] [int] NULL,
 	[MuscleGroup_Fk] [int] NULL,
@@ -123,36 +112,12 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ExerciseHistory]    Script Date: 7/21/2018 2:13:04 AM ******/
+/****** Object:  Table [catalog].[ExerciseProgram]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ExerciseHistory](
-	[ExerciseHistory_Pk] [int] IDENTITY(1,1) NOT NULL,
-	[ExerciseProgramExercise_Fk] [int] NOT NULL,
-	[SetNumber] [int] NULL,
-	[Repitions] [int] NULL,
-	[WeightUsed] [int] NULL,
-	[Duration] [int] NULL,
-	[StartDate] [datetime] NOT NULL,
-	[EndDate] [datetime] NULL,
-	[CreatedBy] [varchar](50) NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ExerciseHistory_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[ExerciseProgram]    Script Date: 7/21/2018 2:14:18 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[ExerciseProgram](
+CREATE TABLE [catalog].[ExerciseProgram](
 	[ExerciseProgram_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](50) NULL,
 	[Description] [varchar](250) NOT NULL,
@@ -162,44 +127,35 @@ CREATE TABLE [dbo].[ExerciseProgram](
 	[CreatedBy] [varchar](50) NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ExerciseProgram_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ExerciseProgramExercise]    Script Date: 7/21/2018 2:14:18 AM ******/
+/****** Object:  Table [catalog].[ExerciseProgramExercise]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ExerciseProgramExercise](
+CREATE TABLE [catalog].[ExerciseProgramExercise](
 	[ExerciseProgramExercise_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[ExerciseProgram_Fk] [int] NULL,
 	[Exercise_Fk] [int] NULL,
 	[ExerciseDay] [int] NOT NULL,
-	[ExerciseMinRepitions] [int] NOT NULL,
-	[ExerciseMaxRepitions] [int] NOT NULL,
+	[ExerciseRepitions] [int] NOT NULL,
 	[ExerciseSets] [int] NOT NULL,
 	[StartDate] [datetime] NOT NULL,
 	[EndDate] [datetime] NULL,
 	[CreatedBy] [varchar](50) NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ExerciseProgramExercise_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ExerciseType]    Script Date: 7/21/2018 2:14:18 AM ******/
+/****** Object:  Table [catalog].[ExerciseType]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[ExerciseType](
+CREATE TABLE [catalog].[ExerciseType](
 	[ExerciseType_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[Description] [varchar](50) NOT NULL,
@@ -208,19 +164,15 @@ CREATE TABLE [dbo].[ExerciseType](
 	[CreatedBy] [varchar](50) NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[ExerciseType_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MuscleGroup]    Script Date: 7/21/2018 2:14:18 AM ******/
+/****** Object:  Table [catalog].[MuscleGroup]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[MuscleGroup](
+CREATE TABLE [catalog].[MuscleGroup](
 	[MuscleGroup_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](100) NOT NULL,
 	[Description] [varchar](50) NOT NULL,
@@ -229,72 +181,16 @@ CREATE TABLE [dbo].[MuscleGroup](
 	[CreatedBy] [varchar](50) NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[MuscleGroup_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 7/21/2018 2:14:18 AM ******/
+/****** Object:  Table [catalog].[Role]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[User](
-	[User_Pk] [int] IDENTITY(1,1) NOT NULL,
-	[UserRole_Fk] [int] NOT NULL,
-	[UserName] [varchar](20) NOT NULL,
-	[PasswordHash] [binary](64) NOT NULL,
-	[Salt] [uniqueidentifier] NOT NULL,
-	[ResetPasswordGuid] [uniqueidentifier] NULL,
-	[ResetPasswordExpirationDate] [datetime] NULL,
-	[LogInAttempts] [int] NULL,
-	[FirstName] [varchar](50) NOT NULL,
-	[LastName] [varchar](100) NOT NULL,
-	[EmailAddress] [varchar](50) NOT NULL,
-	[StartDate] [datetime] NOT NULL,
-	[EndDate] [datetime] NULL,
-	[CreatedBy] [varchar](50) NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-	[DateOfBirth] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[User_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserBodyMass]    Script Date: 7/21/2018 2:14:19 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserBodyMass](
-	[UserBodyMass_Pk] [int] IDENTITY(1,1) NOT NULL,
-	[User_Fk] [int] NOT NULL,
-	[HeightInInches] [int] NOT NULL,
-	[WeightInPounds] [int] NOT NULL,
-	[StartDate] [datetime] NOT NULL,
-	[EndDate] [datetime] NULL,
-	[CreatedBy] [varchar](50) NOT NULL,
-	[CreateDate] [datetime] NOT NULL,
-	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[UserBodyMass_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
-/****** Object:  Table [dbo].[UserRole]    Script Date: 7/21/2018 2:14:19 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-CREATE TABLE [dbo].[UserRole](
-	[UserRole_Pk] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [catalog].[Role](
+	[Role_Pk] [int] IDENTITY(1,1) NOT NULL,
 	[Name] [varchar](20) NOT NULL,
 	[Description] [varchar](50) NOT NULL,
 	[StartDate] [datetime] NOT NULL,
@@ -302,21 +198,17 @@ CREATE TABLE [dbo].[UserRole](
 	[CreatedBy] [varchar](50) NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[ModifiedBy] [varchar](50) NULL,
-	[ModifiedDate] [datetime] NULL,
-PRIMARY KEY CLUSTERED 
-(
-	[UserRole_Pk] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [logging].[AccessLog]    Script Date: 7/21/2018 2:14:19 AM ******/
+/****** Object:  Table [logging].[AccessLog]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [logging].[AccessLog](
 	[Access_Pk] [int] IDENTITY(1,1) NOT NULL,
-	[User_Fk] [int] NULL,
+	[UserProfile_Fk] [int] NULL,
 	[IPAddress] [varchar](50) NULL,
 	[Device] [varchar](50) NULL,
 	[CreatedBy] [varchar](50) NOT NULL,
@@ -331,7 +223,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [logging].[ChangeLog]    Script Date: 7/21/2018 2:14:19 AM ******/
+/****** Object:  Table [logging].[ChangeLog]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -355,7 +247,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [logging].[ErrorLog]    Script Date: 7/21/2018 2:14:19 AM ******/
+/****** Object:  Table [logging].[ErrorLog]    Script Date: 12/19/2018 12:24:01 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -376,251 +268,198 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-SET IDENTITY_INSERT [dbo].[Exercise] ON 
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 2, 1, N'MilitaryPress', N'Military Press', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, 2, 2, N'BarbellMediumBenchPress', N'Barbell Medium Bench Press', CAST(N'2018-01-01T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-05-23T00:00:00.000' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, 2, 3, N'T-BarRow', N'T-Bar Row', CAST(N'2018-01-01T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-05-23T00:00:00.000' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, 2, 4, N'EzBarCurl', N'EZ-Bar Curl', CAST(N'2018-01-01T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-05-23T00:00:00.000' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, 2, 5, N'DumbellSkullCrushers', N'Dumbell Skull Crushers', CAST(N'2018-01-01T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-05-23T00:00:00.000' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (7, 2, 8, N'LowBarBackSquat', N'Low Bar Back Squat', CAST(N'2018-01-01T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-05-23T00:00:00.000' AS DateTime), NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[Exercise] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseProgram] ON 
-GO
-INSERT [dbo].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'4 Day Per Week - No Nonsense4-Day per Week Workout', N'Complete Workout in 60 Minutes', 180, CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime))
-GO
-INSERT [dbo].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'test', N'test', 0, CAST(N'2018-06-11T00:00:00.000' AS DateTime), CAST(N'2018-06-11T00:00:00.000' AS DateTime), N'Ben Angelo', CAST(N'2018-06-10T22:47:13.883' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, N'test', N'test', 1, CAST(N'2018-06-18T00:00:00.000' AS DateTime), CAST(N'2018-06-19T00:00:00.000' AS DateTime), N'Ben Angelo', CAST(N'2018-06-12T00:17:43.203' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, N'test 3', N'test 3', 56, CAST(N'2018-06-18T00:00:00.000' AS DateTime), CAST(N'2018-08-13T00:00:00.000' AS DateTime), N'Ben Angelo', CAST(N'2018-06-12T00:21:25.537' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, N'test 3', N'test 3', 112, CAST(N'2018-06-11T00:00:00.000' AS DateTime), CAST(N'2018-10-01T00:00:00.000' AS DateTime), N'Ben Angelo', CAST(N'2018-06-12T00:22:39.323' AS DateTime), NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseProgram] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseProgramExercise] ON 
-GO
-INSERT [dbo].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseMinRepitions], [ExerciseMaxRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 1, 1, 1, 8, 12, 3, CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime))
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseProgramExercise] OFF
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseType] ON 
-GO
-INSERT [dbo].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'Cardiovascular', N'Cardio', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'Resistence Training', N'Resistence', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'Total Body', N'Complete', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, N'Balance', N'Balance', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, N'Stretching', N'Stretching', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[ExerciseType] OFF
-GO
-SET IDENTITY_INSERT [dbo].[MuscleGroup] ON 
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'Deltoid', N'Shoulder', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'Pectoral', N'Chest', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'Back', N'Back', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, N'Bicep', N'Bicep', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, N'Tricep', N'Tricep', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, N'Forearm', N'Forearm', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (7, N'Core', N'Core', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (8, N'Quadracep', N'Quads', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (9, N'Hamstrings', N'Hamstring', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (10, N'Gastrocnemius', N'Calf', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (11, N'Trapezius', N'Traps', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[MuscleGroup] OFF
-GO
-SET IDENTITY_INSERT [dbo].[User] ON 
-GO
-INSERT [dbo].[User] ([User_Pk], [UserRole_Fk], [UserName], [PasswordHash], [Salt], [ResetPasswordGuid], [ResetPasswordExpirationDate], [LogInAttempts], [FirstName], [LastName], [EmailAddress], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [DateOfBirth]) VALUES (1, 1, N'siteAdmin', 0xCDE17E0B107F855C5680A357C8A4857E8CAD175C79E7A2D5F660D6B3F858AC4B3DE6F0D3636F30074BCC79B806FD59E3EF345372E653F0F29C946B61F56B0A8E, N'cb9df779-114a-4df1-885b-631e486e3792', NULL, NULL, NULL, N'Ben', N'Angelo', N'ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL, CAST(N'1980-02-18T00:00:00.000' AS DateTime))
-GO
-INSERT [dbo].[User] ([User_Pk], [UserRole_Fk], [UserName], [PasswordHash], [Salt], [ResetPasswordGuid], [ResetPasswordExpirationDate], [LogInAttempts], [FirstName], [LastName], [EmailAddress], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [DateOfBirth]) VALUES (2, 2, N'bangelo', 0xDF138783A2E67BF1EADD311C1F1BD1A3AA3B88BC3E0E459388BECCA2CB6E9DE944A643F7DA8779F4BEE76CBA8C088A712B6532C9F43AB258D9DB1EFC05575320, N'50e10779-b7c0-4361-8f43-d71c19ce5ccd', NULL, NULL, NULL, N'Ben', N'Angelo', N'test@test.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:36.113' AS DateTime), CAST(N'1980-02-18T00:00:00.000' AS DateTime))
-GO
-SET IDENTITY_INSERT [dbo].[User] OFF
-GO
-SET IDENTITY_INSERT [dbo].[UserBodyMass] ON 
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 2, 74, 228, CAST(N'2018-05-27T00:04:35.077' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-05-27T00:04:35.077' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, 2, 74, 224, CAST(N'2018-05-20T00:05:19.490' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-05-20T00:05:19.490' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1002, 2, 74, 232, CAST(N'2018-05-28T00:25:20.487' AS DateTime), CAST(N'2018-05-28T03:07:54.610' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:25:20.487' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:07:54.610' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1003, 2, 74, 231, CAST(N'2018-05-28T00:28:41.757' AS DateTime), CAST(N'2018-05-28T03:05:16.170' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:28:41.757' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:16.170' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1004, 2, 74, 231, CAST(N'2018-05-28T00:33:07.757' AS DateTime), CAST(N'2018-05-28T03:05:14.977' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:33:07.760' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:14.977' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1005, 2, 74, 231, CAST(N'2018-05-28T00:35:03.307' AS DateTime), CAST(N'2018-05-28T03:05:13.777' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:03.307' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:13.777' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1006, 2, 74, 231, CAST(N'2018-05-28T00:35:12.200' AS DateTime), CAST(N'2018-05-28T03:05:12.627' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:12.200' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:12.627' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1007, 2, 74, 231, CAST(N'2018-05-28T00:35:13.710' AS DateTime), CAST(N'2018-05-28T03:05:11.223' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:13.710' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:11.223' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1008, 2, 74, 231, CAST(N'2018-05-28T00:35:14.470' AS DateTime), CAST(N'2018-05-28T03:05:09.893' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:14.470' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:09.893' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1009, 2, 74, 231, CAST(N'2018-05-28T00:35:15.057' AS DateTime), CAST(N'2018-05-28T03:05:08.663' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:15.057' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:08.663' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1010, 2, 74, 231, CAST(N'2018-05-28T00:35:15.450' AS DateTime), CAST(N'2018-05-28T03:05:05.380' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:15.450' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:05.380' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1011, 2, 74, 231, CAST(N'2018-05-28T00:35:15.563' AS DateTime), CAST(N'2018-05-28T03:05:03.367' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:15.563' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:03.367' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1012, 2, 74, 231, CAST(N'2018-05-28T00:35:15.977' AS DateTime), CAST(N'2018-05-28T03:05:01.813' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:15.977' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:01.813' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1013, 2, 74, 231, CAST(N'2018-05-28T00:35:16.307' AS DateTime), CAST(N'2018-05-28T03:04:59.863' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:16.307' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:04:59.863' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1014, 2, 74, 231, CAST(N'2018-05-28T00:35:16.380' AS DateTime), CAST(N'2018-05-28T03:04:57.560' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:16.383' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:04:57.560' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1015, 2, 74, 231, CAST(N'2018-05-28T00:35:16.513' AS DateTime), CAST(N'2018-05-28T03:04:55.910' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:16.513' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:04:55.910' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1016, 2, 74, 231, CAST(N'2018-05-28T00:35:16.927' AS DateTime), CAST(N'2018-05-28T03:04:54.477' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:16.927' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:04:54.477' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1017, 2, 74, 231, CAST(N'2018-05-28T00:35:17.057' AS DateTime), CAST(N'2018-05-28T03:04:51.030' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T00:35:17.057' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:04:51.030' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1018, 2, 74, 12, CAST(N'2018-05-28T01:25:24.680' AS DateTime), CAST(N'2018-05-28T02:55:25.153' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T01:25:24.680' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T02:55:25.153' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1019, 2, 74, 230, CAST(N'2018-05-28T01:44:11.123' AS DateTime), CAST(N'2018-05-28T03:05:06.877' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T01:44:11.123' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:06.877' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1020, 2, 74, 230, CAST(N'2018-05-28T03:05:20.043' AS DateTime), CAST(N'2018-05-28T03:07:43.587' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:20.043' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:07:43.587' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1021, 2, 74, 2305, CAST(N'2018-05-28T03:05:29.433' AS DateTime), CAST(N'2018-05-28T03:05:32.110' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:29.437' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:05:32.110' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1022, 2, 74, 185, CAST(N'2018-05-28T03:07:35.567' AS DateTime), CAST(N'2018-05-28T03:07:46.417' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:07:35.567' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:07:46.417' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1023, 2, 74, 232, CAST(N'2018-05-28T03:08:05.393' AS DateTime), CAST(N'2018-05-28T03:32:19.223' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:08:05.397' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T03:32:19.223' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1024, 2, 74, 232, CAST(N'2018-05-28T03:32:39.643' AS DateTime), NULL, N'Ben Angelo', CAST(N'2018-05-28T03:32:39.647' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1025, 2, 74, 244, CAST(N'2018-05-28T03:33:42.420' AS DateTime), NULL, N'Ben Angelo', CAST(N'2018-05-28T03:33:42.420' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1026, 2, 74, 244, CAST(N'2018-05-28T04:12:20.673' AS DateTime), CAST(N'2018-05-28T22:02:20.353' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T04:12:20.673' AS DateTime), N'Ben Angelo', CAST(N'2018-05-28T22:02:20.353' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1027, 2, 74, 230, CAST(N'2018-05-31T01:48:19.897' AS DateTime), CAST(N'2018-05-31T01:57:55.480' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T01:48:19.897' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T01:57:55.480' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1028, 2, 74, 230, CAST(N'2018-05-31T01:58:18.687' AS DateTime), CAST(N'2018-05-31T03:36:19.490' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T01:58:18.687' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T03:36:19.490' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1029, 2, 85, 230, CAST(N'2018-05-31T03:35:29.313' AS DateTime), CAST(N'2018-05-31T03:35:39.720' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T03:35:29.317' AS DateTime), N'Ben Angelo', CAST(N'2018-05-31T03:35:39.720' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1030, 2, 74, 230, CAST(N'2018-05-31T03:36:10.587' AS DateTime), NULL, N'Ben Angelo', CAST(N'2018-05-31T03:36:10.587' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1031, 2, 74, 226, CAST(N'2018-06-02T01:33:49.043' AS DateTime), NULL, N'Ben Angelo', CAST(N'2018-06-02T01:33:49.043' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1032, 2, 74, 226, CAST(N'2018-06-02T01:36:16.477' AS DateTime), CAST(N'2018-06-03T14:04:49.390' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T01:36:16.477' AS DateTime), N'Ben Angelo', CAST(N'2018-06-03T14:04:49.390' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1033, 2, 74, 226, CAST(N'2018-06-02T01:36:47.150' AS DateTime), CAST(N'2018-06-03T14:04:44.937' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T01:36:47.150' AS DateTime), N'Ben Angelo', CAST(N'2018-06-03T14:04:44.937' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1034, 2, 74, 226, CAST(N'2018-06-02T01:36:56.990' AS DateTime), CAST(N'2018-06-03T14:04:38.647' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T01:36:56.990' AS DateTime), N'Ben Angelo', CAST(N'2018-06-03T14:04:38.647' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1035, 2, 74, 226, CAST(N'2018-06-02T01:39:56.357' AS DateTime), CAST(N'2018-06-03T14:04:32.357' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T01:39:56.357' AS DateTime), N'Ben Angelo', CAST(N'2018-06-03T14:04:32.357' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1036, 2, 74, 226, CAST(N'2018-06-02T02:53:58.727' AS DateTime), CAST(N'2018-06-02T02:54:47.027' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T02:53:58.753' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T02:54:47.027' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1037, 2, 74, 228, CAST(N'2018-06-02T02:54:54.723' AS DateTime), CAST(N'2018-06-04T01:48:28.470' AS DateTime), N'Ben Angelo', CAST(N'2018-06-02T02:54:54.723' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:28.470' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1038, 2, 74, 230, CAST(N'2018-06-03T20:29:42.380' AS DateTime), CAST(N'2018-06-14T00:08:30.257' AS DateTime), N'Ben Angelo', CAST(N'2018-06-03T20:29:42.380' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:08:30.257' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1039, 2, 74, 231, CAST(N'2018-06-04T01:35:11.930' AS DateTime), CAST(N'2018-06-04T01:48:25.337' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:35:11.930' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:25.337' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1040, 2, 74, 215, CAST(N'2018-06-04T01:35:21.510' AS DateTime), CAST(N'2018-06-14T00:02:21.667' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:35:21.510' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:02:21.667' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1041, 2, 74, 200, CAST(N'2018-06-04T01:35:28.273' AS DateTime), CAST(N'2018-06-04T01:48:22.360' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:35:28.277' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:22.360' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1042, 2, 74, 195, CAST(N'2018-06-04T01:47:58.000' AS DateTime), CAST(N'2018-06-04T01:48:19.523' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:47:58.000' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:19.523' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1043, 2, 74, 190, CAST(N'2018-06-04T01:48:03.847' AS DateTime), CAST(N'2018-06-04T01:48:17.570' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:03.847' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:17.570' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1044, 2, 74, 185, CAST(N'2018-06-04T01:48:12.353' AS DateTime), CAST(N'2018-06-14T00:02:15.693' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:48:12.353' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:02:15.693' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1045, 2, 74, 110, CAST(N'2018-06-04T01:49:35.653' AS DateTime), CAST(N'2018-06-14T00:01:53.007' AS DateTime), N'Ben Angelo', CAST(N'2018-06-04T01:49:35.653' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:01:53.007' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1046, 2, 74, 226, CAST(N'2018-06-14T00:43:40.337' AS DateTime), NULL, N'Ben Angelo', CAST(N'2018-06-14T00:43:40.337' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1047, 2, 74, 231, CAST(N'2018-06-14T00:44:33.147' AS DateTime), CAST(N'2018-06-14T00:50:43.213' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:44:33.150' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:50:43.213' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1048, 2, 74, 231, CAST(N'2018-06-14T00:45:06.383' AS DateTime), CAST(N'2018-06-14T00:47:37.637' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:45:06.383' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:37.637' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1049, 2, 74, 231, CAST(N'2018-06-14T00:45:22.807' AS DateTime), CAST(N'2018-06-14T00:47:30.260' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:45:22.807' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:30.260' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1050, 2, 74, 231, CAST(N'2018-06-14T00:45:52.933' AS DateTime), CAST(N'2018-06-14T00:47:29.270' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:45:52.933' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:29.270' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1051, 2, 74, 230, CAST(N'2018-06-14T00:46:43.513' AS DateTime), CAST(N'2018-06-14T00:47:27.447' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:46:43.513' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:27.447' AS DateTime))
-GO
-INSERT [dbo].[UserBodyMass] ([UserBodyMass_Pk], [User_Fk], [HeightInInches], [WeightInPounds], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1052, 2, 74, 44, CAST(N'2018-06-14T00:47:36.090' AS DateTime), CAST(N'2018-06-14T00:50:40.783' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:47:36.090' AS DateTime), N'Ben Angelo', CAST(N'2018-06-14T00:50:40.783' AS DateTime))
-GO
-SET IDENTITY_INSERT [dbo].[UserBodyMass] OFF
-GO
-SET IDENTITY_INSERT [dbo].[UserRole] ON 
-GO
-INSERT [dbo].[UserRole] ([UserRole_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'Admin', N'Site Administrator', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserRole] ([UserRole_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'RegisteredUser', N'Registerd User', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-INSERT [dbo].[UserRole] ([UserRole_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'AnonymousUser', N'Anonymous User', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, N'MicrosoftAccount\ben.t.angelo@gmail.com', CAST(N'2018-04-25T23:40:45.927' AS DateTime), NULL, NULL)
-GO
-SET IDENTITY_INSERT [dbo].[UserRole] OFF
-GO
-SET ANSI_PADDING ON
-GO
-/****** Object:  Index [UQ__User__49A1474086160591]    Script Date: 7/21/2018 2:14:19 AM ******/
-ALTER TABLE [dbo].[User] ADD UNIQUE NONCLUSTERED 
+/****** Object:  Table [subscriber].[BodyMass]    Script Date: 12/19/2018 12:24:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [subscriber].[BodyMass](
+	[BodyMass_Pk] [int] IDENTITY(1,1) NOT NULL,
+	[Profile_Fk] [int] NOT NULL,
+	[HeightInInches] [int] NOT NULL,
+	[WeightInPounds] [int] NOT NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NULL,
+	[CreatedBy] [varchar](50) NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[ModifiedBy] [varchar](50) NULL,
+	[ModifiedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
 (
-	[EmailAddress] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[BodyMass_Pk] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-SET ANSI_PADDING ON
+/****** Object:  Table [subscriber].[Profile]    Script Date: 12/19/2018 12:24:01 AM ******/
+SET ANSI_NULLS ON
 GO
-/****** Object:  Index [UQ__User__C9F28456AF967A65]    Script Date: 7/21/2018 2:14:19 AM ******/
-ALTER TABLE [dbo].[User] ADD UNIQUE NONCLUSTERED 
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [subscriber].[Profile](
+	[Profile_Pk] [int] IDENTITY(1,1) NOT NULL,
+	[Role_Fk] [int] NOT NULL,
+	[DisplayName] [varchar](20) NOT NULL,
+	[PasswordHash] [binary](64) NOT NULL,
+	[Salt] [uniqueidentifier] NOT NULL,
+	[ResetPasswordGuid] [uniqueidentifier] NULL,
+	[ResetPasswordExpirationDate] [datetime] NULL,
+	[LogInAttempts] [int] NULL,
+	[FirstName] [varchar](50) NOT NULL,
+	[LastName] [varchar](100) NOT NULL,
+	[EmailAddress] [varchar](50) NOT NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NULL,
+	[CreatedBy] [varchar](50) NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[ModifiedBy] [varchar](50) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[DateOfBirth] [datetime] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [subscriber].[Workout]    Script Date: 12/19/2018 12:24:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [subscriber].[Workout](
+	[Workout_Pk] [int] IDENTITY(1,1) NOT NULL,
+	[Profile_Fk] [int] NOT NULL,
+	[ExerciseProgram_Fk] [int] NOT NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NULL,
+	[CreatedBy] [varchar](50) NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[ModifiedBy] [varchar](50) NULL,
+	[ModifiedDate] [datetime] NULL,
+	[Complete] [bit] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [subscriber].[WorkoutHistory]    Script Date: 12/19/2018 12:24:01 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [subscriber].[WorkoutHistory](
+	[WorkoutHistory_Pk] [int] IDENTITY(1,1) NOT NULL,
+	[Workout_Fk] [int] NOT NULL,
+	[ExerciseProgramExercise_Fk] [int] NOT NULL,
+	[SetNumber] [int] NULL,
+	[Repititions] [int] NULL,
+	[WeightUsed] [int] NULL,
+	[Duration] [int] NULL,
+	[StartDate] [datetime] NOT NULL,
+	[EndDate] [datetime] NULL,
+	[CreatedBy] [varchar](50) NOT NULL,
+	[CreateDate] [datetime] NOT NULL,
+	[ModifiedBy] [varchar](50) NULL,
+	[ModifiedDate] [datetime] NULL,
+PRIMARY KEY CLUSTERED 
 (
-	[UserName] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	[WorkoutHistory_Pk] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[User] ADD  DEFAULT ((0)) FOR [LogInAttempts]
-GO
-ALTER TABLE [dbo].[Exercise]  WITH CHECK ADD FOREIGN KEY([ExerciseType_Fk])
-REFERENCES [dbo].[ExerciseType] ([ExerciseType_Pk])
-GO
-ALTER TABLE [dbo].[Exercise]  WITH CHECK ADD FOREIGN KEY([MuscleGroup_Fk])
-REFERENCES [dbo].[MuscleGroup] ([MuscleGroup_Pk])
-GO
-ALTER TABLE [dbo].[ExerciseHistory]  WITH CHECK ADD FOREIGN KEY([ExerciseProgramExercise_Fk])
-REFERENCES [dbo].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk])
-GO
-ALTER TABLE [dbo].[ExerciseProgramExercise]  WITH CHECK ADD FOREIGN KEY([ExerciseProgram_Fk])
-REFERENCES [dbo].[ExerciseProgram] ([ExerciseProgram_Pk])
-GO
-ALTER TABLE [dbo].[ExerciseProgramExercise]  WITH CHECK ADD FOREIGN KEY([Exercise_Fk])
-REFERENCES [dbo].[Exercise] ([Exercise_Pk])
-GO
-ALTER TABLE [dbo].[User]  WITH CHECK ADD FOREIGN KEY([UserRole_Fk])
-REFERENCES [dbo].[UserRole] ([UserRole_Pk])
-GO
-ALTER TABLE [dbo].[UserBodyMass]  WITH CHECK ADD FOREIGN KEY([User_Fk])
-REFERENCES [dbo].[User] ([User_Pk])
-GO
-ALTER TABLE [logging].[AccessLog]  WITH CHECK ADD FOREIGN KEY([User_Fk])
-REFERENCES [dbo].[User] ([User_Pk])
+SET IDENTITY_INSERT [catalog].[Exercise] ON 
+
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 2, 1, N'Squats', N'Squats', CAST(N'2018-12-10T22:16:30.187' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:16:30.187' AS DateTime), N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:16:30.187' AS DateTime))
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, 2, 2, N'Bench Press', N'Bench Press', CAST(N'2018-12-10T22:16:30.187' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:16:30.187' AS DateTime), N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:16:30.187' AS DateTime))
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, 2, 3, N'Military Press', N'Military Press', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, NULL)
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, 2, 4, N'Dead Lift', N'Dead Lift', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, NULL)
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, 2, 5, N'Barbell Curls', N'Barbell Curls', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, NULL)
+INSERT [catalog].[Exercise] ([Exercise_Pk], [ExerciseType_Fk], [MuscleGroup_Fk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, 2, 6, N'Tricep Pressdowns', N'Tricep Pressdowns', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:14:07.517' AS DateTime), NULL, NULL)
+SET IDENTITY_INSERT [catalog].[Exercise] OFF
+SET IDENTITY_INSERT [catalog].[ExerciseProgram] ON 
+
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'bangelo - 12/12/2018', N'Workout for 12/12/2018', 1, CAST(N'2018-12-12T23:43:40.273' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-12T23:43:40.273' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'bangelo - 12/13/2018', N'Workout for 12/13/2018', 1, CAST(N'2018-12-13T00:58:08.660' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T00:58:08.660' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'bangelo - 12/14/2018', N'Workout for 12/14/2018', 1, CAST(N'2018-12-14T17:26:56.413' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T17:26:56.413' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, N'bangelo - 12/15/2018', N'Workout for 12/15/2018', 1, CAST(N'2018-12-15T00:00:00.000' AS DateTime), CAST(N'2018-12-15T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-15T00:59:51.600' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (7, N'bangelo - 12/16/2018', N'Workout for 12/16/2018', 1, CAST(N'2018-12-16T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T01:42:25.010' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (8, N'bangelo - 12/18/2018', N'Workout for 12/18/2018', 1, CAST(N'2018-12-18T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:21:36.877' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgram] ([ExerciseProgram_Pk], [Name], [Description], [DurationInDays], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (9, N'bangelo - 12/19/2018', N'Workout for 12/19/2018', 1, CAST(N'2018-12-19T00:00:00.000' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-19T00:18:23.917' AS DateTime), NULL, NULL)
+SET IDENTITY_INSERT [catalog].[ExerciseProgram] OFF
+SET IDENTITY_INSERT [catalog].[ExerciseProgramExercise] ON 
+
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 1, 1, 0, 0, 3, CAST(N'2018-12-12T23:45:01.927' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-12T23:45:01.927' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, 1, 2, 0, 0, 3, CAST(N'2018-12-12T23:50:29.787' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-12T23:50:29.787' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, 2, 4, 0, 0, 1, CAST(N'2018-12-13T01:24:01.437' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T01:24:01.437' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, 2, 6, 0, 0, 5, CAST(N'2018-12-13T01:26:47.520' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T01:26:47.520' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, 2, 2, 0, 0, 0, CAST(N'2018-12-13T19:06:20.650' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T19:06:20.650' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, 2, 5, 0, 0, 3, CAST(N'2018-12-13T19:06:37.050' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T19:06:37.050' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (7, 3, 1, 0, 0, 5, CAST(N'2018-12-14T22:29:24.473' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T22:29:24.473' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (8, 3, 2, 0, 0, 5, CAST(N'2018-12-14T23:22:08.223' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T23:22:08.223' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (9, 3, 4, 0, 0, 10, CAST(N'2018-12-14T23:58:47.777' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T23:58:47.777' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (13, 7, 1, 0, 0, 5, CAST(N'2018-12-16T01:42:32.317' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T01:42:32.317' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (10, 4, 1, 0, 0, 5, CAST(N'2018-12-15T00:53:15.587' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T00:53:15.587' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (11, 6, 1, 0, 0, 5, CAST(N'2018-12-15T01:09:57.910' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T01:09:57.910' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (12, 6, 6, 0, 0, 2, CAST(N'2018-12-15T03:27:52.333' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T03:27:52.333' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (14, 8, 1, 0, 0, 5, CAST(N'2018-12-18T23:21:50.713' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:21:50.713' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (15, 8, 2, 0, 0, 3, CAST(N'2018-12-18T23:22:01.413' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:22:01.413' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (16, 9, 1, 0, 0, 10, CAST(N'2018-12-19T00:20:35.393' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-19T00:20:35.393' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (17, 9, 2, 0, 0, 10, CAST(N'2018-12-19T00:20:42.227' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-19T00:20:42.227' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseProgramExercise] ([ExerciseProgramExercise_Pk], [ExerciseProgram_Fk], [Exercise_Fk], [ExerciseDay], [ExerciseRepitions], [ExerciseSets], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (18, 9, 4, 0, 0, 99, CAST(N'2018-12-19T00:21:07.683' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-19T00:21:07.683' AS DateTime), NULL, NULL)
+SET IDENTITY_INSERT [catalog].[ExerciseProgramExercise] OFF
+SET IDENTITY_INSERT [catalog].[ExerciseType] ON 
+
+INSERT [catalog].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'Cardio', N'Cardio', CAST(N'2018-12-10T22:14:42.377' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:14:42.377' AS DateTime), NULL, NULL)
+INSERT [catalog].[ExerciseType] ([ExerciseType_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'Resistance', N'Resistance', CAST(N'2018-12-10T22:14:42.377' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:14:42.377' AS DateTime), NULL, NULL)
+SET IDENTITY_INSERT [catalog].[ExerciseType] OFF
+SET IDENTITY_INSERT [catalog].[MuscleGroup] ON 
+
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, N'Legs', N'Legs', CAST(N'2018-12-10T22:14:01.747' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:14:01.747' AS DateTime), NULL, NULL)
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, N'Chest', N'Chest', CAST(N'2018-12-10T22:14:01.747' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-10T22:14:01.747' AS DateTime), NULL, NULL)
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, N'Shoulders', N'Shoulders', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, NULL)
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, N'Back', N'Back', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, NULL)
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, N'Biceps', N'Biceps', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, NULL)
+INSERT [catalog].[MuscleGroup] ([MuscleGroup_Pk], [Name], [Description], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, N'Triceps', N'Triceps', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, N'LAPTOP-RVSGHA90\bangelo', CAST(N'2018-12-12T23:10:01.440' AS DateTime), NULL, NULL)
+SET IDENTITY_INSERT [catalog].[MuscleGroup] OFF
+SET IDENTITY_INSERT [subscriber].[Workout] ON 
+
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (1, 1, 1, CAST(N'2018-12-12T00:00:00.000' AS DateTime), CAST(N'2018-12-12T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-12T23:43:40.303' AS DateTime), N'bangelo', CAST(N'2018-12-15T23:58:08.430' AS DateTime), 1)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (2, 1, 2, CAST(N'2018-12-13T00:00:00.000' AS DateTime), CAST(N'2018-12-13T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-13T00:58:08.667' AS DateTime), N'bangelo', CAST(N'2018-12-16T00:50:16.707' AS DateTime), 1)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (3, 1, 3, CAST(N'2018-12-14T00:00:00.000' AS DateTime), CAST(N'2018-12-14T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-14T17:26:56.447' AS DateTime), N'bangelo', CAST(N'2018-12-16T01:36:34.693' AS DateTime), 1)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (6, 1, 6, CAST(N'2018-12-15T00:59:51.600' AS DateTime), CAST(N'2018-12-15T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-15T00:59:51.600' AS DateTime), N'bangelo', CAST(N'2018-12-16T01:36:47.600' AS DateTime), 1)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (7, 1, 7, CAST(N'2018-12-16T01:42:25.040' AS DateTime), CAST(N'2018-12-16T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-16T01:42:25.040' AS DateTime), N'bangelo', CAST(N'2018-12-16T03:06:06.527' AS DateTime), 1)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (8, 1, 8, CAST(N'2018-12-18T23:21:36.903' AS DateTime), CAST(N'2018-12-18T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-18T23:21:36.903' AS DateTime), NULL, NULL, 0)
+INSERT [subscriber].[Workout] ([Workout_Pk], [Profile_Fk], [ExerciseProgram_Fk], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate], [Complete]) VALUES (9, 1, 9, CAST(N'2018-12-19T00:18:23.923' AS DateTime), CAST(N'2018-12-19T23:59:59.000' AS DateTime), N'bangelo', CAST(N'2018-12-19T00:18:23.923' AS DateTime), NULL, NULL, 0)
+SET IDENTITY_INSERT [subscriber].[Workout] OFF
+SET IDENTITY_INSERT [subscriber].[WorkoutHistory] ON 
+
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (1, 2, 3, 1, 5, 225, 0, CAST(N'2018-12-13T23:22:49.407' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:22:49.407' AS DateTime), N'bangelo', CAST(N'2018-12-14T00:43:37.247' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (2, 2, 6, 1, 10, 95, 0, CAST(N'2018-12-13T23:25:14.007' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:25:14.007' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (3, 2, 6, 2, 8, 95, 0, CAST(N'2018-12-13T23:25:28.057' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:25:28.057' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (4, 2, 6, 3, 8, 95, 0, CAST(N'2018-12-13T23:25:30.673' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:25:30.673' AS DateTime), N'bangelo', CAST(N'2018-12-13T23:25:35.357' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (5, 2, 4, 1, 12, 120, 0, CAST(N'2018-12-13T23:27:15.043' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:27:15.043' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (6, 1, 1, 1, 5, 225, 0, CAST(N'2018-12-13T23:49:29.997' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:49:29.997' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (7, 1, 1, 2, 5, 225, 0, CAST(N'2018-12-13T23:49:31.553' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:49:31.553' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (8, 1, 1, 3, 5, 225, 0, CAST(N'2018-12-13T23:49:32.287' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:49:32.287' AS DateTime), N'bangelo', CAST(N'2018-12-15T03:36:31.913' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (9, 1, 2, 1, 5, 185, 0, CAST(N'2018-12-13T23:50:35.480' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:50:35.480' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (10, 1, 2, 2, 5, 185, 0, CAST(N'2018-12-13T23:50:36.450' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:50:36.450' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (11, 1, 2, 3, 5, 185, 0, CAST(N'2018-12-13T23:50:37.220' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-13T23:50:37.220' AS DateTime), N'bangelo', CAST(N'2018-12-15T03:37:04.273' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (12, 2, 0, 0, 0, 0, 0, CAST(N'2018-12-14T00:22:11.527' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T00:22:11.527' AS DateTime), N'bangelo', CAST(N'2018-12-14T00:23:38.130' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (13, 3, 7, 1, 6, 250, 0, CAST(N'2018-12-14T22:29:43.493' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T22:29:43.493' AS DateTime), N'bangelo', CAST(N'2018-12-14T23:50:58.467' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (14, 3, 7, 2, 4, 255, 0, CAST(N'2018-12-14T23:21:42.147' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T23:21:42.147' AS DateTime), N'bangelo', CAST(N'2018-12-15T00:03:17.947' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (15, 3, 7, 0, 7, 250, 0, CAST(N'2018-12-14T23:54:11.923' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-14T23:54:11.923' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (16, 4, 10, 1, 0, 0, 0, CAST(N'2018-12-15T00:56:16.487' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T00:56:16.487' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (17, 6, 11, 2, 3, 9, 0, CAST(N'2018-12-15T01:28:14.503' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T01:28:14.503' AS DateTime), N'bangelo', CAST(N'2018-12-15T23:18:35.517' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (18, 6, 11, 1, 25, 308, 0, CAST(N'2018-12-15T01:28:29.627' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T01:28:29.627' AS DateTime), N'bangelo', CAST(N'2018-12-16T00:12:57.273' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (19, 6, 11, 5, 4, 3, 0, CAST(N'2018-12-15T02:02:15.293' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T02:02:15.293' AS DateTime), N'bangelo', CAST(N'2018-12-15T15:17:32.090' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (20, 6, 11, 4, 2, 5, 0, CAST(N'2018-12-15T02:08:15.473' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T02:08:15.473' AS DateTime), N'bangelo', CAST(N'2018-12-15T15:09:01.210' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (21, 6, 11, 3, 3, 700, 0, CAST(N'2018-12-15T03:03:55.210' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-15T03:03:55.210' AS DateTime), N'bangelo', CAST(N'2018-12-15T03:35:03.257' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (22, 6, 12, 1, 1, 1, 0, CAST(N'2018-12-16T00:54:37.077' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T00:54:37.077' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (23, 7, 13, 1, 6, 226, 0, CAST(N'2018-12-16T02:13:54.293' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T02:13:54.293' AS DateTime), N'bangelo', CAST(N'2018-12-16T02:57:11.443' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (24, 7, 13, 2, 5, 225, 0, CAST(N'2018-12-16T02:14:01.893' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T02:14:01.893' AS DateTime), N'bangelo', CAST(N'2018-12-16T02:57:10.563' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (25, 7, 13, 3, 5, 226, 0, CAST(N'2018-12-16T02:14:09.593' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T02:14:09.593' AS DateTime), N'bangelo', CAST(N'2018-12-16T02:38:00.833' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (26, 7, 13, 4, 6, 225, 0, CAST(N'2018-12-16T02:18:55.043' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T02:18:55.043' AS DateTime), N'bangelo', CAST(N'2018-12-16T02:57:20.550' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (27, 7, 13, 5, 5, 226, 0, CAST(N'2018-12-16T02:21:29.247' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-16T02:21:29.247' AS DateTime), N'bangelo', CAST(N'2018-12-16T02:38:09.040' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (28, 8, 14, 1, 5, 225, 0, CAST(N'2018-12-18T23:27:55.847' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:27:55.847' AS DateTime), N'bangelo', CAST(N'2018-12-19T00:19:07.517' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (29, 8, 14, 2, 5, 225, 0, CAST(N'2018-12-18T23:49:52.930' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:49:52.930' AS DateTime), N'bangelo', CAST(N'2018-12-18T23:50:42.433' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (30, 8, 14, 3, 5, 225, 0, CAST(N'2018-12-18T23:50:42.880' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:50:42.880' AS DateTime), NULL, NULL)
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (31, 8, 15, 1, 8, 185, 0, CAST(N'2018-12-18T23:50:44.343' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:50:44.343' AS DateTime), N'bangelo', CAST(N'2018-12-18T23:51:10.097' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (32, 8, 15, 2, 8, 185, 0, CAST(N'2018-12-18T23:50:44.823' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:50:44.823' AS DateTime), N'bangelo', CAST(N'2018-12-18T23:51:10.780' AS DateTime))
+INSERT [subscriber].[WorkoutHistory] ([WorkoutHistory_Pk], [Workout_Fk], [ExerciseProgramExercise_Fk], [SetNumber], [Repititions], [WeightUsed], [Duration], [StartDate], [EndDate], [CreatedBy], [CreateDate], [ModifiedBy], [ModifiedDate]) VALUES (33, 8, 15, 3, 8, 185, 0, CAST(N'2018-12-18T23:50:45.290' AS DateTime), NULL, N'bangelo', CAST(N'2018-12-18T23:50:45.290' AS DateTime), N'bangelo', CAST(N'2018-12-18T23:51:11.230' AS DateTime))
+SET IDENTITY_INSERT [subscriber].[WorkoutHistory] OFF
+ALTER TABLE [subscriber].[Workout] ADD  DEFAULT ((0)) FOR [Complete]
 GO
 USE [master]
 GO
