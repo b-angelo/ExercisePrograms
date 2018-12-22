@@ -120,10 +120,22 @@ textarea {
     width: 100px;
 }
 
+.btn-toolbar-width-large {
+    width: 150px;
+}
+
+.btn-toolbar-width-medium {
+    width: 125px;
+}
+
 .home-page-button {
     width: 200px;
 }
 
 .progam-id {
     cursor: pointer;
+}
+
+.exercise-set-header {
+    background-color: darkgray !important;
 }

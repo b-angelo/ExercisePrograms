@@ -1,12 +1,44 @@
 ﻿@model ExerciseProgram.Models.ViewModels.SubscriberProfileViewModel
 
 @{
-    /**/
-
     ViewBag.Title = "My Workout";
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="container" hidden="hidden">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <h4>Please Sign In</h4>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row margin-top-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <input type="email" class="form-control" placeholder="Email Address" />
+                <input type="password" class="form-control" placeholder="Password" />
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">  
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-1" role="group" aria-label="First group">
+                        <button id="btnLogIn" class="btn btn-sm btn-outline-primary btn-toolbar-width-large">Log In</button>
+                    </div>
+                    <div class="btn-group mr-1" role="group" aria-label="First group">
+                        <button id="btnResetPassword" class="btn btn-sm btn-outline-secondary btn-toolbar-width-large">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="container border margin-top-20px background-white-smoke">
@@ -72,6 +104,7 @@
     </div>
 </div>
 <input hidden="hidden" id="txtProgramId" value="@Model.CurrentProgramId" />
+
 <script>
     $(document).ready(function () {
 

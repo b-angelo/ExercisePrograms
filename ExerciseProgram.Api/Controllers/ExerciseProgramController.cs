@@ -46,11 +46,11 @@ namespace ExerciseProgram.Api.Controllers
             return response;
         }
 
-        [HttpPut]
-        [Route("api/ExercisePrograms/")]
+        [HttpPost]
+        [Route("api/ExercisePrograms/update/")]
         public HttpStatusCode UpdateExerciseProgram([FromBody] ProgramInputModel model)
         {
-            _exerciseService.CreateExerciseProgram(model); // ToDo: create service method, return status code
+            _exerciseService.UpdateExerciseProgram(model);
 
             return HttpStatusCode.OK;
         }

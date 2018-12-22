@@ -67,6 +67,13 @@ namespace ExerciseProgram.WebApp.Controllers
             return RedirectToAction("ExerciseProgramDetail", "ExerciseProgram", new { id = Convert.ToInt32(programId)});
         }
 
+        public void UpdateExerciseProgram(ProgramInputModel model)
+        {
+            var content = new ObjectContent(typeof(ProgramInputModel), model, new JsonMediaTypeFormatter());
+
+            _httpClient.Post($"api/ExercisePrograms/update", content);
+        }
+
         public void AddExerciseToProgram(AddExerciseToProgramInputModel model)
         {
             var exercises = _httpClient.GetList($"api/ExercisePrograms/");

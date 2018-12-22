@@ -146,6 +146,28 @@ namespace ExerciseProgram.Api.Services
             }
         }
 
+        public ProgramViewModel UpdateExerciseProgram(ProgramInputModel model)
+        {
+            try
+            {
+                var program = _exerciseProgramRepository.GetById(model.Id);
+
+                program.Name = model.Name;
+                program.Description = model.Description;
+                program.DurationInDays = model.LengthInDays;
+                program.ModifiedBy = Environment.UserName;
+                program.ModifiedDate = DateTime.Now;
+
+                _exerciseProgramRepository.Update(program);
+
+                return GetExerciseProgramById(program.ExerciseProgram_Pk);
+            }
+            catch (Exception e)
+            {
+                throw new Exception();
+            }
+        }
+
         public void SaveWorkout(SaveWorkoutInputModel model)
         {
             var recordedSet = _workoutHistoryRepository.GetAll()

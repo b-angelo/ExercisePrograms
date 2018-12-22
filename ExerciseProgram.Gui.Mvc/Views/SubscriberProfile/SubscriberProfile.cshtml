@@ -177,11 +177,22 @@
             </div>
             <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("lblHeight", "Height (In Inches)")
-                    @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control profile-change" }, id = "txtHeight" })
+                    @Html.Label("lblHeight", "Height (Feet / Inches)")
+                    <select class="form-control" id = "txtHeight">
+                        @for (var i = 7; i > 3; i--)
+                        {
+                            for (var j = 11; j > 0; j--)
+                            {
+                                <option>
+                                    @i' @j"
+                                </option>
+                            }
+                        }
+                    </select>
+
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("lblWeight", "Weight")
+                    @Html.Label("lblWeight", "Weight (lbs)")
                     @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtWeight" } })
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">

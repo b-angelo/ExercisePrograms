@@ -43,7 +43,7 @@
   <ItemGroup>
     <Compile Include="Enums\DayOfWeekEnum.cs" />
     <Compile Include="InputModel\AddExerciseToProgramInputModel.cs" />
-    <Compile Include="InputModel\NewProgramInputModel.cs" />
+    <Compile Include="InputModel\ProgramInputModel.cs" />
     <Compile Include="InputModel\PagingInputModel.cs" />
     <Compile Include="InputModel\SaveWorkoutInputModel.cs" />
     <Compile Include="InputModel\UpdateProfileInputModel.cs" />
