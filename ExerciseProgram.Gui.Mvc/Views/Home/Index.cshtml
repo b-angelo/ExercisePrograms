@@ -25,7 +25,7 @@
         </div>
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-4"></div>
-            <div class="col-sm-4">  
+            <div class="col-sm-4">
                 <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                     <div class="btn-group mr-1" role="group" aria-label="First group">
                         <button id="btnLogIn" class="btn btn-sm btn-outline-primary btn-toolbar-width-large">Log In</button>
@@ -63,9 +63,19 @@
                 }
                 <p id="pWorkoutScheduled">
                     <br />
-                    <b>Name:</b> @Model.CurrentWorkoutName
+                    <b>Workout Name:</b> @Model.CurrentWorkoutName
                     <br />
-                    <b>Exercises:</b> @Model.CurrentWorkoutExerciseCount
+                    <br />
+                    @{
+                        var completed = Model.IsCurrentProgramCompleted ? "&#10003;" : string.Empty;
+                    }
+                    <b>Completed:</b> @Html.Raw(completed)
+                    <br />
+                    <br />
+                    <b>Exercise Count:</b> @Model.CurrentWorkoutExerciseCount
+                    <br />
+                    <br />
+                    <b>Workout Description:</b> <textarea class="col-sm-12 form-control" readonly rows="4">@Model.CurrentWorkoutDescription</textarea>
                     <br /> <br />
                     <a id="aWorkoutScheduled" class="btn btn-outline-primary home-page-button" href="#">Go to workout &raquo;</a>
                     <br />
@@ -86,19 +96,91 @@
         <div class="row margin-top-20px">
             <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
                 <h4>
-                    Workout History
+                    Workout Tracker
                 </h4>
-                <p>
+                @{
+                    var workoutsThisWeek = (Convert.ToDouble(Model.WorkoutsCompletedWeek) / 7) * 100;
+                    var daysLeftThisWeekPercentage = 100 - workoutsThisWeek;
+                    var daysLeftThisWeek = 7 - (int)DateTime.Today.DayOfWeek;
+                    var workoutsThisMonth = (Convert.ToDouble(Model.WorkoutsCompletedMonth) / DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)) * 100;
+                    var daysLeftThisMonthPercentage = 100 - workoutsThisMonth;
+                    var daysLeftThisMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day;
+                    var workoutThisYear = (Convert.ToDouble(Model.WorkoutCompletedYear) / 365) * 100;
+                    var daysLeftThisYearPercentage = 100 - workoutThisYear;
+                    var daysLeftThisYear = DateTime.IsLeapYear(DateTime.Today.Year) ? 366 - DateTime.Today.DayOfYear : 365 - DateTime.Today.DayOfYear;
+                    var daysPastThisYearPercentage = 100 - daysLeftThisYear;
+                    var daysPastThisYear = DateTime.IsLeapYear(DateTime.Today.Year) ? 366 - DateTime.Today.DayOfYear : 365 - DateTime.Today.DayOfYear;
+                }
+                <br /> Workouts this week
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutsThisWeek%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedWeek workouts completed this week">
+                        @Model.WorkoutsCompletedWeek
+                    </div>
+                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisWeekPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisWeek days left this week">
+                        @daysLeftThisWeek
+                    </div>
+                </div>
+                <br /> Workouts this month (@DateTime.Today.ToString("MMMM"))
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutsThisMonth%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedMonth workouts completed this month">
+                        @Model.WorkoutsCompletedMonth
+                    </div>
+                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisMonthPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisMonth days left this month">
+                        @daysLeftThisMonth
+                    </div>
+                </div>
+                <br /> Workouts this year (@DateTime.Today.Year)
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutThisYear%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutCompletedYear workouts completed this year">
+                        @Model.WorkoutCompletedYear
+                    </div>
+                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisYear days left this year">
+
+                    </div>
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisYear days left this year">
+                        @daysLeftThisYear
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
+                <div>
+                    Day 1
                     <br />
-                    <b>This Week:</b> @Model.WorkoutsCompletedWeek
+                    240 lbs
                     <br />
-                    <b>This Month:</b> @Model.WorkoutsCompletedMonth
+                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
+                <div>
+                    Current
                     <br />
-                    <b>This Year:</b> @Model.WorkoutCompletedYear
+                    210 lbs
                     <br />
+                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
+                <div>
+                    Goal
                     <br />
-                    <a class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/ExercisePrograms">View Past Workouts &raquo;</a>
-                </p>                            
+                    205 lbs
+                    <br />
+                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
+                </div>
             </div>
         </div>
     </div>
@@ -109,7 +191,7 @@
     $(document).ready(function () {
 
         if ($('#txtWorkoutScheduled').val() === 'yes') {
-            
+
             $('#pNoWorkoutScheduled').hide();
             $('#pWorkoutScheduled').show();
         }

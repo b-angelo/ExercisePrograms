@@ -68,18 +68,17 @@ namespace ExerciseProgram.Api.Services
             var workoutsCompletedMonth = workoutsCompleted.Where(x => x.StartDate > currentMonth).Count();
             var workoutsCompletedYear = workoutsCompleted.Where(x => x.StartDate > currentYear).Count();
 
-            var currentWorkout = _workoutRepository.GetAll()
-                                                   .Where(x => x.Complete == false && 
-                                                               x.StartDate < DateTime.Now && 
+            var todaysWorkout = _workoutRepository.GetAll()
+                                                   .Where(x => x.StartDate < DateTime.Now && 
                                                                x.EndDate > DateTime.Now)
                                                    .FirstOrDefault();
 
             var currentExerciseProgram = new Data.Entities.ExerciseProgram();
             var excerciseCount = 0;
-            if (currentWorkout != null)
+            if (todaysWorkout != null)
             {
                 currentExerciseProgram = _exerciseProgramRepository.GetAll()
-                                                                   .Where(x => x.ExerciseProgram_Pk == currentWorkout.ExerciseProgram_Fk)
+                                                                   .Where(x => x.ExerciseProgram_Pk == todaysWorkout.ExerciseProgram_Fk)
                                                                    .FirstOrDefault();
 
                 if (currentExerciseProgram != null)
@@ -100,8 +99,10 @@ namespace ExerciseProgram.Api.Services
                 Weight = weightHistory?.OrderByDescending(x => x.CreateDate)?.FirstOrDefault()?.WeightInPounds ?? 0,
                 WeightHistory = weightHistory ?? new List<WeightHistory>(),
                 DateJoined = subscriber?.CreateDate ?? DateTime.MinValue,
-                CurrentProgramId = currentExerciseProgram?.ExerciseProgram_Pk ?? 0, 
+                CurrentProgramId = currentExerciseProgram?.ExerciseProgram_Pk ?? 0,
                 CurrentWorkoutName = currentExerciseProgram?.Name ?? string.Empty,
+                CurrentWorkoutDescription = currentExerciseProgram.Description ?? string.Empty,
+                IsCurrentProgramCompleted = todaysWorkout?.Complete ?? false,
                 WorkoutsCompletedWeek = workoutsCompletedWeek,
                 WorkoutsCompletedMonth = workoutsCompletedMonth,
                 WorkoutCompletedYear = workoutsCompletedYear,

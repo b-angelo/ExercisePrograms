@@ -19,6 +19,8 @@ namespace ExerciseProgram.Models.ViewModels
         public DateTime DateJoined { get; set; }
         public int CurrentProgramId { get; set; }
         public string CurrentWorkoutName { get; set; }
+        public string CurrentWorkoutDescription { get; set; }
+        public bool IsCurrentProgramCompleted { get; set; }
         public int CurrentWorkoutExerciseCount { get; set; }
         public int WorkoutsCompletedWeek { get; set; }
         public int WorkoutsCompletedMonth { get; set; }

@@ -178,7 +178,7 @@
             <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblHeight", "Height (Feet / Inches)")
-                    <select class="form-control" id = "txtHeight">
+                    <select class="form-control" id="txtHeight">
                         @for (var i = 7; i > 3; i--)
                         {
                             for (var j = 11; j > 0; j--)
@@ -198,6 +198,12 @@
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblBmi", "BMI")
                     <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
+                </div>
+            </div>
+            <div class="row margin-bottom-20px">
+                <div class="col-sm-offset-2 col-sm-12">
+                    Min Workouts Per Week
+                    <input value="3" class="form-control" type="number" />
                 </div>
             </div>
             <div class="row margin-bottom-20px">

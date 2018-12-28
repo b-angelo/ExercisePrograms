@@ -139,3 +139,28 @@ textarea {
 .exercise-set-header {
     background-color: darkgray !important;
 }
+
+.exercise-expand {
+    color: #fff;
+    background-color: #212529;
+    border-color: #32383e;
+    border: solid transparent;
+    cursor: pointer;
+    height: 10px;
+}
+
+.exercise-header-expand {
+    cursor: pointer;
+}
+
+.btn-save-exercise {
+    
+}
+
+.text-enabled {
+    cursor: pointer;
+}
+.text-disabled {
+    cursor: not-allowed;
+    opacity: 0.1;
+}
