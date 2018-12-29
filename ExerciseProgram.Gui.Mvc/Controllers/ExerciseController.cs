@@ -16,7 +16,7 @@ namespace ExerciseProgram.Gui.Mvc.Controllers
 
             result = _httpClient.GetList($"api/Exercises/");
 
-            return View(result);
+            return PartialView(result);
         }
     }
 }

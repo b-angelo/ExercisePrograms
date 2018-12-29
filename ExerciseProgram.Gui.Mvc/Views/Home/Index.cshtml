@@ -101,15 +101,10 @@
                 @{
                     var workoutsThisWeek = (Convert.ToDouble(Model.WorkoutsCompletedWeek) / 7) * 100;
                     var daysLeftThisWeekPercentage = 100 - workoutsThisWeek;
-                    var daysLeftThisWeek = 7 - (int)DateTime.Today.DayOfWeek;
                     var workoutsThisMonth = (Convert.ToDouble(Model.WorkoutsCompletedMonth) / DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)) * 100;
                     var daysLeftThisMonthPercentage = 100 - workoutsThisMonth;
-                    var daysLeftThisMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) - DateTime.Today.Day;
                     var workoutThisYear = (Convert.ToDouble(Model.WorkoutCompletedYear) / 365) * 100;
                     var daysLeftThisYearPercentage = 100 - workoutThisYear;
-                    var daysLeftThisYear = DateTime.IsLeapYear(DateTime.Today.Year) ? 366 - DateTime.Today.DayOfYear : 365 - DateTime.Today.DayOfYear;
-                    var daysPastThisYearPercentage = 100 - daysLeftThisYear;
-                    var daysPastThisYear = DateTime.IsLeapYear(DateTime.Today.Year) ? 366 - DateTime.Today.DayOfYear : 365 - DateTime.Today.DayOfYear;
                 }
                 <br /> Workouts this week
                 <div class="progress">
@@ -117,9 +112,8 @@
                          data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedWeek workouts completed this week">
                         @Model.WorkoutsCompletedWeek
                     </div>
-                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisWeekPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
-                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisWeek days left this week">
-                        @daysLeftThisWeek
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisWeekPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
                     </div>
                 </div>
                 <br /> Workouts this month (@DateTime.Today.ToString("MMMM"))
@@ -128,9 +122,8 @@
                          data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedMonth workouts completed this month">
                         @Model.WorkoutsCompletedMonth
                     </div>
-                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisMonthPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
-                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisMonth days left this month">
-                        @daysLeftThisMonth
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisMonthPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">                      
                     </div>
                 </div>
                 <br /> Workouts this year (@DateTime.Today.Year)
@@ -139,47 +132,9 @@
                          data-toggle="tooltip" data-placement="top" title="@Model.WorkoutCompletedYear workouts completed this year">
                         @Model.WorkoutCompletedYear
                     </div>
-                    <div class="progress-bar bg-secondary" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
-                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisYear days left this year">
-
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
                     </div>
-                    <div class="progress-bar bg-primary" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
-                         data-toggle="tooltip" data-placement="top" title="@daysLeftThisYear days left this year">
-                        @daysLeftThisYear
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="container border margin-top-20px background-white-smoke">
-        <div class="row margin-top-20px">
-            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
-                <div>
-                    Day 1
-                    <br />
-                    240 lbs
-                    <br />
-                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
-                </div>
-            </div>
-            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
-                <div>
-                    Current
-                    <br />
-                    210 lbs
-                    <br />
-                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
-                </div>
-            </div>
-            <div class="col-sm-offset-2 col-sm-6 margin-bottom-20px">
-                <div>
-                    Goal
-                    <br />
-                    205 lbs
-                    <br />
-                    <img src="~/Images/Hawaii.jpg" width="250" class="rounded" alt="...">
                 </div>
             </div>
         </div>

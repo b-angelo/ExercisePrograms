@@ -10,7 +10,7 @@
             <div class="col-sm-3">
                 <b>Type</b>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-9">
                 <select id="slExerciseType" class="form-control">
                     <option></option>
                     @foreach (var type in Model.Select(x => x.Type.Name).Distinct())
@@ -24,7 +24,7 @@
             <div class="col-sm-3">
                 <b>Muscle Group</b>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-9">
                 <select id="slMuscleGroup" class="form-control">
                     <option></option>
                     @foreach (var muscleGroup in Model.Select(x => x.MuscleGroup).Distinct())
@@ -38,7 +38,7 @@
             <div class="col-sm-3">
                 <b>Exercise</b>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-9">
                 <select id="slExercise" class="form-control">
                     <option></option>
                     @foreach (var exercise in Model)
@@ -52,52 +52,11 @@
         </div>
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-3">
-                <b>Sets/Duration</b>
+                <b>Sets</b>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-9">
                 <input id="txtSetsDuration" type="number" class="form-control"/>
-            </div>
-        </div>
-        <div class="row margin-bottom-20px">
-            <div class="col">
-                <hr />
-                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button id="btnSaveAddExercise" class="btn btn-primary btn-sm btn-toolbar-width">Save</button>
-                    </div>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button id="btnCancelAddExercise" class="btn btn-secondary btn-sm btn-toolbar-width">Cancel</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-
-        $("#btnSaveAddExercise").click(function (event) {
-
-            var exerciseId = $("#slExercise").val();
-            var programId = $(location).attr("href").substring($(location).attr("href").lastIndexOf('/') + 1);
-            var txtSetsDuration = $("#txtSetsDuration").val();
-            var posting = $.post("/ExerciseProgram/AddExerciseToProgram",
-                {
-                    programId: programId,
-                    exerciseId: exerciseId,
-                    sets: txtSetsDuration
-                });
-
-            posting.done(function (data) {
-                $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
-            });
-        });
-
-        $("#btnCancelAddExercise").click(function () {
-
-            var programId = $(location).attr("href").substring($(location).attr("href").lastIndexOf('/') + 1);
-
-            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
-        });
-    });
-</script>
