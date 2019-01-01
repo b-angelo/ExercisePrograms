@@ -84,7 +84,9 @@
                     <br />
                     No workout scheduled for today.
                     <br /><br />
-                    <a id="aNoWorkoutScheduled" class="btn btn-outline-primary home-page-button" href="~/ExerciseProgram/CreateExerciseProgram">Create Workout</a>
+                    <a id="aNoWorkoutScheduled" class="btn btn-sm btn-outline-primary home-page-button" href="~/ExerciseProgram/CreateExerciseProgram">Create New</a>
+                    <br /><br />
+                    <a id="aNoWorkoutScheduled" class="btn btn-sm   btn-outline-primary home-page-button" href="#">Repeat Previous</a>
                 </p>
                 <input id="txtWorkoutScheduled" hidden="hidden" value=@workoutScheduled />
             </div>
@@ -126,6 +128,52 @@
                          data-toggle="tooltip" data-placement="top">                      
                     </div>
                 </div>
+                <br /> Workouts this year (@DateTime.Today.Year)
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutThisYear%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutCompletedYear workouts completed this year">
+                        @Model.WorkoutCompletedYear
+                    </div>
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                <h4>
+                    Weight History
+                </h4>
+                <br /> Workouts this week              
+                <br /> Workouts this year (@DateTime.Today.Year)
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutThisYear%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutCompletedYear workouts completed this year">
+                        @Model.WorkoutCompletedYear
+                    </div>
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                <h4>
+                    Top 5 Exercises
+                </h4>
+                <text class="small">(Based on amount of completed sets)</text>    
+                <br />
+                <br /> Workouts this week
                 <br /> Workouts this year (@DateTime.Today.Year)
                 <div class="progress">
                     <div class="progress-bar bg-info" role="progressbar" style="width: @workoutThisYear%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"

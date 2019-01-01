@@ -5,8 +5,7 @@
 }
 
 <div class="container">
-    <div id="divNewExercise" class="margin-top-20px container border background-white-smoke">
-        @*<div class="row margin-top-20px margin-bottom-20px">
+    @*<div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-3">
                 <b>Type</b>
             </div>
@@ -34,29 +33,28 @@
                 </select>
             </div>
         </div>*@
-        <div class="row margin-top-20px margin-bottom-20px">
-            <div class="col-sm-3">
-                <b>Exercise</b>
-            </div>
-            <div class="col-sm-9">
-                <select id="slExercise" class="form-control">
-                    <option></option>
-                    @foreach (var exercise in Model)
-                    {
-                        <option value="@exercise.Id">
-                            @exercise.Description
-                        </option>
-                    }
-                </select>
-            </div>
+    <div class="row margin-top-20px margin-bottom-20px">
+        <div class="col-sm-3">
+            <b>Exercise</b>
         </div>
-        <div class="row margin-top-20px margin-bottom-20px">
-            <div class="col-sm-3">
-                <b>Sets</b>
-            </div>
-            <div class="col-sm-9">
-                <input id="txtSetsDuration" type="number" class="form-control"/>
-            </div>
+        <div class="col-sm-9">
+            <select id="slExercise" class="form-control">
+                <option></option>
+                @foreach (var exercise in Model)
+                {
+                    <option value="@exercise.Id">
+                        @exercise.Description
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row margin-top-20px margin-bottom-20px">
+        <div class="col-sm-3">
+            <b>Sets</b>
+        </div>
+        <div class="col-sm-9">
+            <input id="txtSetsDuration" type="number" class="form-control" />
         </div>
     </div>
 </div>

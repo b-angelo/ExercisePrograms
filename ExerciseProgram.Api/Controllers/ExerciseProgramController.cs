@@ -22,9 +22,9 @@ namespace ExerciseProgram.Api.Controllers
 
         [HttpGet]
         [Route("api/ExercisePrograms/")]
-        public List<ProgramViewModel> GetAllExercisePrograms()
+        public List<ProgramViewModel> GetAllExercisePrograms(int year, int month)
         {
-            return _exerciseService.GetExercisesPrograms();
+            return _exerciseService.GetExercisesPrograms(year, month);
         }
 
         [HttpGet]

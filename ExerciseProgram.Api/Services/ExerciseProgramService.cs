@@ -20,21 +20,41 @@ namespace ExerciseProgram.Api.Services
 
         public ProgramViewModel GetExerciseProgramById(int id)
         {
-            var exerciseProgram = GetExercisesPrograms().FirstOrDefault(x => x.Id == id);
+            var exerciseProgram = GetExercisesPrograms(null, null).FirstOrDefault(x => x.Id == id);
 
             return exerciseProgram;
         }
 
-        public List<ProgramViewModel> GetExercisesPrograms()
-        {
+        public List<ProgramViewModel> GetExercisesPrograms(int? year, int? month)
+        {            
             try
-            {
+            {                
                 var exercisePrograms = _exerciseProgramRepository.GetAll();
                 var exerciseDetails = _exerciseRepository.GetAll();
                 var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll();
                 var exerciseType = _exerciseTypeRepository.GetAll();
-                var workoutHistory = _workoutHistoryRepository.GetAll();
-                var workoutProgram = _workoutRepository.GetAll();
+                IEnumerable<WorkoutHistory> workoutHistory = _workoutHistoryRepository.GetAll();
+                IEnumerable<Workout> workoutProgram = _workoutRepository.GetAll();
+                List<DateTime> monthsYearsWorkedOut = new List<DateTime>();
+
+                foreach (var yearWorkoutOut in workoutProgram.Select(x => x.StartDate.Year).Distinct())
+                {
+                    foreach (var monthWokout in workoutProgram.Select(x => x.StartDate.Month).Distinct())
+                    {
+                        monthsYearsWorkedOut.Add(new DateTime(yearWorkoutOut, monthWokout, 01));
+                    }
+                }
+
+                var lastWorkout = workoutProgram.OrderByDescending(x => x.StartDate).First().StartDate;
+
+                if (year != null && month != null)
+                {
+                    var startDate = new DateTime(year.Value, month.Value, 1);
+                    var endDate = new DateTime(year.Value, month.Value, DateTime.DaysInMonth(year.Value, month.Value), 23, 59, 59);
+
+                    workoutHistory = _workoutHistoryRepository.GetAll().Where(x => x.StartDate > startDate && x.EndDate < endDate);
+                    workoutProgram = _workoutRepository.GetAll().Where(x => x.StartDate > startDate && x.EndDate < endDate);
+                }      
                                   
                 var setsReps = new List<SetsReps>();
 
@@ -70,19 +90,21 @@ namespace ExerciseProgram.Api.Services
                                    };
 
                 var programList = from ep in exercisePrograms
+                                  join wp in workoutProgram on ep.ExerciseProgram_Pk equals wp.ExerciseProgram_Fk
                                   select new ProgramViewModel
                                   {
                                       Id = ep.ExerciseProgram_Pk,
                                       IsCurrent = true,
-                                      Name = ep?.Name ?? string.Empty,
-                                      Description = ep?.Description ?? string.Empty,
-                                      LengthInDays = ep?.DurationInDays ?? 0,
-                                      StartDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.StartDate ?? DateTime.MinValue,
-                                      EndDate = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.EndDate ?? DateTime.MaxValue,
+                                      Name = ep.Name,
+                                      Description = ep.Description,
+                                      LengthInDays = ep.DurationInDays,
+                                      StartDate = ep.StartDate,
+                                      EndDate = ep.EndDate,
                                       Exercises = exerciseList.Where(x => x.ExerciseProgramFk == ep.ExerciseProgram_Pk).ToList() ?? new List<ProgramExerciseViewModel>(),
                                       SetsReps = setsReps.Where(x => x.ProgramId == ep.ExerciseProgram_Pk).ToList() ?? new List<SetsReps>(),
-                                      WorkoutStarted = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk) != null,
-                                      Complete = workoutProgram?.FirstOrDefault(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk)?.Complete ?? false
+                                      //WorkoutStarted = workoutProgram.First(x => x.ExerciseProgram_Fk == ep.ExerciseProgram_Pk).,
+                                      Complete = wp.Complete,
+                                      MonthsYearsWorkedOut = monthsYearsWorkedOut
                                   };
 
                 return programList.ToList();

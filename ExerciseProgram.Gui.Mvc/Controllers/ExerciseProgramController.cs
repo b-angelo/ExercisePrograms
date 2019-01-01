@@ -18,14 +18,16 @@ namespace ExerciseProgram.WebApp.Controllers
         public ActionResult ExercisePrograms()
         {
             List<ProgramViewModel> result;
+            string year = DateTime.Now.Year.ToString();
+            string month = DateTime.Now.Month.ToString();
 
             if (Request.QueryString.HasKeys())
             {
-                var pagingFrom = Request.QueryString["pagingFrom"].ToString();
-                var pagingTo = Request.QueryString["pagingTo"].ToString();
+                year = Request.QueryString["year"].ToString();
+                month = Request.QueryString["month"].ToString();
             }
 
-            result = _httpClient.GetList($"api/ExercisePrograms/");
+            result = _httpClient.GetList($"api/ExercisePrograms?year={year}&month={month}");
                       
             return View(result);
         }
@@ -76,7 +78,6 @@ namespace ExerciseProgram.WebApp.Controllers
 
         public void AddExerciseToProgram(AddExerciseToProgramInputModel model)
         {
-            var exercises = _httpClient.GetList($"api/ExercisePrograms/");
             var content = new ObjectContent(typeof(AddExerciseToProgramInputModel), model, new JsonMediaTypeFormatter());
 
             _httpClient.Post($"api/ExercisePrograms/{model.ProgramId}/exercises", content);
