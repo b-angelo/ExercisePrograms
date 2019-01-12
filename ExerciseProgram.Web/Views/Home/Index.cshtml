@@ -1,0 +1,178 @@
+﻿@model ExerciseProgram.Models.ViewModels.SubscriberProfileViewModel
+
+@{
+    ViewBag.Title = "My Workout";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="container" hidden="hidden">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <h4>Please Sign In</h4>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row margin-top-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <input type="email" class="form-control" placeholder="Email Address" />
+                <input type="password" class="form-control" placeholder="Password" />
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-1" role="group" aria-label="First group">
+                        <button id="btnLogIn" class="btn btn-sm btn-outline-primary btn-toolbar-width-large">Log In</button>
+                    </div>
+                    <div class="btn-group mr-1" role="group" aria-label="First group">
+                        <button id="btnResetPassword" class="btn btn-sm btn-outline-secondary btn-toolbar-width-large">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                @{
+                    var todaysDate = @DateTime.Today.ToString("MM/dd/yyyy");
+                    var headerText = $"{DateTime.Today.DayOfWeek}'s Workout";
+                }
+                <h4> @headerText </h4>
+                @{
+                    if (Model.CurrentProgramId > 0)
+                    {
+                        <div>
+                            <text class="small">
+                                (<a class="workout-scheduled" id="aWorkoutScheduled" href="#">Edit</a>
+                                or
+                                <a class="workout-scheduled" id="aWorkoutScheduled" href="#">cancel</a>
+                                current workout.)
+                            </text>
+                        </div>
+                    }
+                }
+                @{
+                    var workoutScheduled = string.Empty;
+
+                    if (Model.CurrentProgramId <= 0)
+                    {
+                        workoutScheduled = "no";
+                    }
+                    else
+                    {
+                        workoutScheduled = "yes";
+                    }
+                }
+                <p id="pWorkoutScheduled">
+                    <br />
+                    <b>Workout Name:</b> @Model.CurrentWorkoutName
+                    <br />
+                    <br />
+                    @{
+                        var completed = Model.IsCurrentProgramCompleted ? "&#10003;" : string.Empty;
+                    }
+                    <b>Completed:</b> @Html.Raw(completed)
+                    <br />
+                    <br />
+                    <b>Exercise Count:</b> @Model.CurrentWorkoutExerciseCount
+                    <br />
+                    <br />
+                    <b>Workout Description:</b> <textarea class="col-sm-12 form-control" readonly rows="4">@Model.CurrentWorkoutDescription</textarea>
+                    <br /> <br />
+                    <a id="aWorkoutScheduled" class="btn btn-outline-primary home-page-button workout-scheduled" href="#">Go to workout &raquo;</a>
+                    <br />
+                </p>
+                <p id="pNoWorkoutScheduled">
+                    <br />
+                    No workout scheduled for today.
+                    <br /><br />
+                    <a id="aNoWorkoutScheduled" class="btn btn-sm btn-outline-primary home-page-button" href="~/ExerciseProgram/CreateExerciseProgram">Create New</a>
+                    <br /><br />
+                    <a id="aNoWorkoutScheduled" class="btn btn-sm   btn-outline-primary home-page-button" href="#">Repeat Previous</a>
+                </p>
+                <input id="txtWorkoutScheduled" hidden="hidden" value=@workoutScheduled />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container border margin-top-20px background-white-smoke">
+        <div class="row margin-top-20px">
+            <div class="col-sm-offset-2 col-sm-12 margin-bottom-20px">
+                <h4>
+                    Workout Tracker
+                </h4>
+                @{
+                    var workoutsThisWeek = (Convert.ToDouble(Model.WorkoutsCompletedWeek) / 7) * 100;
+                    var daysLeftThisWeekPercentage = 100 - workoutsThisWeek;
+                    var workoutsThisMonth = (Convert.ToDouble(Model.WorkoutsCompletedMonth) / DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)) * 100;
+                    var daysLeftThisMonthPercentage = 100 - workoutsThisMonth;
+                    var workoutThisYear = (Convert.ToDouble(Model.WorkoutCompletedYear) / 365) * 100;
+                    var daysLeftThisYearPercentage = 100 - workoutThisYear;
+                }
+                <br /> Workouts this week
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutsThisWeek%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedWeek workouts completed this week">
+                        @Model.WorkoutsCompletedWeek
+                    </div>
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisWeekPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
+                    </div>
+                </div>
+                <br /> Workouts this month (@DateTime.Today.ToString("MMMM"))
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutsThisMonth%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutsCompletedMonth workouts completed this month">
+                        @Model.WorkoutsCompletedMonth
+                    </div>
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisMonthPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
+                    </div>
+                </div>
+                <br /> Workouts this year (@DateTime.Today.Year)
+                <div class="progress">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: @workoutThisYear%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top" title="@Model.WorkoutCompletedYear workouts completed this year">
+                        @Model.WorkoutCompletedYear
+                    </div>
+                    <div class="progress-bar bg-transparent" role="progressbar" style="width: @daysLeftThisYearPercentage%" aria-valuenow="30" aria-valuemin="30" aria-valuemax="100"
+                         data-toggle="tooltip" data-placement="top">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input hidden="hidden" id="txtProgramId" value="@Model.CurrentProgramId" />
+
+<script>
+    $(document).ready(function () {
+
+        if ($('#txtWorkoutScheduled').val() === 'yes') {
+
+            $('#pNoWorkoutScheduled').hide();
+            $('#pWorkoutScheduled').show();
+        }
+        else {
+            $('#pNoWorkoutScheduled').show();
+            $('#pWorkoutScheduled').hide();
+        }
+
+        $(".workout-scheduled").click(function () {
+            var programId = $("#txtProgramId").val();
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+        });
+    });
+</script>

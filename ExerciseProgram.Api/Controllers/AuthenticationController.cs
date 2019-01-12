@@ -13,5 +13,6 @@ namespace ExerciseProgram.Api.Controllers
         // ToDo: check timeout due to inactivity
         // ToDo: Logout functionality
         // ToDO: reset password
+
     }
 }

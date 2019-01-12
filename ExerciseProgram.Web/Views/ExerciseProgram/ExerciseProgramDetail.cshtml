@@ -1,0 +1,451 @@
+﻿@model ExerciseProgram.Models.ViewModels.ProgramViewModel
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Mark Complete -->
+<div class="modal fade" id="mdlMarkComplete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mark Complete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Clicking "Confirm" will complete your workout. You'll continue to have edit access for duration of the day as well as clone the workout on subsequet days.<br />
+            </div>
+            <div class="modal-footer">
+                <button id="btnMarkComplete" type="button" class="btn btn-sm btn-primary btn-toolbar-width-medium">Confirm</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-toolbar-width-medium" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Exercise Modal -->
+<div class="modal fade" id="mdlAddExercise" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Exercise</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @{Html.RenderAction("Exercise", "Exercise");}
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveNewExercise" type="button" class="btn btn-sm btn-primary btn-toolbar-width-medium">Save</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-toolbar-width-medium" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Cancel Program Modal -->
+<div class="modal fade" id="mdlCancelProgram" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cancel Workout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Canceling your workout cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveNewExercise" type="button" class="btn btn-sm btn-primary btn-toolbar-width-medium">Confirm</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-toolbar-width-medium" data-dismiss="modal">Go Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit basic workout info -->
+<div class="modal fade" id="mdlEditProgram" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Workout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <b>Workout Name</b>
+                <input id="txtWorkoutName" class="col-sm-12 form-control" value="@Model.Name" />
+            </div>
+            <div class="col-sm-12 margin-bottom-20px">
+                <b>Workout Description</b>
+                <textarea id="txtWorkoutDescription" rows="4" class="col-sm-12 form-control">@Model.Description</textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveNewExercise" type="button" class="btn btn-sm btn-primary btn-toolbar-width-medium">Save</button>
+                <button type="button" class="btn btn-sm btn-secondary btn-toolbar-width-medium" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col-sm-12">
+                @{if (Model.Complete && Model.StartDate.Date != DateTime.Today)
+                    {
+                        <b>
+                            Workout Complete!
+                        </b>
+                    }
+                    else
+                    {
+                        <p>
+                            <b>Today's Workout</b>
+                            <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Cancel Workout" data-toggle="modal" data-target="#mdlCancelProgram">&#x274C;</button>
+                            <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Edit Workout" data-toggle="modal" data-target="#mdlEditProgram">&#9999;</button>
+                        </p>
+                    }
+                    <hr />
+                }
+            </div>
+            @{
+                if (Model != null)
+                {
+                    <div class="col-sm-12 margin-bottom-20px">
+                        <b>Workout Name</b>
+                        <input id="txtWorkoutName" class="form-control" disabled value="@Model.Name" />
+                    </div>
+                    <div class="col-sm-12">
+                        <b>Workout Description</b>
+                        <textarea id="txtWorkoutDescription" rows="4" class="col-sm-12 form-control" disabled>@Model.Description</textarea>
+                    </div>
+                }
+            }
+        </div>
+        <div class="row margin-bottom-20px">
+            <div class="col">
+                <hr />
+                @{
+                    if (!Model.Complete || Model.StartDate.Date == DateTime.Today)
+                    {
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group mr-1" role="group" aria-label="First group">
+                                <button data-toggle="modal" data-target="#mdlAddExercise" class="btn btn-sm btn-primary btn-toolbar-width-medium">Add Exercise</button>
+                            </div>
+                            <div class="btn-group mr-1" role="group" aria-label="First group">
+                                <button data-toggle="modal" data-target="#mdlMarkComplete" class="btn btn-sm btn-secondary btn-toolbar-width-medium float-right">Mark Complete</button>
+                            </div>
+                        </div>
+                    }
+                }
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                @{
+                    var exerciseCount = 0;
+                    if (Model != null)
+                    {
+                        exerciseCount = Model.Exercises != null ? Model.Exercises.Count : 0;
+                    }
+                }
+                <input hidden="hidden" id="txtExerciseCount" value="@exerciseCount" />
+                @if (exerciseCount > 0)
+                {
+                    <h4>
+                        Resistance Training
+                    </h4>
+                    <table id="tblExerciseSummary" class="table">
+                        @foreach (var exercise in Model?.Exercises)
+                        {
+                            var collapseId = "collapse" + exercise.ExerciseProgramFk + exercise.Id;
+
+                            <thead class="exercise-header-expand thead-dark">
+                                <tr>
+                                    <th colspan="4" data-toggle="collapse" data-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                        <span>
+                                            <b>@exercise.Exercise.Description (@exercise.Sets sets)</b>
+                                            <text class="exercise-expand float-right">&#x2795;</text>
+                                        </span>
+                                </tr>
+                            </thead>
+                            <tr id="divSuccess">
+                                <td colspan="5">
+                                    <div class="divSuccess container">
+                                        <div class="row margin-top-20px">
+                                            <div class="col-sm-12">
+                                                <div class="alert show fade alert-success" role="alert">
+                                                    Saved Successfully
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="@collapseId" class="collapse table-sm col-sm-12">
+                                        <tbody>
+                                            <tr class="divSuccess">
+                                                <td colspan="5">
+                                                    <div class="col-sm-12 divSuccess container col-sm-12 alert show fade alert-success" role="alert">
+                                                        Saved Successfully
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @for (var set = 1; set <= exercise.Sets + 1; set++)
+                                            {
+                                                <tr class="exercise-name">
+                                                    @if (set == 1)
+                                                    {
+                                                        <td class="exercise-set-header">
+                                                            <b>Set</b>
+                                                        </td>
+                                                        <td class="exercise-set-header">
+                                                            <b>Reps</b>
+                                                        </td>
+                                                        <td class="exercise-set-header">
+                                                            <b>Weight</b>
+                                                        </td>
+                                                        if (!Model.Complete || Model.StartDate.Date == DateTime.Today)
+                                                        {
+                                                            <td colspan="2" class="exercise-set-header"></td>
+                                                        }
+                                                    }
+                                                </tr>
+                                                if (!Model.Complete || Model.StartDate.Date == DateTime.Today)
+                                                {
+                                                    if (set == exercise.Sets + 1)
+                                                    {
+                                                        <tr>
+                                                            <td class="add-set" data-toggle="tooltip" data-placement="top" title="Add Set">
+                                                                <text>&#x271A;</text>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr id="@exercise.Id" class="program-name">
+                                                            <td>
+                                                                <input readonly class="form-control-plaintext exercise-set" disabled value="@set" type="number" />
+                                                            </td>
+                                                            @{
+                                                                var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
+                                                                var reps = setReps?.Reps;
+                                                                var weight = setReps?.Weight;
+                                                            }
+                                                            <td>
+                                                                @if (set == 1)
+                                                                {
+                                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" disabled value="@reps" type="number" />
+                                                                }
+                                                            </td>
+                                                            <td class="td-reps-duration">
+                                                                @if (set == 1)
+                                                                {
+                                                                    <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input class="input-weight-used form-control-sm input-changed exercise-weight" disabled value="@weight" type="number" />
+                                                                }
+                                                            </td>
+                                                            @{
+                                                                if (set == exercise.Sets)
+                                                                {
+                                                                    <td>
+                                                                        <text class="btn-sm text-enabled" data-toggle="tooltip" data-placement="top" title="Delete Set">&#x274C;</text>
+                                                                    </td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td></td>
+                                                                }
+                                                            }
+                                                            <td>
+                                                                <text class="btn-save-exercise" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</text>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr id="@exercise.Id" class="program-name">
+                                                        <td>
+                                                            <input readonly class="form-control-plaintext exercise-set" disabled value="@set" type="number" />
+                                                        </td>
+                                                        @{
+                                                            var setReps = Model.SetsReps.Where(x => x.ProgramId == Model.Id && x.ExerciseId == exercise.Id && x.Set == set).FirstOrDefault();
+                                                            var reps = setReps?.Reps;
+                                                            var weight = setReps?.Weight;
+                                                        }
+                                                        <td>
+                                                            <input class="form-control-plaintext" disabled value="@reps" type="number" />
+                                                        </td>
+                                                        <td class="td-reps-duration">
+                                                            <input class="form-control-plaintext" disabled value="@weight" type="number" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    <h4>
+                        Cardio Training
+                    </h4>
+                    <div>
+                        <h7>
+                            No exercises to show
+                        </h7>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <h4>
+                            No exercises to show.
+                        </h4>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+    <input hidden="hidden" value="@Model.Id" id="txtHiddenProgramId" />
+    <input hidden="hidden" value="@Model.Complete" id="txtWorkoutComplete" />
+}
+<script>
+    $(document).ready(function () {
+
+        $(".exercise-header-expand").click(function () {
+            var text = $(this).find(".exercise-expand").text();
+
+            if (text == "➕") {
+                $(this).find(".exercise-expand").text("➖");
+            } else {
+                $(this).find(".exercise-expand").text("➕");
+            }
+        });
+
+        $("#btnSaveWorkout").click(function () {
+            var programId = $("#txtHiddenProgramId").val();
+            var workoutName = $("#txtWorkoutName").val();
+            var workoutDescription = $("#txtWorkoutDescription").val();
+            var posting = $.post("/ExerciseProgram/UpdateExerciseProgram",
+                {
+                    id: programId,
+                    name: workoutName,
+                    description: workoutDescription,
+                    lengthInDays: 1
+                },
+                function () {
+                    $("#divSuccess").show();
+                    $("#divSuccess").fadeOut(10000);
+                });
+        });
+
+        $(".btn-save-exercise").each(function () {
+            $(this).addClass("text-disabled");
+        });
+
+        if ($("#txtExerciseCount").val() == 0) {
+            $("#tblExerciseSummary").hide();
+            $("#btnMarkComplete").hide();
+        };
+
+        $(".divSuccess").hide();
+
+        $(".input-changed").change(function () {
+
+            var reps = $(this).closest(".program-name").find(".exercise-reps").val();
+            var weight = $(this).closest(".program-name").find(".exercise-weight").val();
+
+            if (reps > 0 && weight > 0) {
+                $(this).closest(".program-name").find(".btn-save-exercise").removeClass("text-disabled").addClass("text-enabled");
+            }
+            else {
+                $(this).closest(".program-name").find(".btn-save-exercise").removeClass("text-enabled").addClass("text-disabled");
+            }
+        });
+
+        $(".btn-save-exercise").click(function () {
+
+            var thisId = $(this);
+
+            var programId = $("#txtHiddenProgramId").val();
+            var exerciseId = $(this).closest(".program-name").attr("id");
+            var set = $(this).closest(".program-name").find(".exercise-set").val();
+            var reps = $(this).closest(".program-name").find(".exercise-reps").val();
+            var weight = $(this).closest(".program-name").find(".exercise-weight").val();
+
+            $.post("/ExerciseProgram/SaveExercise",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId,
+                    set: set,
+                    reps: reps,
+                    weight: weight
+                },
+                function () {
+                    $(thisId).removeClass("text-enabled").addClass("text-disabled");
+                    $(thisId).parent().parent().addClass("btn-save-success");
+
+                    $(thisId).promise().done(function () {
+
+                        $(thisId).parent().parent().removeClass("btn-save-success").delay(200);
+
+                        setTimeout(function () {
+                            $(thisId).parent().parent().removeClass("btn-save-success");
+                        }, 5000);
+
+                    });
+                });
+        });
+
+
+        $("#btnMarkComplete").click(function () {
+
+            var programId = $("#txtHiddenProgramId").val();
+
+            $.post("/ExerciseProgram/CompleteWorkout",
+                {
+                    programId: programId
+                },
+                function () {
+                    $(location).attr('href', '/Home/Index/');
+                });
+        });
+
+        $("#btnSaveNewExercise").click(function (event) {
+
+            var exerciseId = $("#slExercise").val();
+            var programId = $(location).attr("href").substring($(location).attr("href").lastIndexOf('/') + 1);
+            var txtSetsDuration = $("#txtSetsDuration").val();
+            var posting = $.post("/ExerciseProgram/AddExerciseToProgram",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId,
+                    sets: txtSetsDuration
+                });
+
+            posting.done(function (data) {
+                $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+            });
+        });
+    });
+</script>

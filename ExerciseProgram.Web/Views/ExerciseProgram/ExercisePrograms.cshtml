@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ExerciseProgram.Models.ViewModels.ProgramViewModel>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div class="container">
+    <div id="divRecordWorkout" class="margin-top-20px container border background-white-smoke">
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <h4>Workout History</h4>
+                <text class="small">
+                    (Last 12 months of workouts are available.)
+                </text>
+                <hr />
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <select id="slWorkoutsDate" class="form-control">
+                    @for (var i = 0; i < 12; i++)
+                    {
+                        var date = DateTime.Today.AddMonths(-i).ToString("MMMM yyyy");
+
+                        if (DateTime.Today.AddMonths(i) == DateTime.Today ||
+                            ViewBag?.SelectedDate == date)
+                        {
+                            <option selected="selected">
+                                @date
+                            </option>
+                        }
+                        else
+                        {
+                            <option>
+                                @date
+                            </option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row margin-top-20px margin-bottom-20px">
+            <div class="col">
+                <table id="tblExerciseSummary" class="table table-hover table-sm">
+                    <thead class="thead-dark table">
+                        <tr>
+                            <th>
+                                Day
+                            </th>
+                            <th colspan="3">
+                                Name
+                            </th>
+                            <th colspan="1" class="text-center">
+                                Complete
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.Any())
+                            {
+                                foreach (var program in Model.OrderByDescending(x => x.StartDate))
+                                {
+                                    <tr id="@program.Id" class="progam-id">
+                                        <td>
+                                            @program.StartDate.ToString("dd")
+                                        </td>
+                                        <td colspan="3">
+                                            @program.Name
+                                        </td>
+                                        <td colspan="1" class="text-center">
+                                            @{
+                                                var completed = program.Complete ? "&#10003;" : string.Empty;
+                                            }
+                                            @Html.Raw(completed)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="text-center" colspan="5">
+                                        No Workouts to Show
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <hr />
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $(".progam-id").click(function () {
+
+            var programId = $(this).attr("id");
+
+            $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+        });
+
+        $("#slWorkoutsDate").change(function () {
+
+            $(location).attr('href', "/ExerciseProgram/ExercisePrograms?monthYear=" + $("#slWorkoutsDate").val());
+
+            //posting.done(function () {
+            //    location.reload(true);
+            //    alert(selectValue);
+            //    $("#slWorkoutsDate").val(selectValue);
+            //});
+
+
+
+            //$.get("/ExerciseProgram/ExercisePrograms?monthYear=" + $("#slWorkoutsDate").val());
+
+
+        });
+    });
+</script>

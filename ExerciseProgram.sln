@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Api", "Exer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Models", "ExerciseProgram.Models\ExerciseProgram.Models.csproj", "{3FF619C7-739B-4418-AFD2-7E1A603831B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Web", "ExerciseProgram.Gui.Mvc\ExerciseProgram.Web.csproj", "{51C26400-01AB-4BE6-9EA2-CEC6DEA0CA82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExerciseProgram.Web", "ExerciseProgram.Web\ExerciseProgram.Web.csproj", "{51C26400-01AB-4BE6-9EA2-CEC6DEA0CA82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
