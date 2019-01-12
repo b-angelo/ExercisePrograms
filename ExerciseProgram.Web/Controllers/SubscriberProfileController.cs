@@ -2,6 +2,7 @@
 using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
 using ExerciseProgram.WebApp.Extentions;
+using System;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Mvc;
@@ -20,24 +21,24 @@ namespace ExerciseProgram.WebApp.Controllers
             return View(profile);
         }
 
-        //[HttpPost]
-        //public ActionResult UpdateProfile(SubscriberProfileViewModel model)
-        //{
-        //    UpdateProfileInputModel inputModel = new UpdateProfileInputModel
-        //    {
-        //        Id = 2,
-        //        Weight = model.Weight,
-        //        Height = model.Height,
-        //        EmailAddress = model.EmailAddress
-        //    };
+        [HttpPost]
+        public ActionResult UpdateProfile(SubscriberProfileViewModel model)
+        {
+            UpdateProfileInputModel inputModel = new UpdateProfileInputModel
+            {
+                Id = 2,
+                Weight = model.Weight,
+                Height = model.Height,
+                EmailAddress = model.EmailAddress,
+                DateOfBirth = model.DateOfBirth.HasValue ? model.DateOfBirth.Value : DateTime.MinValue
+            };
 
-        //    var content = new ObjectContent(typeof(UpdateProfileInputModel), inputModel, new JsonMediaTypeFormatter());
+            _subscriberProfileService.UpdateUserProfile(inputModel);
 
-        //    _httpClient.Post($"api/UserProfile/", content);
+            TempData["Saved"] = "Saved";
 
-        //    TempData["Saved"] = "Saved";
-        //    return Redirect(Request.UrlReferrer.ToString());
-        //}
+            return Redirect(Request.UrlReferrer.ToString());
+        }
 
         [HttpPost]
         public ActionResult DeleteUserWeightEntry(int id)

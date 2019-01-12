@@ -93,8 +93,8 @@ namespace ExerciseProgram.Api.Services
                 FirstName = subscriber?.FirstName ?? string.Empty,
                 LastName = subscriber?.LastName ?? string.Empty,
                 EmailAddress = subscriber?.EmailAddress ?? string.Empty,
-                DateOfBirth = subscriber?.DateOfBirth.Value ?? DateTime.MinValue,
-                Height = 74,
+                DateOfBirth = subscriber.DateOfBirth,
+                Height = subscriberBodyMass?.OrderByDescending(x => x.CreateDate)?.FirstOrDefault()?.HeightInInches ?? 0,
                 BodyMassIndex = weightHistory?.OrderByDescending(x => x.CreateDate)?.FirstOrDefault()?.Bmi ?? 0,
                 Weight = weightHistory?.OrderByDescending(x => x.CreateDate)?.FirstOrDefault()?.WeightInPounds ?? 0,
                 WeightHistory = weightHistory ?? new List<WeightHistory>(),
@@ -127,10 +127,11 @@ namespace ExerciseProgram.Api.Services
         public void UpdateUserProfile(UpdateProfileInputModel model)
         {
             var userProfile = _subscriberRepository.GetById(model.Id);
-            
+
             userProfile.EmailAddress = model.EmailAddress;
             userProfile.ModifiedBy = Environment.UserName;
-            userProfile.ModifiedDate = DateTime.Now;                 
+            userProfile.ModifiedDate = DateTime.Now;
+            userProfile.DateOfBirth = model.DateOfBirth;
 
             var userBodyMass = new BodyMass
             {
@@ -141,15 +142,6 @@ namespace ExerciseProgram.Api.Services
                 CreatedBy = Environment.UserName,
                 StartDate = DateTime.Now
             };
-
-            var bmis = _subscriberBodyMassRepository.GetAll().Any(x => x.WeightInPounds == model.Weight &&
-                                                            x.HeightInInches == model.Height  &&
-                                                            x.CreateDate.Date == DateTime.Today);
-    
-            if (userProfile.EmailAddress == model.EmailAddress && bmis)
-            {
-                return;
-            }
 
             _subscriberRepository.Update(userProfile);
             _subscriberBodyMassRepository.Insert(userBodyMass);

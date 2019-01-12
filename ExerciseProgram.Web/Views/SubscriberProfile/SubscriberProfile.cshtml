@@ -8,29 +8,39 @@
 
 <script>
     $(document).ready(function () {
-
         
-
-        $(".profile-change").change(function () {
-
-            $("#txtEmailAddress").addClass("input-pending-save");
-            $("#btnUpdateProfile").addClass("input-pending-save");
-
-        });
-
         $("#txtWeight").keyup(function () {
 
             var height = $("#txtHeight").val();
             var weight = $("#txtWeight").val();
-            var bmi = ((703 * weight) / Math.pow(74, 2)).toFixed(2);
+            var bmi = ((703 * weight) / Math.pow(height, 2)).toFixed(2);
+
+            $("#txtBmi").val(bmi);
+
+        });
+
+        $("#txtWeight").blur(function () {
+
+            var height = $("#txtHeight").val();
+            var weight = $("#txtWeight").val();
+            var bmi = ((703 * weight) / Math.pow(height, 2)).toFixed(2);
+
+            $("#txtBmi").val(bmi);
+
+        });
+
+        $("#txtHeight").change(function () {
+
+            var height = $("#txtHeight").val();
+            var weight = $("#txtWeight").val();
+            var bmi = ((703 * weight) / Math.pow(height, 2)).toFixed(2);
 
             $("#txtBmi").val(bmi);
 
         });
 
         $("#divWeightHistory").ready(function () {
-
-
+            
             var resultsPerPage = 5;
             var currentPage = parseInt($("#currentPage").val());
             var lastPage = parseInt($(".trBmiId").length / resultsPerPage);
@@ -146,6 +156,22 @@
     </div>
 }
 
+@if (TempData["Saved"]?.ToString() == "Failed")
+{
+    <div class="container">
+        <div class="row margin-top-20px">
+            <div class="col-sm-12">
+                <div id="divSuccess" class="alert alert-danger" role="alert">
+                    Saved
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <div class="container">
     <div id="divAllProgramsHeader" class="container border margin-top-20px background-white-smoke">
         <div class="row margin-top-20px">
@@ -168,42 +194,42 @@
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("txtDob", "Date of Birth")
-                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtDob" } })
+                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new
+               {
+                   @Value = Model.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+                   @class = "form-control", id = "txtDob", @type = "date"
+               } })
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblEmail", "Email Address")
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtEmailAddress" } })
+                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", @type = "email" } })
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("lblHeight", "Height (Feet / Inches)")
-                    <select class="form-control" id="txtHeight">
-                        @for (var i = 7; i > 3; i--)
+                    @{
+                        var heightDic = new Dictionary<int, string>();
+
+                        for (var i = 7; i > 3; i--)
                         {
                             for (var j = 11; j > 0; j--)
                             {
-                                <option>
-                                    @i' @j"
-                                </option>
+                                heightDic.Add((i * 12) + j, $"{i}'{j}''");
                             }
                         }
-                    </select>
 
+                        var selectList = new SelectList(heightDic, "Key", "Value", Model.Height);
+                    }
+                    @Html.Label("lblHeight", "Height") <br />
+                    @Html.DropDownListFor(model => model.Height, selectList, new { @class = "form-control", id = "txtHeight" } )
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblWeight", "Weight (lbs)")
-                    @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control profile-change", id = "txtWeight" } })
+                    @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control", id = "txtWeight" } })
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblBmi", "BMI")
                     <input type="text" readonly id="txtBmi" value=@Model.BodyMassIndex class="form-control" />
-                </div>
-            </div>
-            <div class="row margin-bottom-20px">
-                <div class="col-sm-offset-2 col-sm-12">
-                    Min Workouts Per Week
-                    <input value="3" class="form-control" type="number" />
                 </div>
             </div>
             <div class="row margin-bottom-20px">
@@ -217,72 +243,66 @@
     </div>
 </div>
 
-<div class="container">
-    <div id="divWeightHistory" class="container border margin-top-20px background-white-smoke">
-        <div class="row margin-top-20px">
-            <div class="col-sm-offset-2 col-sm-12">
-                <h4>
-                    Weight History
-                </h4>
-                <hr />
+@{
+    if (Model.WeightHistory.Any())
+    {
+        <div class="container">
+            <div id="divWeightHistory" class="container border margin-top-20px background-white-smoke">
+                <div class="row margin-top-20px margin-bottom-20px">
+                    <div class="col">
+                        <h4>Weight History</h4>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row margin-top-20px margin-bottom-20px">
+                    <div class="col">
+                        @using (Html.BeginForm())
+                        {
+                            <table class="table table-hover table-sm">
+                                <thead class="thead-dark table">
+                                    <tr>
+                                        <th>
+                                            Week Of
+                                        </th>
+                                        <th>
+                                            Weight
+                                        </th>
+                                        <th>
+                                            Delete
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var bmiId = 1;
+                                    }
+                                    @foreach (var item in Model?.WeightHistory)
+                                    {
+                                        <tr class="trBmiId" id=@bmiId>
+                                            <td>
+                                                @item.CreateDate.ToString("MM/dd/yy")
+                                            </td>
+                                            <td>
+                                                @item.WeightInPounds
+                                            </td>
+                                            <td>
+                                                <button name="btnDeleteWeight" class="btn btn-sm" value="delete" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post">&#x274C;</button>
+                                            </td>
+                                        </tr>
+                                        bmiId++;
+                                    }
+                                </tbody>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        }
+                        <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liPrevious">&laquo;</span>
+                        <input id="txtPageXofY" readonly class="input-pageXofY" value="Page 1 of 2" />
+                        <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liNext">&raquo;</span> <br /> <br />
+                        <input id="currentPage" hidden="hidden" value="1" />
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                @using (Html.BeginForm())
-                {
-                    <table class="table table-hover table-responsive-sm">
-                        <thead class="thead-light table">
-                            <tr>
-                                <th>
-                                    Date
-                                </th>
-                                <th>
-                                    Weight
-                                </th>
-                                @*<th>
-                                        BMI
-                                    </th>*@
-                                <th>
-                                    Delete
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                var bmiId = 1;
-                            }
-                            @foreach (var item in Model?.WeightHistory)
-                            {
-                                <tr class="trBmiId" id=@bmiId>
-                                    <td>
-                                        @item.CreateDate.ToString("MM/dd/yy")
-                                    </td>
-                                    <td>
-                                        @item.WeightInPounds
-                                    </td>
-                                    @*<td>
-                                            @{
-                                                var bmiText = $"{item.Bmi} / {item.BmiCategory}";
-                                            }
-                                            @bmiText
-                                        </td>*@
-                                    <td>
-                                        <input type="submit" name="btnDeleteWeight" value="delete" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm material-icons" />
-                                    </td>
-                                </tr>
-                                bmiId++;
-                            }
-                        </tbody>
-                        <tfoot>
-                        </tfoot>
-                    </table>
-                }
-                <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liPrevious">&laquo;</span>
-                <input id="txtPageXofY" readonly class="input-pageXofY" value="Page 1 of 2" />
-                <span style="cursor:pointer;" class="btn-sm btn-secondary" id="liNext">&raquo;</span> <br /> <br />
-                <input id="currentPage" hidden="hidden" value="1" />
-            </div>
-        </div>
-    </div>
-</div>
+    }
+}

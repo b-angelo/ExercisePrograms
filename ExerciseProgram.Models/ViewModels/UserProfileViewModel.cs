@@ -11,7 +11,7 @@ namespace ExerciseProgram.Models.ViewModels
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public int Height { get; set; }
         public int Weight { get; set; }
         public double BodyMassIndex { get; set; }
@@ -29,7 +29,7 @@ namespace ExerciseProgram.Models.ViewModels
 
     public class WeightHistory
     {
-        public int Id { get; set; }
+        public int Id { get; set; }        
         public int WeightInPounds { get; set; }
         public DateTime CreateDate { get; set; }
         public double Bmi { get; set; }

@@ -91,11 +91,17 @@
     <div id="divExerciseGrid" class="margin-top-20px container border background-white-smoke">
         <div class="row margin-top-20px margin-bottom-20px">
             <div class="col-sm-12">
-                @{if (Model.Complete && Model.StartDate.Date != DateTime.Today)
+                @{if (Model.Complete)
                     {
                         <b>
                             Workout Complete!
                         </b>
+                    }
+                    else if (Model.StartDate.Date != DateTime.Today)
+                    {
+                        <b>Workout for @Model.StartDate.ToShortDateString()</b>
+                        <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Cancel Workout" data-toggle="modal" data-target="#mdlCancelProgram">&#x274C;</button>
+                        <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Edit Workout" data-toggle="modal" data-target="#mdlEditProgram">&#9999;</button>
                     }
                     else
                     {

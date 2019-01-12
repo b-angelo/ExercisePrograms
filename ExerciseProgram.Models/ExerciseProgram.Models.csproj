@@ -53,6 +53,7 @@
     <Compile Include="ViewModels\ExerciseViewModel.cs" />
     <Compile Include="ViewModels\MuscleGroupViewModel.cs" />
     <Compile Include="ViewModels\ProgramExerciseViewModel.cs" />
+    <Compile Include="InputModel\RegisterInputModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
