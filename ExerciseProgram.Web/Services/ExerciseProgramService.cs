@@ -61,7 +61,7 @@ namespace ExerciseProgram.Api.Services
 
                 var exerciseList = from ed in exerciseDetails
                                    join et in exerciseType on ed.ExerciseType_Fk equals et.ExerciseType_Pk
-                                   join epe in exerciseProgramExercise on ed.Exercise_Pk equals epe.Exercise_Fk
+                                   join epe in exerciseProgramExercise on ed.Exercise_Pk equals epe.Exercise_Fk                                   
                                    select new ProgramExerciseViewModel
                                    {
                                        Id = epe.ExerciseProgramExercise_Pk,
@@ -72,7 +72,12 @@ namespace ExerciseProgram.Api.Services
                                            Id = ed.Exercise_Pk,
                                            Name = ed.Name,
                                            Description = ed.Description,
-                                           Type = new ExerciseTypeViewModel(),
+                                           Type = new ExerciseTypeViewModel
+                                           {
+                                               Id = et.ExerciseType_Pk,
+                                               Name = et.Name,
+                                               Description = et.Description
+                                           }
                                        },
                                        Sets = epe.ExerciseSets,
                                        Reps = epe.ExerciseRepitions

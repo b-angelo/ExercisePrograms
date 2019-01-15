@@ -93,14 +93,7 @@
             <div class="col-sm-12">
                 @{if (Model.Complete)
                     {
-                        <b>
-                            Workout Complete!
-                        </b>
-                    }
-                    else if (Model.StartDate.Date != DateTime.Today)
-                    {
-                        <b>Workout for @Model.StartDate.ToShortDateString()</b>
-                        <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Cancel Workout" data-toggle="modal" data-target="#mdlCancelProgram">&#x274C;</button>
+                        <b>@Model.StartDate.ToString("MMM dd")</b><text> - Workout Complete </text>
                         <button class="float-right btn btn-sm margin-right-10px" data-placement="top" title="Edit Workout" data-toggle="modal" data-target="#mdlEditProgram">&#9999;</button>
                     }
                     else
@@ -167,7 +160,7 @@
                         Resistance Training
                     </h4>
                     <table id="tblExerciseSummary" class="table">
-                        @foreach (var exercise in Model?.Exercises)
+                        @foreach (var exercise in Model?.Exercises.Where(x => x.Exercise.Type.Id == 2))
                         {
                             var collapseId = "collapse" + exercise.ExerciseProgramFk + exercise.Id;
 
@@ -312,6 +305,73 @@
                     <h4>
                         Cardio Training
                     </h4>
+                    <table id="tblExerciseSummary" class="table">
+                        @foreach (var exercise in Model?.Exercises.Where(x => x.Exercise.Type.Id == 1))
+                        {
+                            var collapseId = "collapse" + exercise.ExerciseProgramFk + exercise.Id;
+
+                            <thead class="exercise-header-expand thead-dark">
+                                <tr>
+                                    <th colspan="4" data-toggle="collapse" data-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                                        <span>
+                                            <b>@exercise.Exercise.Description</b>
+                                            <text class="exercise-expand float-right">&#x2795;</text>
+                                        </span>
+                                </tr>
+                            </thead>
+                            <tr id="divSuccess">
+                                <td colspan="5">
+                                    <div class="divSuccess container">
+                                        <div class="row margin-top-20px">
+                                            <div class="col-sm-12">
+                                                <div class="alert show fade alert-success" role="alert">
+                                                    Saved Successfully
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table id="@collapseId" class="collapse table-sm col-sm-12">
+                                        <tbody>
+                                            <tr class="divSuccess">
+                                                <td colspan="5">
+                                                    <div class="col-sm-12 divSuccess container col-sm-12 alert show fade alert-success" role="alert">
+                                                        Saved Successfully
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="exercise-name">
+                                                <td class="exercise-set-header">
+                                                    <b>Distance</b>
+                                                </td>
+                                                <td class="exercise-set-header">
+                                                    <b>Duration</b>
+                                                </td>
+                                            </tr>
+                                            @if (!Model.Complete || Model.StartDate.Date == DateTime.Today)
+                                            {
+                                            <tr id="@exercise.Id" class="program-name">
+                                                <td>
+                                                    <input readonly class="form-control-plaintext exercise-set" disabled type="number" />
+                                                </td>
+                                                <td>
+                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" type="number" />
+
+                                                </td>
+                                                <td>
+                                                    <text class="btn-save-exercise" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</text>
+                                                </td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </table>
                     <div>
                         <h7>
                             No exercises to show
@@ -371,7 +431,6 @@
 
         if ($("#txtExerciseCount").val() == 0) {
             $("#tblExerciseSummary").hide();
-            $("#btnMarkComplete").hide();
         };
 
         $(".divSuccess").hide();

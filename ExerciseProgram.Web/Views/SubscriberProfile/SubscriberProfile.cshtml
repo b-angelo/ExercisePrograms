@@ -25,10 +25,11 @@
             var weight = $("#txtWeight").val();
             var bmi = ((703 * weight) / Math.pow(height, 2)).toFixed(2);
 
+
             $("#txtBmi").val(bmi);
 
         });
-
+        
         $("#txtHeight").change(function () {
 
             var height = $("#txtHeight").val();
@@ -185,26 +186,28 @@
                 <hr />
             </div>
         </div>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("UpdateProfile", "SubscriberProfile", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
-            <div class="row">
-                <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("txtDateJoined", "Member Since")
-                    <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
-                </div>
-                <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("txtDob", "Date of Birth")
-                    @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new
-               {
-                   @Value = Model.DateOfBirth.Value.ToString("yyyy-MM-dd"),
-                   @class = "form-control", id = "txtDob", @type = "date"
-               } })
-                </div>
-                <div class="col-sm-offset-2 col-sm-4">
-                    @Html.Label("lblEmail", "Email Address")
-                    @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", @type = "email" } })
-                </div>
+            @Html.AntiForgeryToken()
+
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("txtDateJoined", "Member Since")
+                <input type="text" readonly id="DateJoinedTxt" value=@Model.DateJoined.ToShortDateString() class="form-control" />
             </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("txtDob", "Date of Birth")
+                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new
+           {
+               @Value = Model.DateOfBirth.Value.ToString("yyyy-MM-dd"),
+               @class = "form-control", id = "txtDob", @type = "date"
+           } })
+            </div>
+            <div class="col-sm-offset-2 col-sm-4">
+                @Html.Label("lblEmail", "Email Address")
+                @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control", id = "txtEmailAddress", @type = "email" } })
+            </div>
+        </div>
             <div class="row">
                 <div class="col-sm-offset-2 col-sm-4">
                     @{
@@ -221,7 +224,7 @@
                         var selectList = new SelectList(heightDic, "Key", "Value", Model.Height);
                     }
                     @Html.Label("lblHeight", "Height") <br />
-                    @Html.DropDownListFor(model => model.Height, selectList, new { @class = "form-control", id = "txtHeight" } )
+                    @Html.DropDownListFor(model => model.Height, selectList, new { @class = "form-control", id = "txtHeight" })
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     @Html.Label("lblWeight", "Weight (lbs)")

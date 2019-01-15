@@ -7,12 +7,17 @@ namespace ExerciseProgram.Models.ViewModels
     public class SubscriberProfileViewModel
     {
         public string SubscriberName { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string EmailAddress { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
+        [Required]
         public int Height { get; set; }
+        [Required]        
         public int Weight { get; set; }
         public double BodyMassIndex { get; set; }
         public List<WeightHistory> WeightHistory { get; set; }

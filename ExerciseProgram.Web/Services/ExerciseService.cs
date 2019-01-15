@@ -29,14 +29,12 @@ namespace ExerciseProgram.Api.Services
         {
             var exercises = _exerciseRepository.GetAll();
             var exerciseTypes = _exerciseTypeRepository.GetAll();
-            var muscles = _muscleGroupRepository.GetAll();
 
             var exercisesViewModel = new List<ExerciseViewModel>();
             
             foreach (var exercise in exercises)
             {
                 var type = exerciseTypes.Where(x => x.ExerciseType_Pk == exercise.ExerciseType_Fk).First();
-                var muscle = muscles.Where(x => x.MuscleGroup_Pk == exercise.MuscleGroup_Fk).First();
 
                 exercisesViewModel.Add(new ExerciseViewModel
                 {
@@ -48,12 +46,6 @@ namespace ExerciseProgram.Api.Services
                         Id = type.ExerciseType_Pk,
                         Name = type.Name,
                         Description = type.Description
-                    },
-                    MuscleGroup = new MuscleGroupViewModel
-                    {
-                        Id = muscle.MuscleGroup_Pk,
-                        Name = muscle.Name,
-                        Description = muscle.Description
                     }
                 });
             }
