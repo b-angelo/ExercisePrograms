@@ -141,13 +141,13 @@
     });
 </script>
 
-@if (TempData["Saved"]?.ToString() == "Saved")
+@if (TempData["Saved"] != null)
 {
     <div class="container">
         <div class="row margin-top-20px">
             <div class="col-sm-12">
                 <div id="divSuccess" class="alert alert-success" role="alert">
-                    Saved
+                    @TempData["Saved"].ToString()
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

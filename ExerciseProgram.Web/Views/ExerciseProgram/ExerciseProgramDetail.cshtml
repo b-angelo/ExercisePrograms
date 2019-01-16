@@ -2,6 +2,22 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+@if (TempData["Saved"] != null)
+{
+    <div class="container">
+        <div class="row margin-top-20px">
+            <div class="col-sm-12">
+                <div id="divSuccess" class="alert alert-success" role="alert">
+                    @TempData["Saved"].ToString()
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <!-- Mark Complete -->
 <div class="modal fade" id="mdlMarkComplete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -173,30 +189,10 @@
                                         </span>
                                 </tr>
                             </thead>
-                            <tr id="divSuccess">
-                                <td colspan="5">
-                                    <div class="divSuccess container">
-                                        <div class="row margin-top-20px">
-                                            <div class="col-sm-12">
-                                                <div class="alert show fade alert-success" role="alert">
-                                                    Saved Successfully
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <table id="@collapseId" class="collapse table-sm col-sm-12">
                                         <tbody>
-                                            <tr class="divSuccess">
-                                                <td colspan="5">
-                                                    <div class="col-sm-12 divSuccess container col-sm-12 alert show fade alert-success" role="alert">
-                                                        Saved Successfully
-                                                    </div>
-                                                </td>
-                                            </tr>
                                             @for (var set = 1; set <= exercise.Sets + 1; set++)
                                             {
                                                 <tr class="exercise-name">
@@ -222,8 +218,8 @@
                                                     if (set == exercise.Sets + 1)
                                                     {
                                                         <tr>
-                                                            <td class="add-set" data-toggle="tooltip" data-placement="top" title="Add Set">
-                                                                <text>&#x271A;</text>
+                                                            <td>
+                                                                <button data-toggle="tooltip" data-placement="top" title="Add Set" value="@exercise.Id" class="btn-add-set btn-sm btn-light">&#x271A;</button>
                                                             </td>
                                                         </tr>
                                                     }
@@ -239,30 +235,16 @@
                                                                 var weight = setReps?.Weight;
                                                             }
                                                             <td>
-                                                                @if (set == 1)
-                                                                {
-                                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
-                                                                }
-                                                                else
-                                                                {
-                                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" disabled value="@reps" type="number" />
-                                                                }
+                                                                <input class="input-weight-used form-control-sm input-changed exercise-reps" value="@reps" type="number" />
                                                             </td>
                                                             <td class="td-reps-duration">
-                                                                @if (set == 1)
-                                                                {
-                                                                    <input class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
-                                                                }
-                                                                else
-                                                                {
-                                                                    <input class="input-weight-used form-control-sm input-changed exercise-weight" disabled value="@weight" type="number" />
-                                                                }
+                                                                <input id="txtWeight" class="input-weight-used form-control-sm input-changed exercise-weight" value="@weight" type="number" />
                                                             </td>
                                                             @{
                                                                 if (set == exercise.Sets)
                                                                 {
                                                                     <td>
-                                                                        <text class="btn-sm text-enabled" data-toggle="tooltip" data-placement="top" title="Delete Set">&#x274C;</text>
+                                                                        <button class="btn-sm btn-light text-enabled btn-delete-set" data-toggle="tooltip" data-placement="top" title="Delete Set">&#x274C;</button>
                                                                     </td>
                                                                 }
                                                                 else
@@ -271,7 +253,7 @@
                                                                 }
                                                             }
                                                             <td>
-                                                                <text class="btn-save-exercise" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</text>
+                                                                <button class="btn-save-exercise btn-sm btn-light" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</button>
                                                             </td>
                                                         </tr>
                                                     }
@@ -307,6 +289,7 @@
                     </h4>
                     <table id="tblExerciseSummary" class="table">
                         @foreach (var exercise in Model?.Exercises.Where(x => x.Exercise.Type.Id == 1))
+
                         {
                             var collapseId = "collapse" + exercise.ExerciseProgramFk + exercise.Id;
 
@@ -319,30 +302,10 @@
                                         </span>
                                 </tr>
                             </thead>
-                            <tr id="divSuccess">
-                                <td colspan="5">
-                                    <div class="divSuccess container">
-                                        <div class="row margin-top-20px">
-                                            <div class="col-sm-12">
-                                                <div class="alert show fade alert-success" role="alert">
-                                                    Saved Successfully
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
                             <tr>
                                 <td>
                                     <table id="@collapseId" class="collapse table-sm col-sm-12">
                                         <tbody>
-                                            <tr class="divSuccess">
-                                                <td colspan="5">
-                                                    <div class="col-sm-12 divSuccess container col-sm-12 alert show fade alert-success" role="alert">
-                                                        Saved Successfully
-                                                    </div>
-                                                </td>
-                                            </tr>
                                             <tr class="exercise-name">
                                                 <td class="exercise-set-header">
                                                     <b>Distance</b>
@@ -353,18 +316,18 @@
                                             </tr>
                                             @if (!Model.Complete || Model.StartDate.Date == DateTime.Today)
                                             {
-                                            <tr id="@exercise.Id" class="program-name">
-                                                <td>
-                                                    <input readonly class="form-control-plaintext exercise-set" disabled type="number" />
-                                                </td>
-                                                <td>
-                                                    <input class="input-weight-used form-control-sm input-changed exercise-reps" type="number" />
+                                                <tr id="@exercise.Id" class="program-name">
+                                                    <td>
+                                                        <input readonly class="form-control-plaintext exercise-set" disabled type="number" />
+                                                    </td>
+                                                    <td>
+                                                        <input class="input-weight-used form-control-sm input-changed exercise-reps" type="number" />
 
-                                                </td>
-                                                <td>
-                                                    <text class="btn-save-exercise" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</text>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td>
+                                                        <text class="btn-save-exercise" data-toggle="tooltip" data-placement="top" title="Save Set">&#x2705;</text>
+                                                    </td>
+                                                </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -421,12 +384,11 @@
                 },
                 function () {
                     $("#divSuccess").show();
-                    $("#divSuccess").fadeOut(10000);
                 });
         });
 
         $(".btn-save-exercise").each(function () {
-            $(this).addClass("text-disabled");
+            $(this).addClass("text-disabled");;
         });
 
         if ($("#txtExerciseCount").val() == 0) {
@@ -468,20 +430,51 @@
                 },
                 function () {
                     $(thisId).removeClass("text-enabled").addClass("text-disabled");
-                    $(thisId).parent().parent().addClass("btn-save-success");
-
-                    $(thisId).promise().done(function () {
-
-                        $(thisId).parent().parent().removeClass("btn-save-success").delay(200);
-
-                        setTimeout(function () {
-                            $(thisId).parent().parent().removeClass("btn-save-success");
-                        }, 5000);
-
-                    });
+                    $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
                 });
         });
 
+        $(".btn-delete-set").click(function () {
+
+            var thisId = $(this);
+
+            var programId = $("#txtHiddenProgramId").val();
+            var exerciseId = $(this).closest(".program-name").attr("id");
+            var set = $(this).closest(".program-name").find(".exercise-set").val();
+            var reps = $(this).closest(".program-name").find(".exercise-reps").val();
+            var weight = $(this).closest(".program-name").find(".exercise-weight").val();
+
+            $.post("/ExerciseProgram/DeleteSet",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId,
+                    set: set,
+                    reps: reps,
+                    weight: weight
+                },
+                function () {
+                    $(thisId).removeClass("text-enabled").addClass("text-disabled");
+                    $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+                });
+        });
+
+        $(".btn-add-set").click(function () {
+
+            var thisId = $(this);
+
+            var programId = $("#txtHiddenProgramId").val();
+            var exerciseId = $(this).val();
+           
+            $.post("/ExerciseProgram/AddSet",
+                {
+                    programId: programId,
+                    exerciseId: exerciseId
+                },
+                function () {
+                    $(thisId).removeClass("text-enabled").addClass("text-disabled");
+                    $(location).attr('href', '/ExerciseProgram/ExerciseProgramDetail/' + programId);
+                });
+        });
 
         $("#btnMarkComplete").click(function () {
 

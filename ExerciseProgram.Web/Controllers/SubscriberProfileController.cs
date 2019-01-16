@@ -35,7 +35,7 @@ namespace ExerciseProgram.WebApp.Controllers
 
             _subscriberProfileService.UpdateUserProfile(inputModel);
 
-            TempData["Saved"] = "Saved";
+            TempData["Saved"] = $"Profile Saved @ {DateTime.Now.ToLongTimeString()}";
 
             return Redirect(Request.UrlReferrer.ToString());
         }
@@ -44,6 +44,8 @@ namespace ExerciseProgram.WebApp.Controllers
         public ActionResult DeleteUserWeightEntry(int id)
         {
             _subscriberProfileService.DeleteUserWeight(id);
+
+            TempData["Saved"] = $"Weight Deleted @ {DateTime.Now.ToLongTimeString()}";
 
             return Redirect(Request.UrlReferrer.ToString());
         }

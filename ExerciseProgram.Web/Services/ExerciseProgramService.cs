@@ -31,9 +31,9 @@ namespace ExerciseProgram.Api.Services
             {                
                 var exercisePrograms = _exerciseProgramRepository.GetAll();
                 var exerciseDetails = _exerciseRepository.GetAll();
-                var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll();
+                var exerciseProgramExercise = _exerciseProgramExerciseRepository.GetAll().Where(x => x.EndDate == null);
                 var exerciseType = _exerciseTypeRepository.GetAll();
-                IEnumerable<WorkoutHistory> workoutHistory = _workoutHistoryRepository.GetAll();
+                IEnumerable<WorkoutHistory> workoutHistory = _workoutHistoryRepository.GetAll().Where(x => x.EndDate == null);
                 IEnumerable<Workout> workoutProgram = _workoutRepository.GetAll();
                
                 if (year != null && month != null)
@@ -188,7 +188,8 @@ namespace ExerciseProgram.Api.Services
             var recordedSet = _workoutHistoryRepository.GetAll()
                                                        .Where(x => x.Workout_Fk == model.ProgramId &&
                                                                    x.ExerciseProgramExercise_Fk == model.ExerciseId &&
-                                                                   x.SetNumber == model.Set)
+                                                                   x.SetNumber == model.Set &&
+                                                                   x.EndDate == null)
                                                         .FirstOrDefault();
             if (recordedSet != null)
             {
@@ -257,6 +258,54 @@ namespace ExerciseProgram.Api.Services
             {
                 throw new Exception();
             }
+        }
+
+        public void DeleteSet(SaveWorkoutInputModel model)
+        {
+            var set = _workoutHistoryRepository.GetAll()
+                                                       .Where(x => x.Workout_Fk == model.ProgramId &&
+                                                                   x.ExerciseProgramExercise_Fk == model.ExerciseId &&
+                                                                   x.SetNumber == model.Set)
+                                                        .FirstOrDefault();
+
+            var workoutProgram = _exerciseProgramExerciseRepository
+                                    .GetAll()
+                                    .Where(x => x.ExerciseProgram_Fk == model.ProgramId && x.ExerciseProgramExercise_Pk == model.ExerciseId)
+                                    .First();
+
+            workoutProgram.ExerciseSets -= 1;
+            workoutProgram.ModifiedBy = Environment.UserName;
+            workoutProgram.ModifiedDate = DateTime.Now;
+
+            if (workoutProgram.ExerciseSets == 0)
+            {
+                workoutProgram.EndDate = DateTime.Now;
+            }
+
+            _exerciseProgramExerciseRepository.Update(workoutProgram);
+
+            if (set != null)
+            {
+                set.EndDate = DateTime.Now;
+                set.ModifiedBy = Environment.UserName;
+                set.ModifiedDate = DateTime.Now;
+
+                _workoutHistoryRepository.Update(set);
+            }
+        }
+
+        public void AddSet(SaveWorkoutInputModel model)
+        {
+            var workoutProgram = _exerciseProgramExerciseRepository
+                                    .GetAll()
+                                    .Where(x => x.ExerciseProgram_Fk == model.ProgramId && x.ExerciseProgramExercise_Pk == model.ExerciseId)
+                                    .First();
+
+            workoutProgram.ExerciseSets += 1;
+            workoutProgram.ModifiedBy = Environment.UserName;
+            workoutProgram.ModifiedDate = DateTime.Now;
+                       
+            _exerciseProgramExerciseRepository.Update(workoutProgram);
         }
     }
 }

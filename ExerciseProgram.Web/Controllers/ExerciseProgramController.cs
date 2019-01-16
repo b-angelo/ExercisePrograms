@@ -72,9 +72,25 @@ namespace ExerciseProgram.WebApp.Controllers
         [HttpPost]
         public void SaveExercise(SaveWorkoutInputModel model)
         {
-            var content = new ObjectContent(typeof(SaveWorkoutInputModel), model, new JsonMediaTypeFormatter());
-
             _exerciseService.SaveWorkout(model);
+
+            TempData["Saved"] = $"Exercise Saved @ {DateTime.Now.ToLongTimeString()}";
+        }
+
+        [HttpPost]
+        public void DeleteSet(SaveWorkoutInputModel model)
+        {
+            _exerciseService.DeleteSet(model);
+
+            TempData["Saved"] = $"Set Deleted @ {DateTime.Now.ToLongTimeString()}";
+        }
+
+        [HttpPost]
+        public void AddSet(SaveWorkoutInputModel model)
+        {
+            _exerciseService.AddSet(model);
+
+            TempData["Saved"] = $"Set Added @ {DateTime.Now.ToLongTimeString()}";
         }
 
         [HttpPost]

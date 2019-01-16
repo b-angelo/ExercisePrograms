@@ -1,7 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: silver;
+    background-color: #242424;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -169,7 +169,7 @@ textarea {
     opacity: 0.1;
 }
 
-.add-set {
+.btn-add-set {
     cursor: pointer;
     color: green;
 }
