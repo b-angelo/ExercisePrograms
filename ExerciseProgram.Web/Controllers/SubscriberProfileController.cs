@@ -1,14 +1,12 @@
 ﻿using ExerciseProgram.Api.Services;
 using ExerciseProgram.Models.InputModel;
 using ExerciseProgram.Models.ViewModels;
-using ExerciseProgram.WebApp.Extentions;
 using System;
-using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Web.Mvc;
 
 namespace ExerciseProgram.WebApp.Controllers
 {
+    [Authorize]
     public class SubscriberProfileController : Controller
     {
         private SubscriberProfileService _subscriberProfileService = new SubscriberProfileService();

@@ -1,13 +1,11 @@
 ﻿using ExerciseProgram.Models.InputModel;
 using System;
-using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Web.Mvc;
-using System.Linq;
 using ExerciseProgram.Api.Services;
 
 namespace ExerciseProgram.WebApp.Controllers
 {
+    [Authorize]
     public class ExerciseProgramController : Controller
     {
         private ExerciseProgramService _exerciseService = new ExerciseProgramService();

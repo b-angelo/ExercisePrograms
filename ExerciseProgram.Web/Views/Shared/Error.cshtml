@@ -4,28 +4,6 @@
     ViewBag.Title = "Error";
 }
 
-<div class="container margin-top-20px">
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="jumbotron">
-                <h3>
-                    Sorry, an error occurred while processing your request.
-                </h3>
-                <h6>@Html.ActionLink("Home", "Index", "Home")</h6>
-            </div>
-        </div>
-    </div>
-</div>
+<h1 class="text-danger">Error.</h1>
+<h2 class="text-danger">An error occurred while processing your request.</h2>
 
-<div class="container margin-top-20px">
-    <div class="row align-items-center">
-        <div class="col">
-            <div class="jumbotron">
-                <h4>
-                    Application Error:
-                </h4>
-                @Model.Exception
-            </div>
-        </div>
-    </div>
-</div>

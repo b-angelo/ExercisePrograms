@@ -3,6 +3,7 @@ using System.Web.Mvc;
 
 namespace ExerciseProgram.Gui.Mvc.Controllers
 {
+    [Authorize]
     public class ExerciseController : Controller
     {
         private ExerciseService _exerciseService = new ExerciseService();

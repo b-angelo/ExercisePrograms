@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace ExerciseProgram.WebApp.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private SubscriberProfileService _subscriberProfileService = new SubscriberProfileService();

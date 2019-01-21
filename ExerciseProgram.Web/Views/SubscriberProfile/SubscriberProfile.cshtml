@@ -178,11 +178,11 @@
         <div class="row margin-top-20px">
             <div class="col-sm-offset-2 col-sm-12">
                 @{
-                    var profileHeader = $"{Model.FirstName}'s Profile";
+                    var profileHeader = $"{Model.EmailAddress}";
                 }
-                <h3>
+                <h4>
                     @profileHeader
-                </h3>
+                </h4>
                 <hr />
             </div>
         </div>
@@ -240,6 +240,7 @@
                     <hr />
                     @*<input type="submit" name="btnDeleteWeight" value="X" formaction=@Url.Action("DeleteUserWeightEntry",  new { id = item.Id }) formmethod="post" class="btn btn-sm btn-danger" />*@
                     <input type="submit" id="btnUpdateProfile" formaction=@Url.Action("UpdateProfile") formmethod="post" value="Update Profile" class="btn btn-sm btn-primary" />
+                    <a class="btn btn-sm btn-secondary" href=@Url.Action("Index", "Manage")>Change Password</a>
                 </div>
             </div>
         }
@@ -265,7 +266,7 @@
                                 <thead class="thead-dark table">
                                     <tr>
                                         <th>
-                                            Week Of
+                                            Date
                                         </th>
                                         <th>
                                             Weight
